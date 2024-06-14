@@ -9,10 +9,11 @@ import Mapbox, {
 import "mapbox-gl/dist/mapbox-gl.css";
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 
-import Teams from "./Teams";
+import Teams from "./components/layers/Teams";
 import PropTypes, { InferProps } from "prop-types";
+import Devices from "./components/layers/Devices";
 
-export default function Map({showTeams}: InferProps<typeof Map.propTypes>) {
+export default function Map({showTeams, showDevices}: InferProps<typeof Map.propTypes>) {
   const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN;
   return (
     <div className="h-screen w-screen">
@@ -41,6 +42,7 @@ export default function Map({showTeams}: InferProps<typeof Map.propTypes>) {
           compact={true}
         />
         {showTeams && <Teams />}
+        {showDevices && <Devices />}
       </Mapbox>
     </div>
   );
@@ -48,8 +50,10 @@ export default function Map({showTeams}: InferProps<typeof Map.propTypes>) {
 
 Map.propTypes = {
   showTeams: PropTypes.bool.isRequired,
+  showDevices: PropTypes.bool.isRequired,
 };
 
 Map.defaultProps = {
   showTeams: true,
+  showDevices: true,
 };

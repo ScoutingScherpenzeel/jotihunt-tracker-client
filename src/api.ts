@@ -22,3 +22,20 @@ export interface Team {
     coordinates: number[];
   };
 }
+
+export interface Device {
+    id: string;
+    attributes: {
+        batteryLevel: string,
+        distance: number,
+        totalDistance: number,
+        motion: false,
+    },
+    deviceId: number,
+    latitude: number,
+    longitude: number,
+    speed: number,
+    course: number,
+    accuracy: number,
+    deviceName: string,
+}

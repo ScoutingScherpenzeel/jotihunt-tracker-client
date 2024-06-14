@@ -1,9 +1,9 @@
 import { Marker } from "react-map-gl";
-import { useTeams } from "./hooks/teams.hook";
-import MapMarker from "./components/MapMarker";
+import { useTeams } from "../../hooks/teams.hook";
+import MapMarker from "../map/MapMarker";
 import { useState } from "react";
-import { Team } from "./api";
-import MapPopup from "./components/MapPopup";
+import { Team } from "../../api";
+import MapPopup from "../map/MapPopup";
 
 export default function Teams() {
   const { teams } = useTeams();
