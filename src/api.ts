@@ -26,10 +26,10 @@ export interface Team {
 export interface Device {
     id: string;
     attributes: {
-        batteryLevel: string,
+        batteryLevel: number,
         distance: number,
         totalDistance: number,
-        motion: false,
+        motion: boolean,
     },
     deviceId: number,
     latitude: number,
@@ -38,4 +38,5 @@ export interface Device {
     course: number,
     accuracy: number,
     deviceName: string,
+    fixTime: string,
 }

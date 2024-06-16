@@ -11,6 +11,7 @@ export default function MapPopup({ longitude, latitude, onClose, offset = { bott
       onClose={onClose}
       closeOnClick={true}
       offset={offset}
+      maxWidth='300px'
     >
       <div>
         {children}
