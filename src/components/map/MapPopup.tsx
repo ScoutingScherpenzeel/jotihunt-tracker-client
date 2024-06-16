@@ -2,7 +2,7 @@ import { Popup } from 'react-map-gl';
 import PropTypes, { InferProps } from 'prop-types';
 import { Offset } from 'mapbox-gl';
 
-export default function MapPopup({ longitude, latitude, onClose, offset, children }: InferProps<typeof MapPopup.propTypes>) {
+export default function MapPopup({ longitude, latitude, onClose, offset = { bottom: [0, -45] } as Offset, children }: InferProps<typeof MapPopup.propTypes>) {
   return (
     <Popup
       anchor="bottom"
@@ -23,10 +23,6 @@ MapPopup.propTypes = {
   longitude: PropTypes.number.isRequired,
   latitude: PropTypes.number.isRequired,
   onClose: PropTypes.func.isRequired,
-  offset: PropTypes.object as PropTypes.Validator<Offset>,
+  offset: PropTypes.object as PropTypes.Requireable<Offset>,
   children: PropTypes.node.isRequired,
-};
-
-MapPopup.defaultProps = {
-  offset: { bottom: [0, -45] },
 };

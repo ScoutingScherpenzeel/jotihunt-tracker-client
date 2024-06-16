@@ -12,13 +12,31 @@ import {
   DropdownMenuTrigger,
 } from "./components/ui/dropdown-menu";
 import { useState } from "react";
+import { SWRConfig } from "swr";
+import { useToast } from "./components/ui/use-toast";
 function App() {
   const [showTeams, setShowTeams] = useState(true);
   const [showCars, setShowCars] = useState(true);
   const [showHintLocations, setShowHintLocations] = useState(true);
-
+  const { toast } = useToast();
+  const [errorShown, setErrorShown] = useState(false);
+  
   return (
     <>
+    <SWRConfig
+      value={{
+        onError: (error) => {
+          if (errorShown) return;
+          setErrorShown(true);
+          toast({
+            variant: "destructive",
+            title: "Oeps! Er is iets misgegaan.",
+            description: "Er is een fout opgetreden bij het ophalen van de data, probeer het later opnieuw. (Foutmelding: " + error.message + ")",
+            duration: Infinity,  
+          });
+        },
+      }}
+    >
       <div className="absolute z-10 top-0 left-0 w-1/5 min-w-[450px]">
         <div className="flex flex-col p-2 gap-2">
           <Card>
@@ -33,8 +51,7 @@ function App() {
                 </div>
 
                 <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    {" "}
+                  <DropdownMenuTrigger asChild>
                     <Button variant="outline" size="sm">
                       <LayersIcon className="h-4 w-4" />
                     </Button>
@@ -78,6 +95,7 @@ function App() {
       </div>
 
       <Map showTeams={showTeams} showDevices={showCars} />
+      </SWRConfig>
     </>
   );
 }

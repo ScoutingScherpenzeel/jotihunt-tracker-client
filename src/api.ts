@@ -1,9 +1,9 @@
 import axios from "axios";
-
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export const fetcher = async (url: string) => {
   const { data } = await axios.get(`${baseUrl}${url}`);
+  if(data.error) throw new Error(data.error);
   return data;
 };
 

@@ -13,7 +13,7 @@ import Teams from "./components/layers/Teams";
 import PropTypes, { InferProps } from "prop-types";
 import Devices from "./components/layers/Devices";
 
-export default function Map({showTeams, showDevices}: InferProps<typeof Map.propTypes>) {
+export default function Map({showTeams = true, showDevices = true}: InferProps<typeof Map.propTypes>) {
   const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN;
   return (
     <div className="h-screen w-screen">
@@ -51,9 +51,4 @@ export default function Map({showTeams, showDevices}: InferProps<typeof Map.prop
 Map.propTypes = {
   showTeams: PropTypes.bool.isRequired,
   showDevices: PropTypes.bool.isRequired,
-};
-
-Map.defaultProps = {
-  showTeams: true,
-  showDevices: true,
 };
