@@ -85,8 +85,20 @@ export default function Devices() {
             <p>Snelheid: {Math.round(knotsToKmh(activeDevice.speed))} km/h</p>
             <p>Batterij: {activeDevice.attributes.batteryLevel}%</p>
             <p>
-              Laatste update: {formatDistanceToNow(activeDevice.fixTime, { locale: nl, addSuffix: true })}
+              Laatste update:{" "}
+              {formatDistanceToNow(activeDevice.fixTime, {
+                locale: nl,
+                addSuffix: true,
+              })}
             </p>
+            <a
+              href={`https://www.google.com/maps?q=${activeDevice.latitude},${activeDevice.longitude}`}
+              target="_blank"
+              rel="noreferrer"
+              className="underline text-blue-500"
+            >
+              Bekijk op Google Maps
+            </a>
           </div>
         </MapPopup>
       )}

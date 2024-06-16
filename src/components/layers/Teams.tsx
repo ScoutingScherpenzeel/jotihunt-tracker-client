@@ -63,6 +63,14 @@ export default function Teams() {
             <p>
               {activeTeam.postCode} {activeTeam.city}
             </p>
+            <a
+              href={`https://www.google.com/maps?q=${activeTeam.location.coordinates[1]},${activeTeam.location.coordinates[0]}`}
+              target="_blank"
+              rel="noreferrer"
+              className="underline text-blue-500"
+            >
+              Bekijk op Google Maps
+            </a>
           </div>
         </MapPopup>
       )}
