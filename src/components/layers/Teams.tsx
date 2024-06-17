@@ -1,7 +1,7 @@
 import { Marker } from "react-map-gl";
 import { useTeams } from "../../hooks/teams.hook";
 import MapMarker from "../map/MapMarker";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Team } from "../../api";
 import MapPopup from "../map/MapPopup";
 
@@ -28,9 +28,9 @@ export default function Teams() {
     }
   }
 
-  return (
-    <>
-      {teams?.map((team) => (
+  const markers = useMemo(
+    () =>
+      teams?.map((team) => (
         <Marker
           key={team._id}
           longitude={team.location.coordinates[0]}
@@ -46,7 +46,13 @@ export default function Teams() {
             <MapMarker color={getColor(team.area)} />
           </div>
         </Marker>
-      ))}
+      )),
+    [teams]
+  );
+
+  return (
+    <>
+      {markers}
       {activeTeam && (
         <MapPopup
           longitude={activeTeam.location.coordinates[0]}
