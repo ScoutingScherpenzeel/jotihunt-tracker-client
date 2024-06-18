@@ -3,7 +3,7 @@ const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export const fetcher = async (url: string) => {
   const { data } = await axios.get(`${baseUrl}${url}`);
-  if(data.error) throw new Error(data.error);
+  if (data.error) throw new Error(data.error);
   return data;
 };
 
@@ -24,21 +24,21 @@ export interface Team {
 }
 
 export interface Device {
-    id: string;
-    attributes: {
-        batteryLevel: number,
-        distance: number,
-        totalDistance: number,
-        motion: boolean,
-    },
-    deviceId: number,
-    latitude: number,
-    longitude: number,
-    speed: number,
-    course: number,
-    accuracy: number,
-    deviceName: string,
-    fixTime: string,
+  id: string;
+  attributes: {
+    batteryLevel: number;
+    distance: number;
+    totalDistance: number;
+    motion: boolean;
+  };
+  deviceId: number;
+  latitude: number;
+  longitude: number;
+  speed: number;
+  course: number;
+  accuracy: number;
+  deviceName: string;
+  fixTime: string;
 }
 
 export interface Area {
@@ -46,4 +46,14 @@ export interface Area {
   name: string;
   status: string;
   updatedAt: string;
+}
+
+export interface Hunt {
+  _id: string;
+  area: string;
+  huntCode: string;
+  status: string;
+  points: number;
+  huntTime: Date;
+  updatedAt: Date;
 }
