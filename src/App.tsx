@@ -15,7 +15,8 @@ import { useState } from "react";
 import { SWRConfig } from "swr";
 import { useToast } from "./components/ui/use-toast";
 import FoxStatusCard from "./components/cards/FoxStatusCard";
-import NextHintTime from "./components/cards/NextHintTime";
+import NextHintTime from "./components/cards/NextHintTimeCard";
+import HintEntryCard from "./components/cards/HintEntryCard";
 
 function App() {
   const [showTeams, setShowTeams] = useState(true);
@@ -93,11 +94,12 @@ function App() {
             </Card>
 
             <FoxStatusCard />
+            <HintEntryCard/>
             <NextHintTime />
           </div>
         </div>
 
-        <Map showTeams={showTeams} showDevices={showCars} />
+        <Map showTeams={showTeams} showDevices={showCars} showHints={showHintLocations} />
       </SWRConfig>
     </>
   );

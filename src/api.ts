@@ -7,6 +7,12 @@ export const fetcher = async (url: string) => {
   return data;
 };
 
+export const post = async (url: string, body: any) => {
+  const { data } = await axios.post(`${baseUrl}${url}`, body);
+  if (data.error) throw new Error(data.error);
+  return data;
+};
+
 export interface Team {
   _id: string;
   name: string;
@@ -67,4 +73,14 @@ export interface Article {
   messageType: string;
   maxPoints: number;
   endTime: Date;
+}
+
+export interface Marker {
+  _id?: string;
+  area: string;
+  time: Date;
+  location: {
+    type: string;
+    coordinates: number[];
+  };
 }

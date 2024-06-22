@@ -7,13 +7,18 @@ import Mapbox, {
 } from "react-map-gl";
 
 import "mapbox-gl/dist/mapbox-gl.css";
-import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
+import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 
 import Teams from "./components/layers/Teams";
 import PropTypes, { InferProps } from "prop-types";
 import Devices from "./components/layers/Devices";
+import Hints from "./components/layers/Hints";
 
-export default function Map({showTeams = true, showDevices = true}: InferProps<typeof Map.propTypes>) {
+export default function Map({
+  showTeams = true,
+  showDevices = true,
+  showHints = true,
+}: InferProps<typeof Map.propTypes>) {
   const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN;
   return (
     <div className="h-screen w-screen">
@@ -43,6 +48,7 @@ export default function Map({showTeams = true, showDevices = true}: InferProps<t
         />
         {showTeams && <Teams />}
         {showDevices && <Devices />}
+        {showHints && <Hints />}
       </Mapbox>
     </div>
   );
@@ -51,4 +57,5 @@ export default function Map({showTeams = true, showDevices = true}: InferProps<t
 Map.propTypes = {
   showTeams: PropTypes.bool.isRequired,
   showDevices: PropTypes.bool.isRequired,
+  showHints: PropTypes.bool.isRequired,
 };
