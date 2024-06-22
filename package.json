@@ -40,7 +40,8 @@
     "react-mapbox-gl-draw": "^2.0.4",
     "swr": "^2.2.5",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "use-sound": "^4.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

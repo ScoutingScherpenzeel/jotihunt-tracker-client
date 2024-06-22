@@ -15,6 +15,7 @@ import { useState } from "react";
 import { SWRConfig } from "swr";
 import { useToast } from "./components/ui/use-toast";
 import FoxStatusCard from "./components/cards/FoxStatusCard";
+import NextHintTime from "./components/cards/NextHintTime";
 
 function App() {
   const [showTeams, setShowTeams] = useState(true);
@@ -92,6 +93,7 @@ function App() {
             </Card>
 
             <FoxStatusCard />
+            <NextHintTime />
           </div>
         </div>
 
