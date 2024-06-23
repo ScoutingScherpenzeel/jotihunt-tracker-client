@@ -28,3 +28,7 @@ export function getColorFromArea(area: string) {
       return "#9ca3af";
   }
 }
+
+export function capitalizeFirstLetter(string: string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
