@@ -1,5 +1,11 @@
 import { useAreas } from "@/hooks/areas.hook";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
 import FoxStatus from "./FoxStatus";
 import { Skeleton } from "../ui/skeleton";
 import { useHunts } from "@/hooks/hunts.hook";
@@ -10,6 +16,8 @@ export default function FoxStatusCard() {
     areas,
     isLoading: isLoadingAreas,
     isError: isErrorAreas,
+    toggleHidden,
+    isHidden,
   } = useAreas();
   const {
     hunts,
@@ -26,6 +34,9 @@ export default function FoxStatusCard() {
       <Card>
         <CardHeader>
           <CardTitle>Vossen status</CardTitle>
+          <CardDescription>
+            Klik op een deelgebied om deze te verbergen op de kaart.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-3 gap-2">
@@ -46,13 +57,15 @@ export default function FoxStatusCard() {
             {areas &&
               hunts &&
               areas.map((area) => (
-                <FoxStatus
-                  key={area._id}
-                  name={area.name}
-                  status="green"
-                  lastUpdate={area.updatedAt}
-                  lastHunt={getLastHunt(area.name)}
-                />
+                <div onClick={() => toggleHidden(area.name)} key={area._id}>
+                  <FoxStatus
+                    name={area.name}
+                    status="green"
+                    lastUpdate={area.updatedAt}
+                    lastHunt={getLastHunt(area.name)}
+                    hidden={isHidden(area.name)}
+                  />
+                </div>
               ))}
           </div>
         </CardContent>

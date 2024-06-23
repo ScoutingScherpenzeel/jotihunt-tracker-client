@@ -302,5 +302,5 @@ export default function HintEntryCard({mapRef}: InferProps<typeof HintEntryCard.
 }
 
 HintEntryCard.propTypes = {
-  mapRef: PropTypes.object.isRequired as PropTypes.Validator<React.MutableRefObject<MapRef>>,
+  mapRef: PropTypes.object.isRequired as PropTypes.Validator<React.RefObject<MapRef>>,
 }

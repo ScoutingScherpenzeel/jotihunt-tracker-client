@@ -5,31 +5,36 @@ import { useMemo, useState } from "react";
 import { Team } from "../../api";
 import MapPopup from "../map/MapPopup";
 import { getColorFromArea } from "@/lib/utils";
+import { useAreas } from "@/hooks/areas.hook";
 
 export default function Teams() {
   const { teams } = useTeams();
+  const { isVisible } = useAreas();
+
   const [activeTeam, setActiveTeam] = useState<Team>();
 
   const markers = useMemo(
     () =>
-      teams?.map((team) => (
-        <Marker
-          key={team._id}
-          longitude={team.location.coordinates[0]}
-          latitude={team.location.coordinates[1]}
-          anchor="bottom"
-          onClick={(e) => {
-            e.originalEvent.stopPropagation();
-            setActiveTeam(team);
-          }}
-          style={{ cursor: "pointer" }}
-        >
-          <div className="hover:brightness-125 hover:scale-105 transition-all ease-in-out">
-            <MapMarker color={getColorFromArea(team.area)} />
-          </div>
-        </Marker>
-      )),
-    [teams]
+      teams
+        ?.filter((team) => isVisible(team.area))
+        .map((team) => (
+          <Marker
+            key={team._id}
+            longitude={team.location.coordinates[0]}
+            latitude={team.location.coordinates[1]}
+            anchor="bottom"
+            onClick={(e) => {
+              e.originalEvent.stopPropagation();
+              setActiveTeam(team);
+            }}
+            style={{ cursor: "pointer" }}
+          >
+            <div className="hover:brightness-125 hover:scale-105 transition-all ease-in-out">
+              <MapMarker color={getColorFromArea(team.area)} />
+            </div>
+          </Marker>
+        )),
+    [teams, isVisible]
   );
 
   return (

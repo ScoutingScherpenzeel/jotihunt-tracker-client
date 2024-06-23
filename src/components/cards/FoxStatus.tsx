@@ -17,6 +17,7 @@ export default function FoxStatus({
   status,
   lastUpdate,
   lastHunt,
+  hidden
 }: InferProps<typeof FoxStatus.propTypes>) {
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -69,9 +70,9 @@ export default function FoxStatus({
     <>
       <TooltipProvider>
         <Tooltip delayDuration={300}>
-          <TooltipTrigger className="cursor-default">
+          <TooltipTrigger className="w-full">
             <div
-              className={`border-2 rounded-lg h-[52px] flex flex-col justify-center leading-none ${getStatusStyles(
+              className={`border-2 rounded-lg h-[52px] flex flex-col justify-center leading-none hover:brightness-105 ${hidden && "opacity-50"} ${getStatusStyles(
                 status
               )}`}
             >
@@ -114,4 +115,5 @@ FoxStatus.propTypes = {
   status: PropTypes.string.isRequired,
   lastUpdate: PropTypes.string.isRequired,
   lastHunt: PropTypes.object as PropTypes.Requireable<Hunt>,
+  hidden: PropTypes.bool.isRequired,
 };
