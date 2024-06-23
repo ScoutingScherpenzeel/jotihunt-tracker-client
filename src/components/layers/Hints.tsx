@@ -6,12 +6,42 @@ import { capitalizeFirstLetter, getColorFromArea } from "@/lib/utils";
 import { Marker } from "@/api";
 import MapPopup from "../map/MapPopup";
 import { useAreas } from "@/hooks/areas.hook";
+import { Button } from "../ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { toast } from "../ui/use-toast";
 
 export default function Hints() {
-  const { markers } = useMarkers();
+  const { markers, deleteMarker } = useMarkers();
   const { isVisible } = useAreas();
 
   const [activeMarker, setActiveMarker] = useState<Marker>();
+
+  async function deleteHint(marker: Marker) {
+    const result = await deleteMarker(marker._id!);
+    if (result) {
+      setActiveMarker(undefined);
+      toast({
+        title: "Hint verwijderd!",
+        description: "De hint is succesvol verwijderd.",
+      });
+    } else {
+      toast({
+        title: "Fout bij verwijderen hint.",
+        description: "Er is iets fout gegaan bij het verwijderen van de hint. Probeer het later opnieuw.",
+        variant: "destructive",
+      });
+    }
+  }
 
   // Group and sort markers by area
   const sortedGroupedMarkers = useMemo(() => {
@@ -107,7 +137,7 @@ export default function Hints() {
           onClose={() => setActiveMarker(undefined)}
           offset={{ bottom: [0, -20] }}
         >
-          <div>
+          <div className="flex flex-col gap-2">
             <h2 className="font-semibold">
               {capitalizeFirstLetter(activeMarker.area)} -{" "}
               {new Date(activeMarker.time).toLocaleTimeString([], {
@@ -115,14 +145,39 @@ export default function Hints() {
                 minute: "2-digit",
               })}
             </h2>
-            <a
-              href={`https://www.google.com/maps?q=${activeMarker.location.coordinates[1]},${activeMarker.location.coordinates[0]}`}
-              target="_blank"
-              rel="noreferrer"
-              className="underline text-blue-500"
-            >
-              Bekijk op Google Maps
-            </a>
+            <div className="flex flex-col gap-2">
+              <Button variant="outline" size="sm" asChild className="w-min">
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  href={`https://www.google.com/maps?q=${activeMarker.location.coordinates[1]},${activeMarker.location.coordinates[0]}`}
+                >
+                  Bekijk op Google Maps
+                </a>
+              </Button>
+
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive" size="sm">
+                    Verwijderen
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Weet je het zeker?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Deze actie kan niet ongedaan gemaakt worden. Dit zal alle informatie van deze hint permanent verwijderen.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Annuleren</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => deleteHint(activeMarker)}>Doorgaan</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
           </div>
         </MapPopup>
       )}

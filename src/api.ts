@@ -13,6 +13,12 @@ export const post = async (url: string, body: any) => {
   return data;
 };
 
+export const del = async (url: string) => {
+  const { data } = await axios.delete(`${baseUrl}${url}`);
+  if (data.error) throw new Error(data.error);
+  return data;
+};
+
 export interface Team {
   _id: string;
   name: string;

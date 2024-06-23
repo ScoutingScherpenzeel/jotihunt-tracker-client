@@ -6,6 +6,7 @@ import { Team } from "../../api";
 import MapPopup from "../map/MapPopup";
 import { getColorFromArea } from "@/lib/utils";
 import { useAreas } from "@/hooks/areas.hook";
+import { Button } from "../ui/button";
 
 export default function Teams() {
   const { teams } = useTeams();
@@ -46,24 +47,27 @@ export default function Teams() {
           latitude={activeTeam.location.coordinates[1]}
           onClose={() => setActiveTeam(undefined)}
         >
-          <div>
-            <h2 className="font-semibold">{activeTeam.name}</h2>
-            <p>Accomodatie: {activeTeam.accomodation}</p>
-            <p>
-              {activeTeam.street} {activeTeam.houseNumber}{" "}
-              {activeTeam.houseNumberAddition}
-            </p>
-            <p>
-              {activeTeam.postCode} {activeTeam.city}
-            </p>
-            <a
-              href={`https://www.google.com/maps?q=${activeTeam.location.coordinates[1]},${activeTeam.location.coordinates[0]}`}
-              target="_blank"
-              rel="noreferrer"
-              className="underline text-blue-500"
-            >
-              Bekijk op Google Maps
-            </a>
+          <div className="mr-6 flex flex-col gap-3">
+            <div>
+              <h2 className="font-semibold">{activeTeam.name}</h2>
+              <p>Accomodatie: {activeTeam.accomodation}</p>
+              <p>
+                {activeTeam.street} {activeTeam.houseNumber}{" "}
+                {activeTeam.houseNumberAddition}
+              </p>
+              <p>
+                {activeTeam.postCode} {activeTeam.city}
+              </p>
+            </div>
+            <Button variant="outline" size="sm" asChild className="w-min">
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href={`https://www.google.com/maps?q=${activeTeam.location.coordinates[1]},${activeTeam.location.coordinates[0]}`}
+              >
+                Bekijk op Google Maps
+              </a>
+            </Button>
           </div>
         </MapPopup>
       )}

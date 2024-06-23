@@ -4,15 +4,20 @@
 
 /* Mapbox popup styling */
 .mapboxgl-popup-content {
+    @apply animate-in fade-in;
     border-radius: 0.5rem;
-    padding: 1rem 2.5rem 1rem 1rem;
-    font-size: 0.75rem;
+    padding: 1rem;
+    font-size: 0.875rem;
 }
 
 .mapboxgl-popup-close-button {
     width: 30px;
     height: 30px;
     font-size: large;
+}
+
+.mapboxgl-popup-tip {
+  @apply animate-in fade-in;
 }
 
 .card {

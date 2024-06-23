@@ -7,6 +7,7 @@ import { knotsToKmh } from "@/lib/utils";
 import * as turf from "@turf/turf";
 import { formatDistanceToNow, isBefore, parseISO, subMinutes } from "date-fns";
 import { nl } from "date-fns/locale";
+import { Button } from "../ui/button";
 
 export default function Devices() {
   const { devices } = useDevices();
@@ -80,25 +81,28 @@ export default function Devices() {
           onClose={() => setActiveDeviceId(undefined)}
           offset={{ bottom: [0, -20] }}
         >
-          <div>
-            <h2 className="font-semibold">{activeDevice.deviceName}</h2>
-            <p>Snelheid: {Math.round(knotsToKmh(activeDevice.speed))} km/h</p>
-            <p>Batterij: {activeDevice.attributes.batteryLevel}%</p>
-            <p>
-              Laatste update:{" "}
-              {formatDistanceToNow(activeDevice.fixTime, {
-                locale: nl,
-                addSuffix: true,
-              })}
-            </p>
-            <a
-              href={`https://www.google.com/maps?q=${activeDevice.latitude},${activeDevice.longitude}`}
-              target="_blank"
-              rel="noreferrer"
-              className="underline text-blue-500"
-            >
-              Bekijk op Google Maps
-            </a>
+          <div className="mr-6 flex flex-col gap-2">
+            <div>
+              <h2 className="font-semibold">{activeDevice.deviceName}</h2>
+              <p>Snelheid: {Math.round(knotsToKmh(activeDevice.speed))} km/h</p>
+              <p>Batterij: {activeDevice.attributes.batteryLevel}%</p>
+              <p>
+                Laatste update:{" "}
+                {formatDistanceToNow(activeDevice.fixTime, {
+                  locale: nl,
+                  addSuffix: true,
+                })}
+              </p>
+            </div>
+            <Button variant="outline" size="sm" asChild className="w-min">
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href={`https://www.google.com/maps?q=${activeDevice.latitude},${activeDevice.longitude}`}
+              >
+                Bekijk op Google Maps
+              </a>
+            </Button>
           </div>
         </MapPopup>
       )}
