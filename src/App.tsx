@@ -1,5 +1,5 @@
 import { LayersIcon } from "lucide-react";
-import Map from "./Map";
+import Map, { MapRef } from "./Map";
 import logo from "./assets/images/logo.png";
 import { Button } from "./components/ui/button";
 import { Card, CardContent } from "./components/ui/card";
@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./components/ui/dropdown-menu";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { SWRConfig } from "swr";
 import { useToast } from "./components/ui/use-toast";
 import FoxStatusCard from "./components/cards/FoxStatusCard";
@@ -19,12 +19,15 @@ import NextHintTime from "./components/cards/NextHintTimeCard";
 import HintEntryCard from "./components/cards/HintEntryCard";
 
 function App() {
+  const { toast } = useToast();
+
   const [showTeams, setShowTeams] = useState(true);
   const [showCars, setShowCars] = useState(true);
   const [showHintLocations, setShowHintLocations] = useState(true);
-
-  const { toast } = useToast();
   const [errorShown, setErrorShown] = useState(false);
+
+  const mapRef = useRef<MapRef>(null);
+
 
   return (
     <>
@@ -94,12 +97,12 @@ function App() {
             </Card>
 
             <FoxStatusCard />
-            <HintEntryCard/>
+            <HintEntryCard mapRef={mapRef}/>
             <NextHintTime />
           </div>
         </div>
 
-        <Map showTeams={showTeams} showDevices={showCars} showHints={showHintLocations} />
+        <Map ref={mapRef} showTeams={showTeams} showDevices={showCars} showHints={showHintLocations} />
       </SWRConfig>
     </>
   );

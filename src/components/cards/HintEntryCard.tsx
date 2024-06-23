@@ -24,6 +24,8 @@ import rdToWgs84 from "rd-to-wgs84";
 import { Marker } from "@/api";
 import { useMarkers } from "@/hooks/markers.hook";
 import { toast } from "../ui/use-toast";
+import PropTypes, { InferProps } from "prop-types";
+import { MapRef } from "@/Map";
 
 const areaOptions = [
   { value: "alpha", label: "Alpha" },
@@ -44,7 +46,7 @@ const FormSchema = z.object({
   y: z.string().length(6),
 });
 
-export default function HintEntryCard() {
+export default function HintEntryCard({mapRef}: InferProps<typeof HintEntryCard.propTypes>) {
   const { markers, createMarker } = useMarkers();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -120,6 +122,7 @@ export default function HintEntryCard() {
         title: "Hint geregistreerd!",
         description: "De hint is succesvol geregistreerd.",
       });
+      mapRef.current?.flyTo({center: [converted.lon!, converted.lat!], duration: 2000, zoom: 12});
     } else {
       toast({
         variant: "destructive",
@@ -296,4 +299,8 @@ export default function HintEntryCard() {
       </Card>
     </>
   );
+}
+
+HintEntryCard.propTypes = {
+  mapRef: PropTypes.object.isRequired as PropTypes.Validator<React.MutableRefObject<MapRef>>,
 }
