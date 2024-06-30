@@ -4,7 +4,7 @@ import Mapbox, {
   GeolocateControl,
   NavigationControl,
   ScaleControl,
-  MapRef as MapboxRef
+  MapRef as MapboxRef,
 } from "react-map-gl";
 
 import "mapbox-gl/dist/mapbox-gl.css";

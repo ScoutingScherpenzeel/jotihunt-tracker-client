@@ -28,7 +28,6 @@ function App() {
 
   const mapRef = useRef<MapRef>(null);
 
-
   return (
     <>
       <SWRConfig
@@ -48,7 +47,7 @@ function App() {
           },
         }}
       >
-        <div className="absolute z-10 top-0 left-0 w-1/5 min-w-[450px]">
+        <div className="absolute z-10 top-0 left-0  w-full md:w-1/5 md:min-w-[450px]">
           <div className="flex flex-col p-2 gap-2">
             <Card>
               <CardContent>
@@ -95,14 +94,20 @@ function App() {
                 </div>
               </CardContent>
             </Card>
-          
+
             <FoxStatusCard />
-            <HintEntryCard mapRef={mapRef}/>
+
+            <HintEntryCard mapRef={mapRef} />
             <NextHintTime />
           </div>
         </div>
 
-        <Map ref={mapRef} showTeams={showTeams} showDevices={showCars} showHints={showHintLocations} />
+        <Map
+          ref={mapRef}
+          showTeams={showTeams}
+          showDevices={showCars}
+          showHints={showHintLocations}
+        />
       </SWRConfig>
     </>
   );
