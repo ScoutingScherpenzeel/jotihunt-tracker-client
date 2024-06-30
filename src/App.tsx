@@ -95,7 +95,7 @@ function App() {
                 </div>
               </CardContent>
             </Card>
-
+          
             <FoxStatusCard />
             <HintEntryCard mapRef={mapRef}/>
             <NextHintTime />
