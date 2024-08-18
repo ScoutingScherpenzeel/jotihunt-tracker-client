@@ -28,7 +28,7 @@ export interface Team {
   houseNumberAddition: string;
   postCode: string;
   city: string;
-  area: string;
+  area?: string;
   location: {
     type: string;
     coordinates: number[];

@@ -17,7 +17,7 @@ export default function Teams() {
   const markers = useMemo(
     () =>
       teams
-        ?.filter((team) => isVisible(team.area))
+        ?.filter((team) => isVisible(team.area || ""))
         .map((team) => (
           <Marker
             key={team._id}
@@ -31,7 +31,7 @@ export default function Teams() {
             style={{ cursor: "pointer" }}
           >
             <div className="hover:brightness-125 hover:scale-105 transition-all ease-in-out">
-              <MapMarker color={getColorFromArea(team.area)} />
+              <MapMarker color={getColorFromArea(team.area || "")} />
             </div>
           </Marker>
         )),
