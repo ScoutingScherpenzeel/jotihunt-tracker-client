@@ -6,6 +6,7 @@ import logo from "./assets/images/logo.png";
 import { Card, CardContent } from "./components/ui/card";
 
 const backgroundImage = import.meta.env.VITE_BACKGROUND_IMAGE;
+const repeatImage = import.meta.env.VITE_REPEAT_IMAGE;
 
 export default function Login() {
   return (
@@ -49,8 +50,12 @@ export default function Login() {
           <Card>
             <CardContent>
               <div className="flex items-center justify-between">
-                <div className="flex gap-3">
-                  <img src={logo} alt="Jotihunt Tracker" className="w-12" />
+                <div className="flex items-center gap-3">
+                  <img
+                    src={logo}
+                    alt="Jotihunt Tracker"
+                    className="w-12 h-12"
+                  />
                   <div>
                     <h1 className="text-xl font-bold">Jotihunt Tracker</h1>
                     <h2>Scouting Scherpenzeel e.o.</h2>
@@ -61,13 +66,17 @@ export default function Login() {
           </Card>
         </div>
 
-        <img
+        <div className="login-background w-full h-full"></div>
+
+        {/* <img
           src={backgroundImage}
           alt="Image"
           width="1920"
           height="1080"
-          className="h-full w-full object-cover"
-        />
+          className={`h-full w-full object-cover ${
+            repeatImage && "object-repeat"
+          }`}
+        /> */}
       </div>
     </div>
   );

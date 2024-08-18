@@ -4,16 +4,16 @@
 
 /* Mapbox popup styling */
 .mapboxgl-popup-content {
-    @apply animate-in fade-in;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    font-size: 0.875rem;
+  @apply animate-in fade-in;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-size: 0.875rem;
 }
 
 .mapboxgl-popup-close-button {
-    width: 30px;
-    height: 30px;
-    font-size: large;
+  width: 30px;
+  height: 30px;
+  font-size: large;
 }
 
 .mapboxgl-popup-tip {
@@ -21,9 +21,12 @@
 }
 
 .card {
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, .1);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
 }
 
+.login-background {
+  background-image: url("assets/images/background.png");
+}
 
 @layer base {
   :root {
@@ -71,7 +74,6 @@
     --ring: 142.4 71.8% 29.2%;
   }
 }
-
 
 @layer base {
   * {
