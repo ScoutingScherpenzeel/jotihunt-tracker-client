@@ -124,7 +124,7 @@ function App() {
 
             {showMenu && (
               <div
-                className={`flex flex-col gap-2 animate-in slide-in-from-top-2`}
+                className={`flex flex-col gap-2 animate-in md:animate-none slide-in-from-top-2`}
               >
                 <FoxStatusCard />
                 <HintEntryCard mapRef={mapRef} />
