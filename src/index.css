@@ -5,7 +5,7 @@
 /* Mapbox popup styling */
 .mapboxgl-popup-content {
   @apply animate-in fade-in;
-  border-radius: 0.5rem;
+  border-radius: 0.5rem !important;
   padding: 1rem;
   font-size: 0.875rem;
 }

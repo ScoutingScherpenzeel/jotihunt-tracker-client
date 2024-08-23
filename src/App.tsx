@@ -52,8 +52,12 @@ function App() {
             <Card>
               <CardContent>
                 <div className="flex items-center justify-between">
-                  <div className="flex gap-3">
-                    <img src={logo} alt="Jotihunt Tracker" className="w-12" />
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={logo}
+                      alt="Jotihunt Tracker"
+                      className="w-12 h-12"
+                    />
                     <div>
                       <h1 className="text-xl font-bold">Jotihunt Tracker</h1>
                       <h2>Scouting Scherpenzeel e.o.</h2>

@@ -14,7 +14,9 @@ import Teams from "./components/layers/Teams";
 import PropTypes from "prop-types";
 import Devices from "./components/layers/Devices";
 import Hints from "./components/layers/Hints";
-import { forwardRef, useImperativeHandle, useRef } from "react";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import MapPopup from "./components/map/MapPopup";
+import { Button } from "./components/ui/button";
 
 export interface MapRef {
   flyTo(options: mapboxgl.FlyToOptions): void;
@@ -40,6 +42,13 @@ const Map = forwardRef<MapRef, MapProps>(
 
     const mapRef = useRef<MapboxRef>(null);
 
+    const [popupPosition, setPopupPosition] = useState<mapboxgl.LngLat>();
+
+    function openPopup(e: mapboxgl.MapMouseEvent) {
+      if (popupPosition) return;
+      setPopupPosition(e.lngLat);
+    }
+
     return (
       <div className="h-screen w-screen">
         <Mapbox
@@ -58,6 +67,7 @@ const Map = forwardRef<MapRef, MapProps>(
             [3.314971144228537, 50.80372101501058],
             [7.092053256784122, 53.51040334737814],
           ]}
+          onClick={openPopup}
         >
           <NavigationControl />
           <ScaleControl />
@@ -67,6 +77,33 @@ const Map = forwardRef<MapRef, MapProps>(
             customAttribution={"Jotihunt Tracker | Scouting Scherpenzeel"}
             compact={true}
           />
+          {popupPosition && (
+            <MapPopup
+              onClose={() => {
+                setPopupPosition(undefined);
+              }}
+              longitude={popupPosition?.lng || 0}
+              latitude={popupPosition?.lat || 0}
+              offset={{ bottom: [0, 0] }}
+            >
+              <div className="mr-6 flex flex-col gap-2">
+                <div>
+                  <h2 className="font-semibold">Gekozen locatie</h2>
+                  <p>Breedtegraad: {popupPosition.lat.toFixed(7)}</p>
+                  <p>Lengtegraad: {popupPosition.lat.toFixed(7)}</p>
+                </div>
+                <Button variant="outline" size="sm" asChild className="w-min">
+                  <a
+                    target="_blank"
+                    rel="noreferrer"
+                    href={`https://www.google.com/maps?q=${popupPosition.lat},${popupPosition.lng}`}
+                  >
+                    Bekijk op Google Maps
+                  </a>
+                </Button>
+              </div>
+            </MapPopup>
+          )}
           {showTeams && <Teams />}
           {showDevices && <Devices />}
           {showHints && <Hints />}
