@@ -133,7 +133,7 @@ export default function Hints({
         style={{ cursor: "pointer" }}
       >
         <div className="hover:brightness-125 hover:scale-105 transition-all ease-in-out">
-          <img src={foxIcon} className="h-10" />
+          <img src={foxIcon} className="h-8" />
         </div>
       </MapMarker>
     ));
