@@ -23,7 +23,8 @@ function App() {
 
   const [showTeams, setShowTeams] = useState(true);
   const [showCars, setShowCars] = useState(true);
-  const [showHintLocations, setShowHintLocations] = useState(true);
+  const [showHintLocationsPart1, setShowHintLocationsPart1] = useState(true);
+  const [showHintLocationsPart2, setShowHintLocationsPart2] = useState(true);
   const [errorShown, setErrorShown] = useState(false);
 
   const mapRef = useRef<MapRef>(null);
@@ -86,12 +87,20 @@ function App() {
                         Huidige locatie auto's
                       </DropdownMenuCheckboxItem>
                       <DropdownMenuCheckboxItem
-                        checked={showHintLocations}
+                        checked={showHintLocationsPart1}
                         onCheckedChange={() =>
-                          setShowHintLocations(!showHintLocations)
+                          setShowHintLocationsPart1(!showHintLocationsPart1)
                         }
                       >
-                        Hint locaties
+                        Hint locaties (speelhelft 1)
+                      </DropdownMenuCheckboxItem>
+                      <DropdownMenuCheckboxItem
+                        checked={showHintLocationsPart2}
+                        onCheckedChange={() =>
+                          setShowHintLocationsPart2(!showHintLocationsPart2)
+                        }
+                      >
+                        Hint locaties (speelhelft 2)
                       </DropdownMenuCheckboxItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -110,7 +119,8 @@ function App() {
           ref={mapRef}
           showTeams={showTeams}
           showDevices={showCars}
-          showHints={showHintLocations}
+          showHintsPart1={showHintLocationsPart1}
+          showHintsPart2={showHintLocationsPart2}
         />
       </SWRConfig>
     </>

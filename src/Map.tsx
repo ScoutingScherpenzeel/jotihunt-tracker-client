@@ -25,11 +25,20 @@ export interface MapRef {
 interface MapProps {
   showTeams: boolean;
   showDevices: boolean;
-  showHints: boolean;
+  showHintsPart1: boolean;
+  showHintsPart2: boolean;
 }
 
 const Map = forwardRef<MapRef, MapProps>(
-  ({ showTeams = true, showDevices = true, showHints = true }, ref) => {
+  (
+    {
+      showTeams = true,
+      showDevices = true,
+      showHintsPart1 = true,
+      showHintsPart2 = true,
+    },
+    ref
+  ) => {
     const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
     useImperativeHandle(ref, () => ({
@@ -90,7 +99,7 @@ const Map = forwardRef<MapRef, MapProps>(
                 <div>
                   <h2 className="font-semibold">Gekozen locatie</h2>
                   <p>Breedtegraad: {popupPosition.lat.toFixed(7)}</p>
-                  <p>Lengtegraad: {popupPosition.lat.toFixed(7)}</p>
+                  <p>Lengtegraad: {popupPosition.lng.toFixed(7)}</p>
                 </div>
                 <Button variant="outline" size="sm" asChild className="w-min">
                   <a
@@ -106,7 +115,9 @@ const Map = forwardRef<MapRef, MapProps>(
           )}
           {showTeams && <Teams />}
           {showDevices && <Devices />}
-          {showHints && <Hints />}
+          {(showHintsPart1 || showHintsPart2) && (
+            <Hints part1={showHintsPart1} part2={showHintsPart2} />
+          )}
         </Mapbox>
       </div>
     );
@@ -116,7 +127,8 @@ const Map = forwardRef<MapRef, MapProps>(
 Map.propTypes = {
   showTeams: PropTypes.bool.isRequired,
   showDevices: PropTypes.bool.isRequired,
-  showHints: PropTypes.bool.isRequired,
+  showHintsPart1: PropTypes.bool.isRequired,
+  showHintsPart2: PropTypes.bool.isRequired,
 };
 
 export default Map;

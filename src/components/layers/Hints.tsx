@@ -19,12 +19,22 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "../ui/use-toast";
+import PropTypes, { InferProps } from "prop-types";
 
-export default function Hints() {
+export default function Hints({
+  part1 = true,
+  part2 = true,
+}: InferProps<typeof Hints.propTypes>) {
   const { markers, deleteMarker } = useMarkers();
   const { isVisible } = useAreas();
 
   const [activeMarker, setActiveMarker] = useState<Marker>();
+
+  const startTime = new Date(import.meta.env.VITE_HUNT_START_TIME);
+  const endTime = new Date(import.meta.env.VITE_HUNT_END_TIME);
+  // midnight start of the next day
+  const midnight = new Date(startTime);
+  midnight.setHours(24, 0, 0, 0);
 
   async function deleteHint(marker: Marker) {
     const result = await deleteMarker(marker._id!);
@@ -37,17 +47,42 @@ export default function Hints() {
     } else {
       toast({
         title: "Fout bij verwijderen hint.",
-        description: "Er is iets fout gegaan bij het verwijderen van de hint. Probeer het later opnieuw.",
+        description:
+          "Er is iets fout gegaan bij het verwijderen van de hint. Probeer het later opnieuw.",
         variant: "destructive",
       });
     }
   }
 
-  // Group and sort markers by area
-  const sortedGroupedMarkers = useMemo(() => {
-    if (!markers) return {} as Record<string, Marker[]>;
+  // Helper function to filter markers based on time and visibility
+  function filterByTimeAndVisibility(markers: Marker[]): Marker[] {
+    return markers.filter((marker) => {
+      const markerTime = new Date(marker.time);
 
-    const groupedMarkers = markers.reduce((acc, marker) => {
+      // Part 1: From HUNT_START_TIME until MIDNIGHT (00:00)
+      if (part1 && markerTime >= startTime && markerTime < midnight) {
+        return isVisible(marker.area);
+      }
+
+      // Part 2: From MIDNIGHT until HUNT_END_TIME
+      if (part2 && markerTime >= midnight && markerTime <= endTime) {
+        return isVisible(marker.area);
+      }
+
+      // If neither part1 nor part2 matches, or the area is not visible, filter out the marker
+      return false;
+    });
+  }
+
+  // Filter markers based on time and visibility
+  const visibleMarkers = useMemo(() => {
+    if (!markers) return [];
+    return filterByTimeAndVisibility(markers);
+  }, [markers, part1, part2, isVisible]);
+
+  // Group and sort markers by area for line creation
+  const sortedGroupedMarkers = useMemo(() => {
+    const groupedMarkers = visibleMarkers.reduce((acc, marker) => {
       if (!acc[marker.area]) {
         acc[marker.area] = [];
       }
@@ -62,12 +97,28 @@ export default function Hints() {
     });
 
     return groupedMarkers;
-  }, [markers]);
+  }, [visibleMarkers]);
 
-  const visibleMarkers = useMemo(() => {
-    return markers?.filter((marker) => isVisible(marker.area));
-  }, [markers, isVisible]);
+  // Create line sources based on visible markers
+  const lineSources = useMemo(() => {
+    return Object.keys(sortedGroupedMarkers).map((area) => {
+      const coordinates = sortedGroupedMarkers[area].map(
+        (marker) => marker.location.coordinates
+      );
+      return {
+        id: `${area}`,
+        data: {
+          type: "Feature",
+          geometry: {
+            type: "LineString",
+            coordinates: coordinates,
+          },
+        },
+      };
+    }) as { id: string; data: GeoJSON.Feature<GeoJSON.LineString> }[];
+  }, [sortedGroupedMarkers]);
 
+  // Create map markers
   const mapMarkers = useMemo(() => {
     return visibleMarkers?.map((marker) => (
       <MapMarker
@@ -88,32 +139,10 @@ export default function Hints() {
     ));
   }, [visibleMarkers]);
 
-  const lineSources = useMemo(() => {
-    return Object.keys(sortedGroupedMarkers).map((area) => {
-      const coordinates = sortedGroupedMarkers[area].map(
-        (marker) => marker.location.coordinates
-      );
-      return {
-        id: `${area}`,
-        data: {
-          type: "Feature",
-          geometry: {
-            type: "LineString",
-            coordinates: coordinates,
-          },
-        },
-      };
-    }) as { id: string; data: GeoJSON.Feature<GeoJSON.LineString> }[];
-  }, [sortedGroupedMarkers]);
-
-  const visibleLineSources = useMemo(() => {
-    return lineSources.filter((source) => isVisible(source.id));
-  }, [lineSources, isVisible]);
-
   return (
     <>
       {mapMarkers}
-      {visibleLineSources.map((lineSource) => (
+      {lineSources.map((lineSource) => (
         <Source
           key={lineSource.id}
           id={lineSource.id}
@@ -164,16 +193,17 @@ export default function Hints() {
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      Weet je het zeker?
-                    </AlertDialogTitle>
+                    <AlertDialogTitle>Weet je het zeker?</AlertDialogTitle>
                     <AlertDialogDescription>
-                      Deze actie kan niet ongedaan gemaakt worden. Dit zal alle informatie van deze hint permanent verwijderen.
+                      Deze actie kan niet ongedaan gemaakt worden. Dit zal alle
+                      informatie van deze hint permanent verwijderen.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Annuleren</AlertDialogCancel>
-                    <AlertDialogAction onClick={() => deleteHint(activeMarker)}>Doorgaan</AlertDialogAction>
+                    <AlertDialogAction onClick={() => deleteHint(activeMarker)}>
+                      Doorgaan
+                    </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
@@ -184,3 +214,8 @@ export default function Hints() {
     </>
   );
 }
+
+Hints.propTypes = {
+  part1: PropTypes.bool.isRequired,
+  part2: PropTypes.bool.isRequired,
+};
