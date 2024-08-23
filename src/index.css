@@ -20,6 +20,10 @@
   @apply animate-in fade-in;
 }
 
+.mapboxgl-control-container {
+  @apply hidden md:block;
+}
+
 .card {
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
 }

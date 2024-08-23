@@ -1,4 +1,4 @@
-import { LayersIcon } from "lucide-react";
+import { LayersIcon, MenuIcon } from "lucide-react";
 import Map, { MapRef } from "./Map";
 import logo from "./assets/images/logo.png";
 import { Button } from "./components/ui/button";
@@ -26,6 +26,8 @@ function App() {
   const [showHintLocationsPart1, setShowHintLocationsPart1] = useState(true);
   const [showHintLocationsPart2, setShowHintLocationsPart2] = useState(true);
   const [errorShown, setErrorShown] = useState(false);
+
+  const [showMenu, setShowMenu] = useState(true);
 
   const mapRef = useRef<MapRef>(null);
 
@@ -65,53 +67,70 @@ function App() {
                     </div>
                   </div>
 
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline" size="sm">
-                        <LayersIcon className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
-                      <DropdownMenuLabel>Zichtbare lagen</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuCheckboxItem
-                        checked={showTeams}
-                        onCheckedChange={() => setShowTeams(!showTeams)}
-                      >
-                        Deelnemende groepen
-                      </DropdownMenuCheckboxItem>
-                      <DropdownMenuCheckboxItem
-                        checked={showCars}
-                        onCheckedChange={() => setShowCars(!showCars)}
-                      >
-                        Huidige locatie auto's
-                      </DropdownMenuCheckboxItem>
-                      <DropdownMenuCheckboxItem
-                        checked={showHintLocationsPart1}
-                        onCheckedChange={() =>
-                          setShowHintLocationsPart1(!showHintLocationsPart1)
-                        }
-                      >
-                        Hint locaties (speelhelft 1)
-                      </DropdownMenuCheckboxItem>
-                      <DropdownMenuCheckboxItem
-                        checked={showHintLocationsPart2}
-                        onCheckedChange={() =>
-                          setShowHintLocationsPart2(!showHintLocationsPart2)
-                        }
-                      >
-                        Hint locaties (speelhelft 2)
-                      </DropdownMenuCheckboxItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <div className="md:hidden">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowMenu(!showMenu)}
+                    >
+                      <MenuIcon className="h-4 w-4" />
+                    </Button>
+                  </div>
+
+                  <div className="md:block hidden">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="sm">
+                          <LayersIcon className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start">
+                        <DropdownMenuLabel>Zichtbare lagen</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuCheckboxItem
+                          checked={showTeams}
+                          onCheckedChange={() => setShowTeams(!showTeams)}
+                        >
+                          Deelnemende groepen
+                        </DropdownMenuCheckboxItem>
+                        <DropdownMenuCheckboxItem
+                          checked={showCars}
+                          onCheckedChange={() => setShowCars(!showCars)}
+                        >
+                          Huidige locatie auto's
+                        </DropdownMenuCheckboxItem>
+                        <DropdownMenuCheckboxItem
+                          checked={showHintLocationsPart1}
+                          onCheckedChange={() =>
+                            setShowHintLocationsPart1(!showHintLocationsPart1)
+                          }
+                        >
+                          Hint locaties (speelhelft 1)
+                        </DropdownMenuCheckboxItem>
+                        <DropdownMenuCheckboxItem
+                          checked={showHintLocationsPart2}
+                          onCheckedChange={() =>
+                            setShowHintLocationsPart2(!showHintLocationsPart2)
+                          }
+                        >
+                          Hint locaties (speelhelft 2)
+                        </DropdownMenuCheckboxItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
                 </div>
               </CardContent>
             </Card>
 
-            <FoxStatusCard />
-
-            <HintEntryCard mapRef={mapRef} />
-            <NextHintTime />
+            {showMenu && (
+              <div
+                className={`flex flex-col gap-2 animate-in slide-in-from-top-2`}
+              >
+                <FoxStatusCard />
+                <HintEntryCard mapRef={mapRef} />
+                <NextHintTime />
+              </div>
+            )}
           </div>
         </div>
 
