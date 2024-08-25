@@ -30,8 +30,8 @@ export default function Hints({
 
   const [activeMarker, setActiveMarker] = useState<Marker>();
 
-  const startTime = new Date(import.meta.env.VITE_HUNT_START_TIME);
-  const endTime = new Date(import.meta.env.VITE_HUNT_END_TIME);
+  const startTime = new Date(import.meta.env.HUNT_START_TIME);
+  const endTime = new Date(import.meta.env.HUNT_END_TIME);
   // midnight start of the next day
   const midnight = new Date(startTime);
   midnight.setHours(24, 0, 0, 0);

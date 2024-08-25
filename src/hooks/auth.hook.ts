@@ -2,7 +2,7 @@ import axios from "axios";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
 
 export const useAuth = () => {
-  const baseUrl = import.meta.env.VITE_API_BASE_URL;
+  const baseUrl = import.meta.env.API_BASE_URL;
 
   const signIn = useSignIn();
 

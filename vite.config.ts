@@ -1,10 +1,17 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import { viteEnvs } from "vite-envs";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    viteEnvs({
+      declarationFile: ".env.example",
+      
+    }),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -15,7 +22,7 @@ export default defineConfig({
     strictPort: true,
   },
   server: {
-    port: 80,
+    port: 5173,
     strictPort: true,
     host: true,
     origin: "http://0.0.0.0:80",

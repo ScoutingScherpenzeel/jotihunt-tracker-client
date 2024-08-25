@@ -79,15 +79,15 @@ export default function NextHintTime() {
   function getNextHintTime() {
     // if there is no last hint time, return the start time
     if (!lastHintTime) {
-      return new Date(import.meta.env.VITE_HUNT_START_TIME);
+      return new Date(import.meta.env.HUNT_START_TIME);
     }
 
     // if the last hint time is before the start time, return the start time
     if (
       lastHintTime.getTime() <
-      new Date(import.meta.env.VITE_HUNT_START_TIME).getTime()
+      new Date(import.meta.env.HUNT_START_TIME).getTime()
     ) {
-      return new Date(import.meta.env.VITE_HUNT_START_TIME);
+      return new Date(import.meta.env.HUNT_START_TIME);
     }
 
     // otherwise, return the next hour
@@ -118,7 +118,7 @@ export default function NextHintTime() {
     if (isError) return "Fout!";
     if (newHint) return "Nieuwe hint!";
 
-    const huntEndTime = new Date(import.meta.env.VITE_HUNT_END_TIME as string);
+    const huntEndTime = new Date(import.meta.env.HUNT_END_TIME as string);
     huntEndTime.setHours(huntEndTime.getHours() - 1);
 
     if (currentTime > huntEndTime) return "Geen komende hints";

@@ -2,7 +2,7 @@ import axios from "axios";
 import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 import useSWR, { SWRConfiguration } from "swr";
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
+const baseUrl = import.meta.env.API_BASE_URL;
 
 export const fetcher = async (url: string) => {
   const { data } = await axios.get(`${baseUrl}${url}`);

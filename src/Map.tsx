@@ -39,7 +39,7 @@ const Map = forwardRef<MapRef, MapProps>(
     },
     ref
   ) => {
-    const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN;
+    const mapboxToken = import.meta.env.MAPBOX_TOKEN;
 
     useImperativeHandle(ref, () => ({
       flyTo: (options: mapboxgl.FlyToOptions) => {

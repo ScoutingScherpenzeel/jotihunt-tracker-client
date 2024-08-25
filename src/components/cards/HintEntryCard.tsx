@@ -62,8 +62,8 @@ export default function HintEntryCard({
   });
 
   function getTimeOptions(): { value: string; label: string }[] {
-    const startTime = new Date(import.meta.env.VITE_HUNT_START_TIME);
-    const endTime = new Date(import.meta.env.VITE_HUNT_END_TIME);
+    const startTime = new Date(import.meta.env.HUNT_START_TIME);
+    const endTime = new Date(import.meta.env.HUNT_END_TIME);
     const currentTime = new Date();
     let adjustedEndTime = currentTime > endTime ? endTime : currentTime;
 
