@@ -60,7 +60,7 @@ export default function FoxStatusCard() {
                 <div onClick={() => toggleHidden(area.name)} key={area._id}>
                   <FoxStatus
                     name={area.name}
-                    status="green"
+                    status={area.status}
                     lastUpdate={area.updatedAt}
                     lastHunt={getLastHunt(area.name)}
                     hidden={isHidden(area.name)}

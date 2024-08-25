@@ -17,7 +17,7 @@ export default function FoxStatus({
   status,
   lastUpdate,
   lastHunt,
-  hidden
+  hidden,
 }: InferProps<typeof FoxStatus.propTypes>) {
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -72,9 +72,9 @@ export default function FoxStatus({
         <Tooltip delayDuration={300}>
           <TooltipTrigger className="w-full">
             <div
-              className={`border-2 rounded-lg h-[52px] flex flex-col justify-center leading-none hover:brightness-105 ${hidden && "opacity-50"} ${getStatusStyles(
-                status
-              )}`}
+              className={`border-2 rounded-lg h-[52px] flex flex-col justify-center leading-none hover:brightness-105 ${
+                hidden && "opacity-50"
+              } ${getStatusStyles(status)}`}
             >
               {areaIsHuntable() ? (
                 name
