@@ -9,7 +9,6 @@ export default defineConfig({
     react(),
     viteEnvs({
       declarationFile: ".env.example",
-      
     }),
   ],
   resolve: {
@@ -25,6 +24,5 @@ export default defineConfig({
     port: 5173,
     strictPort: true,
     host: true,
-    origin: "http://0.0.0.0:80",
   },
 });

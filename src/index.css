@@ -20,8 +20,8 @@
   @apply animate-in fade-in;
 }
 
-.mapboxgl-control-container {
-  @apply hidden md:block;
+.mapboxgl-ctrl-top-right {
+  @apply !top-[91px] md:!top-0;
 }
 
 .card {
