@@ -46,7 +46,9 @@ const FormSchema = z.object({
   y: z.string().length(6),
 });
 
-export default function HintEntryCard({mapRef}: InferProps<typeof HintEntryCard.propTypes>) {
+export default function HintEntryCard({
+  mapRef,
+}: InferProps<typeof HintEntryCard.propTypes>) {
   const { markers, createMarker } = useMarkers();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -122,7 +124,11 @@ export default function HintEntryCard({mapRef}: InferProps<typeof HintEntryCard.
         title: "Hint geregistreerd!",
         description: "De hint is succesvol geregistreerd.",
       });
-      mapRef.current?.flyTo({center: [converted.lon!, converted.lat!], duration: 2000, zoom: 12});
+      mapRef.current?.flyTo({
+        center: [converted.lon!, converted.lat!],
+        duration: 2000,
+        zoom: 12,
+      });
     } else {
       toast({
         variant: "destructive",
@@ -302,5 +308,7 @@ export default function HintEntryCard({mapRef}: InferProps<typeof HintEntryCard.
 }
 
 HintEntryCard.propTypes = {
-  mapRef: PropTypes.object.isRequired as PropTypes.Validator<React.RefObject<MapRef>>,
-}
+  mapRef: PropTypes.object.isRequired as PropTypes.Validator<
+    React.RefObject<MapRef>
+  >,
+};

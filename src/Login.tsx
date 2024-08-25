@@ -4,11 +4,48 @@ import { Button } from "./components/ui/button";
 import logo from "./assets/images/logo.png";
 
 import { Card, CardContent } from "./components/ui/card";
+import { useAuth } from "./hooks/auth.hook";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./components/ui/form";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
-const backgroundImage = import.meta.env.VITE_BACKGROUND_IMAGE;
-const repeatImage = import.meta.env.VITE_REPEAT_IMAGE;
+const FormSchema = z.object({
+  email: z.string().email({ message: "Vul een geldig e-mailadres in." }),
+  password: z.string(),
+});
 
 export default function Login() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  async function handleLogin(data: z.infer<typeof FormSchema>) {
+    const success = await login(data.email, data.password);
+    if (!success) {
+      form.setError("password", {
+        message: "Ongeldig e-mailadres of wachtwoord.",
+      });
+    }
+
+    navigate("/");
+  }
+
   return (
     <div className="w-full lg:grid min-h-screen lg:grid-cols-2">
       <div className="flex items-center justify-center py-12">
@@ -19,26 +56,47 @@ export default function Login() {
               Vul je e-mailadres en wachtwoord in.
             </p>
           </div>
-          <div className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">E-mailadres</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="jouwnaam@scoutingscherpenzeel.nl"
-                required
-              />
-            </div>
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Wachtwoord</Label>
+
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(handleLogin)}>
+              <div className="grid gap-4">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>E-mailadres</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="email"
+                          required
+                          placeholder="jouwnaam@scoutingscherpenzeel.nl"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Wachtwoord</FormLabel>
+                      <FormControl>
+                        <Input {...field} type="password" required />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" className="w-full">
+                  Inloggen
+                </Button>
               </div>
-              <Input id="password" type="password" required />
-            </div>
-            <Button type="submit" className="w-full">
-              Inloggen
-            </Button>
-          </div>
+            </form>
+          </Form>
           <div className="mt-4 text-center text-sm">
             Heb je geen account? Vraag een beheerder om een account aan te
             maken.
@@ -67,16 +125,6 @@ export default function Login() {
         </div>
 
         <div className="login-background w-full h-full"></div>
-
-        {/* <img
-          src={backgroundImage}
-          alt="Image"
-          width="1920"
-          height="1080"
-          className={`h-full w-full object-cover ${
-            repeatImage && "object-repeat"
-          }`}
-        /> */}
       </div>
     </div>
   );

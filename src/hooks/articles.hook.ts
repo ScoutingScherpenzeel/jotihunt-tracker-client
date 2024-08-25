@@ -1,8 +1,7 @@
-import useSWR from "swr";
-import { fetcher, Article } from "../api";
+import { Article, useAuthSWR } from "../api";
 
 export const useArticles = () => {
-  const { data, error } = useSWR<Article[]>("/articles", fetcher, {
+  const { data, error } = useAuthSWR<Article[]>("/articles", {
     refreshInterval: 10000,
   });
 

@@ -17,9 +17,11 @@ import { useToast } from "./components/ui/use-toast";
 import FoxStatusCard from "./components/cards/FoxStatusCard";
 import NextHintTime from "./components/cards/NextHintTimeCard";
 import HintEntryCard from "./components/cards/HintEntryCard";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const [showTeams, setShowTeams] = useState(true);
   const [showCars, setShowCars] = useState(true);
@@ -36,6 +38,16 @@ function App() {
       <SWRConfig
         value={{
           onError: (error) => {
+            if (error.response?.status === 401) {
+              toast({
+                variant: "default",
+                title: "Je sessie is verlopen.",
+                description: "Log opnieuw in om verder te gaan.",
+                duration: Infinity,
+              });
+              navigate("/login");
+              return;
+            }
             if (errorShown) return;
             setErrorShown(true);
             toast({

@@ -1,8 +1,7 @@
-import useSWR from "swr";
-import { Device, fetcher } from "../api";
+import { Device, useAuthSWR } from "../api";
 
 export const useDevices = () => {
-  const { data, error } = useSWR<Device[]>("/tracker/positions", fetcher, {
+  const { data, error } = useAuthSWR<Device[]>("/tracker/positions", {
     refreshInterval: 100,
     refreshWhenOffline: true,
     refreshWhenHidden: true,

@@ -1,4 +1,7 @@
 import axios from "axios";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import useSWR, { SWRConfiguration } from "swr";
+
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export const fetcher = async (url: string) => {
@@ -17,6 +20,40 @@ export const del = async (url: string) => {
   const { data } = await axios.delete(`${baseUrl}${url}`);
   if (data.error) throw new Error(data.error);
   return data;
+};
+
+export const fetcherWithMethod = async (
+  url: string,
+  authHeader: string,
+  method: "GET" | "POST" | "DELETE" | "PUT" = "GET",
+  body?: any
+) => {
+  const response = await axios({
+    url: `${baseUrl}${url}`,
+    method,
+    headers: {
+      Authorization: authHeader,
+    },
+    data: body, // Used for POST, PUT, DELETE, etc.
+  });
+
+  if (response.data.error) throw new Error(response.data.error);
+  return response.data;
+};
+
+export const useAuthSWR = <T>(
+  url: string,
+  options?: SWRConfiguration,
+  method: "GET" | "POST" | "DELETE" | "PUT" = "GET",
+  body?: any
+) => {
+  const authHeader = useAuthHeader();
+
+  // SWR fetcher with method and body handling
+  const swrFetcher = ([url, authHeader]: [string, string]) =>
+    fetcherWithMethod(url, authHeader, method, body);
+
+  return useSWR<T>([url, authHeader], swrFetcher, options);
 };
 
 export interface Team {

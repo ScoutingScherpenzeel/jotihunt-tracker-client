@@ -1,9 +1,8 @@
-import useSWR from "swr";
-import { fetcher, Area } from "../api";
+import { Area, useAuthSWR } from "../api";
 import useHiddenAreasStore from "@/stores/hiddenareas.store";
 
 export const useAreas = () => {
-  const { data, error } = useSWR<Area[]>("/areas", fetcher, {
+  const { data, error } = useAuthSWR<Area[]>("/areas", {
     refreshInterval: 1000,
   });
 
