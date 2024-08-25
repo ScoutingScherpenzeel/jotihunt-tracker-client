@@ -48,8 +48,11 @@ export default function Login() {
   return (
     <div className="w-full lg:grid min-h-screen lg:grid-cols-2">
       <div className="flex items-center justify-center py-12">
-        <div className="mx-auto grid w-[350px] gap-6">
+        <div className="mx-4 grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
+            <div className="flex items-center justify-center gap-3 lg:hidden mb-6">
+              <img src={logo} alt="Jotihunt Tracker" className="w-20 h-20" />
+            </div>
             <h1 className="text-3xl font-bold">Inloggen</h1>
             <p className=" text-muted-foreground">
               Vul je e-mailadres en wachtwoord in.
