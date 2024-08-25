@@ -2,6 +2,7 @@ FROM oven/bun:1 as base
 WORKDIR /usr/src/app
 
 COPY . .
+COPY .env.example .env
 RUN bun install
 RUN bun run build
 
