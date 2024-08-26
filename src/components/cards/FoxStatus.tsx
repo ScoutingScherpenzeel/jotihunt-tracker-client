@@ -82,7 +82,7 @@ export default function FoxStatus({ name, status, lastUpdate, lastHunt, hidden }
               )}
             </div>
           </TooltipTrigger>
-          <TooltipContent>
+          <TooltipContent className="hidden md:block">
             <p>
               Status laatst bijgewerkt:{' '}
               {formatDistanceToNow(new Date(lastUpdate), {

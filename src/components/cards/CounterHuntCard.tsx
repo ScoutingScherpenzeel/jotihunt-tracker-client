@@ -44,9 +44,9 @@ export default function CounterHuntCard({ mapRef }: InferProps<typeof CounterHun
         <CardDescription>Kies een windrichting om te zien wat het tegenhunt gebied is.</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex gap-2">
+        <div className="flex gap-2 w-full flex-wrap md:flex-nowrap">
           <Select onValueChange={(value) => setChosenDirection(Number(value))} value={chosenDirection.toString()}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Kies windrichting..." />
             </SelectTrigger>
             <SelectContent>
@@ -60,11 +60,11 @@ export default function CounterHuntCard({ mapRef }: InferProps<typeof CounterHun
               <SelectItem value="315">NW - Noordwest</SelectItem>
             </SelectContent>
           </Select>
-          <Button onClick={showCounterHunt}>
+          <Button onClick={showCounterHunt} className="flex-1 md:w-auto">
             <Eye className="mr-2 h-4 w-4" />
             Toon
           </Button>
-          <Button variant="outline" onClick={removeCounterHunt}>
+          <Button variant="outline" onClick={removeCounterHunt} className="flex-1 md:w-auto">
             <Trash className="mr-2 h-4 w-4" />
             Verwijder
           </Button>
