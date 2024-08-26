@@ -1,22 +1,20 @@
-import { CSSProperties } from "react";
-import PropTypes, { InferProps } from "prop-types";
+import { CSSProperties } from 'react';
+import PropTypes, { InferProps } from 'prop-types';
 
 // Modify these
 const MAIN_CIRCLE_SIZE = 210;
 const MAIN_CIRCLE_OPACITY = 0.24;
 const NUM_CIRCLES = 8;
 
-export default function Ripple({
-  color = "sky",
-}: InferProps<typeof Ripple.propTypes>) {
+export default function Ripple({ color = 'sky' }: InferProps<typeof Ripple.propTypes>) {
   function getRippleColor(color: string) {
     switch (color) {
-      case "blue":
-        return "bg-sky-400";
-      case "green":
-        return "bg-green-400";
+      case 'blue':
+        return 'bg-sky-400';
+      case 'green':
+        return 'bg-green-400';
       default:
-        return "bg-sky-400";
+        return 'bg-sky-400';
     }
   }
 
@@ -25,9 +23,7 @@ export default function Ripple({
       {Array.from({ length: NUM_CIRCLES }, (_, i) => (
         <div
           key={i}
-          className={`absolute -translate-x-1/2 -translate-y-1/2 animate-ripple rounded-full transition-all ease-in-out ${getRippleColor(
-            color
-          )}`}
+          className={`absolute -translate-x-1/2 -translate-y-1/2 animate-ripple rounded-full transition-all ease-in-out ${getRippleColor(color)}`}
           style={
             {
               width: MAIN_CIRCLE_SIZE + i * 70,

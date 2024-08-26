@@ -1,63 +1,46 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "../ui/button";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
-import { REGEXP_ONLY_DIGITS } from "input-otp";
-import { Pin, TrashIcon } from "lucide-react";
-import { Marker, MarkerType } from "@/api";
-import { useMarkers } from "@/hooks/markers.hook";
-import { toast } from "../ui/use-toast";
-import PropTypes, { InferProps } from "prop-types";
-import { MapRef } from "@/Map";
-import proj4 from "proj4";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button } from '../ui/button';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '../ui/input-otp';
+import { REGEXP_ONLY_DIGITS } from 'input-otp';
+import { Pin, TrashIcon } from 'lucide-react';
+import { Marker, MarkerType } from '@/api';
+import { useMarkers } from '@/hooks/markers.hook';
+import { toast } from '../ui/use-toast';
+import PropTypes, { InferProps } from 'prop-types';
+import { MapRef } from '@/Map';
+import proj4 from 'proj4';
 
 const areaOptions = [
-  { value: "alpha", label: "Alpha" },
-  { value: "bravo", label: "Bravo" },
-  { value: "charlie", label: "Charlie" },
-  { value: "delta", label: "Delta" },
-  { value: "echo", label: "Echo" },
-  { value: "foxtrot", label: "Foxtrot" },
+  { value: 'alpha', label: 'Alpha' },
+  { value: 'bravo', label: 'Bravo' },
+  { value: 'charlie', label: 'Charlie' },
+  { value: 'delta', label: 'Delta' },
+  { value: 'echo', label: 'Echo' },
+  { value: 'foxtrot', label: 'Foxtrot' },
 ];
 
 const FormSchema = z.object({
-  area: z.enum([...areaOptions.map((option) => option.value)] as [
-    string,
-    ...string[]
-  ]),
+  area: z.enum([...areaOptions.map((option) => option.value)] as [string, ...string[]]),
   time: z.string(),
   x: z.string().length(6),
   y: z.string().length(6),
 });
 
-export default function HintEntryCard({
-  mapRef,
-}: InferProps<typeof HintEntryCard.propTypes>) {
+export default function HintEntryCard({ mapRef }: InferProps<typeof HintEntryCard.propTypes>) {
   const { markers, createMarker } = useMarkers();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      area: "",
-      time: "",
-      x: "",
-      y: "",
+      area: '',
+      time: '',
+      x: '',
+      y: '',
     },
   });
 
@@ -69,22 +52,18 @@ export default function HintEntryCard({
 
     const timeOptions: { value: string; label: string }[] = [];
     for (let i = startTime; i < adjustedEndTime; i.setHours(i.getHours() + 1)) {
-      const formatted =
-        i.toLocaleString("nl-NL", { weekday: "long", hour: "numeric" }) + ":00";
+      const formatted = i.toLocaleString('nl-NL', { weekday: 'long', hour: 'numeric' }) + ':00';
       timeOptions.push({ value: i.toISOString(), label: formatted });
     }
 
     markers
-      ?.filter((marker) => marker.area === form.watch("area"))
+      ?.filter((marker) => marker.area === form.watch('area'))
       .filter((marker) => marker.type === MarkerType.Hint)
       .forEach((marker) => {
         const markerTime = new Date(marker.time);
         const index = timeOptions.findIndex((option) => {
           const optionTime = new Date(option.value);
-          return (
-            markerTime.getHours() === optionTime.getHours() &&
-            markerTime.getDate() === optionTime.getDate()
-          );
+          return markerTime.getHours() === optionTime.getHours() && markerTime.getDate() === optionTime.getDate();
         });
         if (index !== -1) timeOptions.splice(index, 1);
       });
@@ -96,22 +75,14 @@ export default function HintEntryCard({
     // Convert RD coordinates to WGS84
     const x = Number(data.x);
     const y = Number(data.y);
-    const converted = proj4("RD", "WGS84", [x, y]);
-    if (
-      converted[0] === undefined ||
-      converted[1] === undefined ||
-      x < 0 ||
-      x > 290000 ||
-      y < 290000 ||
-      y > 630000
-    ) {
-      form.setError("x", { message: "Ongeldige coördinaten" });
-      form.setError("y", { message: "Ongeldige coördinaten" });
+    const converted = proj4('RD', 'WGS84', [x, y]);
+    if (converted[0] === undefined || converted[1] === undefined || x < 0 || x > 290000 || y < 290000 || y > 630000) {
+      form.setError('x', { message: 'Ongeldige coördinaten' });
+      form.setError('y', { message: 'Ongeldige coördinaten' });
       toast({
-        variant: "destructive",
-        title: "Ongeldige coördinaten",
-        description:
-          "Deze coördinaten zijn ongeldig. Controleer of de ingevoerde waarden correct zijn.",
+        variant: 'destructive',
+        title: 'Ongeldige coördinaten',
+        description: 'Deze coördinaten zijn ongeldig. Controleer of de ingevoerde waarden correct zijn.',
       });
       return;
     }
@@ -120,7 +91,7 @@ export default function HintEntryCard({
       area: data.area,
       time: new Date(data.time),
       location: {
-        type: "Point",
+        type: 'Point',
         coordinates: [converted[0]!, converted[1]!],
       },
       type: MarkerType.Hint,
@@ -130,8 +101,8 @@ export default function HintEntryCard({
     if (result) {
       form.reset();
       toast({
-        title: "Hint geregistreerd!",
-        description: "De hint is succesvol geregistreerd.",
+        title: 'Hint geregistreerd!',
+        description: 'De hint is succesvol geregistreerd.',
       });
       mapRef.current?.flyTo({
         center: [converted[0]!, converted[1]!],
@@ -140,16 +111,15 @@ export default function HintEntryCard({
       });
     } else {
       toast({
-        variant: "destructive",
-        title: "Fout bij registreren hint.",
-        description:
-          "Er is een fout opgetreden bij het registreren van de hint.",
+        variant: 'destructive',
+        title: 'Fout bij registreren hint.',
+        description: 'Er is een fout opgetreden bij het registreren van de hint.',
       });
     }
   }
 
   function clearField(key: keyof z.infer<typeof FormSchema>) {
-    form.setValue(key, "");
+    form.setValue(key, '');
   }
 
   return (
@@ -171,11 +141,7 @@ export default function HintEntryCard({
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel>Deelgebied</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          value={field.value}
-                        >
+                        <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder="Kies deelgebied..." />
@@ -183,10 +149,7 @@ export default function HintEntryCard({
                           </FormControl>
                           <SelectContent>
                             {areaOptions.map((option) => (
-                              <SelectItem
-                                key={option.value}
-                                value={option.value}
-                              >
+                              <SelectItem key={option.value} value={option.value}>
                                 {option.label}
                               </SelectItem>
                             ))}
@@ -201,22 +164,15 @@ export default function HintEntryCard({
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel>Tijdstip</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          value={field.value}
-                        >
+                        <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                           <FormControl>
-                            <SelectTrigger disabled={!form.watch("area")}>
+                            <SelectTrigger disabled={!form.watch('area')}>
                               <SelectValue placeholder="Kies tijdstip..." />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
                             {getTimeOptions().map((option) => (
-                              <SelectItem
-                                key={option.value}
-                                value={option.value}
-                              >
+                              <SelectItem key={option.value} value={option.value}>
                                 {option.label}
                               </SelectItem>
                             ))}
@@ -235,12 +191,7 @@ export default function HintEntryCard({
                         <FormItem>
                           <FormLabel>X-coördinaat</FormLabel>
                           <FormControl>
-                            <InputOTP
-                              autoComplete="off"
-                              maxLength={6}
-                              pattern={REGEXP_ONLY_DIGITS}
-                              {...field}
-                            >
+                            <InputOTP autoComplete="off" maxLength={6} pattern={REGEXP_ONLY_DIGITS} {...field}>
                               <InputOTPGroup>
                                 <InputOTPSlot index={0} />
                                 <InputOTPSlot index={1} />
@@ -259,7 +210,7 @@ export default function HintEntryCard({
                       tabIndex={-1}
                       onClick={(e) => {
                         e.preventDefault();
-                        clearField("x");
+                        clearField('x');
                       }}
                     >
                       <TrashIcon className="h-4 w-4" />
@@ -273,12 +224,7 @@ export default function HintEntryCard({
                         <FormItem>
                           <FormLabel>Y-coördinaat</FormLabel>
                           <FormControl>
-                            <InputOTP
-                              autoComplete="off"
-                              maxLength={6}
-                              pattern={REGEXP_ONLY_DIGITS}
-                              {...field}
-                            >
+                            <InputOTP autoComplete="off" maxLength={6} pattern={REGEXP_ONLY_DIGITS} {...field}>
                               <InputOTPGroup>
                                 <InputOTPSlot index={0} />
                                 <InputOTPSlot index={1} />
@@ -297,7 +243,7 @@ export default function HintEntryCard({
                       tabIndex={-1}
                       onClick={(e) => {
                         e.preventDefault();
-                        clearField("y");
+                        clearField('y');
                       }}
                     >
                       <TrashIcon className="h-4 w-4" />
@@ -317,7 +263,5 @@ export default function HintEntryCard({
 }
 
 HintEntryCard.propTypes = {
-  mapRef: PropTypes.object.isRequired as PropTypes.Validator<
-    React.RefObject<MapRef>
-  >,
+  mapRef: PropTypes.object.isRequired as PropTypes.Validator<React.RefObject<MapRef>>,
 };

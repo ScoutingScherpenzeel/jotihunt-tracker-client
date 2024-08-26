@@ -1,155 +1,107 @@
-import Mapbox, {
-  AttributionControl,
-  FullscreenControl,
-  GeolocateControl,
-  NavigationControl,
-  ScaleControl,
-  MapRef as MapboxRef,
-} from "react-map-gl";
+import Mapbox, { AttributionControl, FullscreenControl, GeolocateControl, NavigationControl, ScaleControl, MapRef as MapboxRef, LngLatBoundsLike } from 'react-map-gl';
 
-import "mapbox-gl/dist/mapbox-gl.css";
-import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
+import 'mapbox-gl/dist/mapbox-gl.css';
+import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 
-import Teams from "./components/layers/Teams";
-import PropTypes from "prop-types";
-import Devices from "./components/layers/Devices";
-import Hints from "./components/layers/Hints";
-import { forwardRef, useImperativeHandle, useRef, useState } from "react";
-import MapPopup from "./components/map/MapPopup";
-import { Button } from "./components/ui/button";
-import proj4 from "proj4";
-import HomeCircle from "./components/layers/HomeCircle";
+import Teams from './components/layers/Teams';
+import Devices from './components/layers/Devices';
+import Hints from './components/layers/Hints';
+import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import MapPopup from './components/map/MapPopup';
+import { Button } from './components/ui/button';
+import proj4 from 'proj4';
+import HomeCircle from './components/layers/HomeCircle';
+import useLayersStore from './stores/layers.store';
 
 export interface MapRef {
   flyTo(options: mapboxgl.FlyToOptions): void;
 }
 
-interface MapProps {
-  showTeams: boolean;
-  showDevices: boolean;
-  showHintsPart1: boolean;
-  showHintsPart2: boolean;
-  showHomeCircle: boolean;
-}
+const Map = forwardRef<MapRef>((_, ref) => {
+  // Mapbox settings
+  const mapboxToken = import.meta.env.MAPBOX_TOKEN;
+  const initialViewState = {
+    latitude: 52.12748401580578,
+    longitude: 5.82036696134869,
+    zoom: 9,
+  };
+  const maxBounds = [
+    [3.314971144228537, 50.80372101501058],
+    [7.092053256784122, 53.51040334737814],
+  ] as LngLatBoundsLike;
+  const mapStyle = 'mapbox://styles/mapbox/streets-v12';
 
-const Map = forwardRef<MapRef, MapProps>(
-  (
-    {
-      showTeams = true,
-      showDevices = true,
-      showHintsPart1 = true,
-      showHintsPart2 = true,
-      showHomeCircle = true,
+  // Store for all layers
+  const { showTeams, showDevices, showHintsPart1, showHintsPart2, showHomeCircle } = useLayersStore();
+
+  useImperativeHandle(ref, () => ({
+    flyTo: (options: mapboxgl.FlyToOptions) => {
+      if (mapRef.current) {
+        mapRef.current.flyTo(options);
+      }
     },
-    ref
-  ) => {
-    const mapboxToken = import.meta.env.MAPBOX_TOKEN;
+  }));
 
-    useImperativeHandle(ref, () => ({
-      flyTo: (options: mapboxgl.FlyToOptions) => {
-        if (mapRef.current) {
-          mapRef.current.flyTo(options);
-        }
-      },
-    }));
+  const mapRef = useRef<MapboxRef>(null);
 
-    const mapRef = useRef<MapboxRef>(null);
+  const [popupPosition, setPopupPosition] = useState<mapboxgl.LngLat>();
 
-    const [popupPosition, setPopupPosition] = useState<mapboxgl.LngLat>();
-
-    function openPopup(e: mapboxgl.MapMouseEvent) {
-      if (popupPosition) return;
-      setPopupPosition(e.lngLat);
-    }
-
-    return (
-      <div className="h-screen w-screen">
-        <Mapbox
-          ref={mapRef}
-          reuseMaps
-          mapboxAccessToken={mapboxToken}
-          initialViewState={{
-            latitude: 52.12748401580578,
-            longitude: 5.82036696134869,
-            zoom: 9,
-          }}
-          style={{ width: "100%", height: "100%" }}
-          attributionControl={false}
-          mapStyle="mapbox://styles/mapbox/streets-v12"
-          maxBounds={[
-            [3.314971144228537, 50.80372101501058],
-            [7.092053256784122, 53.51040334737814],
-          ]}
-          onClick={openPopup}
-        >
-          <NavigationControl />
-          <ScaleControl />
-          <FullscreenControl />
-          <GeolocateControl />
-          <AttributionControl
-            customAttribution={"Jotihunt Tracker | Scouting Scherpenzeel"}
-            compact={true}
-          />
-          {popupPosition && (
-            <MapPopup
-              onClose={() => {
-                setPopupPosition(undefined);
-              }}
-              longitude={popupPosition?.lng || 0}
-              latitude={popupPosition?.lat || 0}
-              offset={{ bottom: [0, 0] }}
-            >
-              <div className="mr-6 flex flex-col gap-2">
-                <div>
-                  <h2 className="font-semibold">Gekozen locatie</h2>
-                  <p>Breedtegraad: {popupPosition.lat.toFixed(7)}</p>
-                  <p>Lengtegraad: {popupPosition.lng.toFixed(7)}</p>
-
-                  <p>
-                    RD-x:{" "}
-                    {proj4("WGS84", "RD", [
-                      popupPosition.lng,
-                      popupPosition.lat,
-                    ])[0].toFixed(0)}
-                  </p>
-                  <p>
-                    RD-y:{" "}
-                    {proj4("WGS84", "RD", [
-                      popupPosition.lng,
-                      popupPosition.lat,
-                    ])[1].toFixed(0)}
-                  </p>
-                </div>
-                <Button variant="outline" size="sm" asChild className="w-min">
-                  <a
-                    target="_blank"
-                    rel="noreferrer"
-                    href={`https://www.google.com/maps?q=${popupPosition.lat},${popupPosition.lng}`}
-                  >
-                    Bekijk op Google Maps
-                  </a>
-                </Button>
-              </div>
-            </MapPopup>
-          )}
-          {showTeams && <Teams />}
-          {showDevices && <Devices />}
-          {(showHintsPart1 || showHintsPart2) && (
-            <Hints part1={showHintsPart1} part2={showHintsPart2} />
-          )}
-          {showHomeCircle && <HomeCircle />}
-        </Mapbox>
-      </div>
-    );
+  function openPopup(e: mapboxgl.MapMouseEvent) {
+    if (popupPosition) return;
+    setPopupPosition(e.lngLat);
   }
-);
 
-Map.propTypes = {
-  showTeams: PropTypes.bool.isRequired,
-  showDevices: PropTypes.bool.isRequired,
-  showHintsPart1: PropTypes.bool.isRequired,
-  showHintsPart2: PropTypes.bool.isRequired,
-  showHomeCircle: PropTypes.bool.isRequired,
-};
+  return (
+    <div className="h-screen w-screen">
+      <Mapbox
+        ref={mapRef}
+        reuseMaps
+        mapboxAccessToken={mapboxToken}
+        initialViewState={initialViewState}
+        style={{ width: '100%', height: '100%' }}
+        attributionControl={false}
+        mapStyle={mapStyle}
+        maxBounds={maxBounds}
+        onClick={openPopup}
+      >
+        <NavigationControl />
+        <ScaleControl />
+        <FullscreenControl />
+        <GeolocateControl />
+        <AttributionControl customAttribution={'Jotihunt Tracker | Scouting Scherpenzeel'} compact={true} />
+        {popupPosition && (
+          <MapPopup
+            onClose={() => {
+              setPopupPosition(undefined);
+            }}
+            longitude={popupPosition?.lng || 0}
+            latitude={popupPosition?.lat || 0}
+            offset={{ bottom: [0, 0] }}
+          >
+            <div className="mr-6 flex flex-col gap-2">
+              <div>
+                <h2 className="font-semibold">Gekozen locatie</h2>
+                <p>Breedtegraad: {popupPosition.lat.toFixed(7)}</p>
+                <p>Lengtegraad: {popupPosition.lng.toFixed(7)}</p>
+
+                <p>RD-x: {proj4('WGS84', 'RD', [popupPosition.lng, popupPosition.lat])[0].toFixed(0)}</p>
+                <p>RD-y: {proj4('WGS84', 'RD', [popupPosition.lng, popupPosition.lat])[1].toFixed(0)}</p>
+              </div>
+              <Button variant="outline" size="sm" asChild className="w-min">
+                <a target="_blank" rel="noreferrer" href={`https://www.google.com/maps?q=${popupPosition.lat},${popupPosition.lng}`}>
+                  Bekijk op Google Maps
+                </a>
+              </Button>
+            </div>
+          </MapPopup>
+        )}
+        {showTeams && <Teams />}
+        {showDevices && <Devices />}
+        {(showHintsPart1 || showHintsPart2) && <Hints part1={showHintsPart1} part2={showHintsPart2} />}
+        {showHomeCircle && <HomeCircle />}
+      </Mapbox>
+    </div>
+  );
+});
 
 export default Map;

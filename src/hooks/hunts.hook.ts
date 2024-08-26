@@ -1,7 +1,7 @@
-import { Hunt, useAuthSWR } from "../api";
+import { Hunt, useAuthSWR } from '../api';
 
 export const useHunts = () => {
-  const { data, error } = useAuthSWR<Hunt[]>("/hunts", {
+  const { data, error } = useAuthSWR<Hunt[]>('/hunts', {
     refreshInterval: 5000,
   });
 

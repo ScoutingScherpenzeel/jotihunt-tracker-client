@@ -1,38 +1,26 @@
-import PropTypes, { InferProps } from "prop-types";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { TooltipProvider } from "@radix-ui/react-tooltip";
-import {
-  addSeconds,
-  differenceInSeconds,
-  formatDistance,
-  formatDistanceToNow,
-  isBefore,
-} from "date-fns";
-import { nl } from "date-fns/locale";
-import { Hunt } from "@/api";
-import { useEffect, useState } from "react";
+import PropTypes, { InferProps } from 'prop-types';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { TooltipProvider } from '@radix-ui/react-tooltip';
+import { addSeconds, differenceInSeconds, formatDistance, formatDistanceToNow, isBefore } from 'date-fns';
+import { nl } from 'date-fns/locale';
+import { Hunt } from '@/api';
+import { useEffect, useState } from 'react';
 
-export default function FoxStatus({
-  name,
-  status,
-  lastUpdate,
-  lastHunt,
-  hidden,
-}: InferProps<typeof FoxStatus.propTypes>) {
+export default function FoxStatus({ name, status, lastUpdate, lastHunt, hidden }: InferProps<typeof FoxStatus.propTypes>) {
   const [currentTime, setCurrentTime] = useState(new Date());
 
   function getStatusStyles(status: string) {
     const isHuntable = areaIsHuntable();
-    if (!isHuntable) return "bg-blue-200 border-blue-400 text-blue-600";
+    if (!isHuntable) return 'bg-blue-200 border-blue-400 text-blue-600';
     switch (status) {
-      case "orange":
-        return "bg-orange-200 border-orange-400 text-orange-600";
-      case "red":
-        return "bg-red-200 border-red-400 text-red-600";
-      case "green":
-        return "bg-green-200 border-green-400 text-green-600";
+      case 'orange':
+        return 'bg-orange-200 border-orange-400 text-orange-600';
+      case 'red':
+        return 'bg-red-200 border-red-400 text-red-600';
+      case 'green':
+        return 'bg-green-200 border-green-400 text-green-600';
       default:
-        return "bg-gray-200 border-gray-400 text-gray-600";
+        return 'bg-gray-200 border-gray-400 text-gray-600';
     }
   }
 
@@ -52,10 +40,7 @@ export default function FoxStatus({
     const hours = Math.floor(secondsDifference / 3600);
     const minutes = Math.floor((secondsDifference % 3600) / 60);
     const seconds = secondsDifference % 60;
-    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
-      2,
-      "0"
-    )}:${String(seconds).padStart(2, "0")}`;
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   }
 
   useEffect(() => {
@@ -71,11 +56,7 @@ export default function FoxStatus({
       <TooltipProvider>
         <Tooltip delayDuration={300}>
           <TooltipTrigger className="w-full">
-            <div
-              className={`border-2 rounded-lg h-[52px] flex flex-col justify-center leading-none hover:brightness-105 ${
-                hidden && "opacity-50"
-              } ${getStatusStyles(status)}`}
-            >
+            <div className={`border-2 rounded-lg h-[52px] flex flex-col justify-center leading-none hover:brightness-105 ${hidden && 'opacity-50'} ${getStatusStyles(status)}`}>
               {areaIsHuntable() ? (
                 name
               ) : (
@@ -88,20 +69,20 @@ export default function FoxStatus({
           </TooltipTrigger>
           <TooltipContent>
             <p>
-              Status laatst bijgewerkt:{" "}
+              Status laatst bijgewerkt:{' '}
               {formatDistanceToNow(new Date(lastUpdate), {
                 locale: nl,
                 addSuffix: true,
               })}
             </p>
             <p>
-              Laatste hunt:{" "}
+              Laatste hunt:{' '}
               {lastHunt
                 ? formatDistance(new Date(lastHunt.huntTime), new Date(), {
                     locale: nl,
                     addSuffix: true,
                   })
-                : "Nog geen"}
+                : 'Nog geen'}
             </p>
           </TooltipContent>
         </Tooltip>

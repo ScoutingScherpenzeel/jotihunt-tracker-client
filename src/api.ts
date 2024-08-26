@@ -1,6 +1,6 @@
-import axios from "axios";
-import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
-import useSWR, { SWRConfiguration } from "swr";
+import axios from 'axios';
+import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
+import useSWR, { SWRConfiguration } from 'swr';
 
 const baseUrl = import.meta.env.API_BASE_URL;
 
@@ -22,12 +22,7 @@ export const del = async (url: string) => {
   return data;
 };
 
-export const fetcherWithMethod = async (
-  url: string,
-  authHeader: string,
-  method: "GET" | "POST" | "DELETE" | "PUT" = "GET",
-  body?: any
-) => {
+export const fetcherWithMethod = async (url: string, authHeader: string, method: 'GET' | 'POST' | 'DELETE' | 'PUT' = 'GET', body?: any) => {
   const response = await axios({
     url: `${baseUrl}${url}`,
     method,
@@ -41,17 +36,11 @@ export const fetcherWithMethod = async (
   return response.data;
 };
 
-export const useAuthSWR = <T>(
-  url: string,
-  options?: SWRConfiguration,
-  method: "GET" | "POST" | "DELETE" | "PUT" = "GET",
-  body?: any
-) => {
+export const useAuthSWR = <T>(url: string, options?: SWRConfiguration, method: 'GET' | 'POST' | 'DELETE' | 'PUT' = 'GET', body?: any) => {
   const authHeader = useAuthHeader();
 
   // SWR fetcher with method and body handling
-  const swrFetcher = ([url, authHeader]: [string, string]) =>
-    fetcherWithMethod(url, authHeader, method, body);
+  const swrFetcher = ([url, authHeader]: [string, string]) => fetcherWithMethod(url, authHeader, method, body);
 
   return useSWR<T>([url, authHeader], swrFetcher, options);
 };
@@ -130,7 +119,7 @@ export interface Marker {
 }
 
 export enum MarkerType {
-  Hunt = "hunt",
-  Hint = "hint",
-  Spot = "spot",
+  Hunt = 'hunt',
+  Hint = 'hint',
+  Spot = 'spot',
 }

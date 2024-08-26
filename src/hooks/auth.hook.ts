@@ -1,5 +1,5 @@
-import axios from "axios";
-import useSignIn from "react-auth-kit/hooks/useSignIn";
+import axios from 'axios';
+import useSignIn from 'react-auth-kit/hooks/useSignIn';
 
 export const useAuth = () => {
   const baseUrl = import.meta.env.API_BASE_URL;
@@ -29,7 +29,7 @@ export const useAuth = () => {
     const signinResult = signIn({
       auth: {
         token,
-        type: "Bearer",
+        type: 'Bearer',
       },
     });
 

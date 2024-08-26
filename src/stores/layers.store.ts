@@ -1,5 +1,5 @@
-import { create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 interface LayersState {
   showTeams: boolean;
@@ -39,10 +39,10 @@ const useLayersStore = create<LayersState>()(
       },
     }),
     {
-      name: "layers-storage",
+      name: 'layers-storage',
       storage: createJSONStorage(() => localStorage),
-    }
-  )
+    },
+  ),
 );
 
 export default useLayersStore;

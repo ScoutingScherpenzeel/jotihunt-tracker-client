@@ -1,6 +1,6 @@
-import { createCircle, createWindSector } from "@/lib/utils";
-import useCounterHuntStore from "@/stores/counterhunt.store";
-import { Layer, Source } from "react-map-gl";
+import { createCircle, createWindSector } from '@/lib/utils';
+import useCounterHuntStore from '@/stores/counterhunt.store';
+import { Layer, Source } from 'react-map-gl';
 
 export default function HomeCircle() {
   // Configured home coordinates
@@ -15,17 +15,13 @@ export default function HomeCircle() {
   if (!visible) {
     return (
       <>
-        <Source
-          id={`circle-source-home`}
-          type="geojson"
-          data={createCircle(homeCoordsLon, homeCoordsLat, 450)}
-        >
+        <Source id={`circle-source-home`} type="geojson" data={createCircle(homeCoordsLon, homeCoordsLat, 450)}>
           <Layer
             id={`circle-layer-home`}
             type="fill"
             paint={{
-              "fill-color": "hsla(256, 90%, 61%, 0.2)",
-              "fill-outline-color": "hsla(256, 90%, 61%, 0.5)",
+              'fill-color': 'hsla(256, 90%, 61%, 0.2)',
+              'fill-outline-color': 'hsla(256, 90%, 61%, 0.5)',
             }}
           />
         </Source>
@@ -36,23 +32,13 @@ export default function HomeCircle() {
   // Otherwise, show the wind sector
   return (
     <>
-      <Source
-        id={`circle-source-home`}
-        type="geojson"
-        data={createWindSector(
-          homeCoordsLon,
-          homeCoordsLat,
-          450,
-          direction,
-          windAngleRange
-        )}
-      >
+      <Source id={`circle-source-home`} type="geojson" data={createWindSector(homeCoordsLon, homeCoordsLat, 450, direction, windAngleRange)}>
         <Layer
           id={`circle-layer-home`}
           type="fill"
           paint={{
-            "fill-color": "hsla(256, 90%, 61%, 0.2)",
-            "fill-outline-color": "hsla(256, 90%, 61%, 0.5)",
+            'fill-color': 'hsla(256, 90%, 61%, 0.2)',
+            'fill-outline-color': 'hsla(256, 90%, 61%, 0.5)',
           }}
         />
       </Source>

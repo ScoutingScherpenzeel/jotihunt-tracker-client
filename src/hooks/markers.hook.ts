@@ -1,20 +1,15 @@
-import { fetcherWithMethod, Marker, useAuthSWR } from "../api";
-import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import { fetcherWithMethod, Marker, useAuthSWR } from '../api';
+import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 
 export const useMarkers = () => {
-  const authHeader = useAuthHeader() || "";
+  const authHeader = useAuthHeader() || '';
 
-  const { data, error, mutate } = useAuthSWR<Marker[]>("/markers", {
+  const { data, error, mutate } = useAuthSWR<Marker[]>('/markers', {
     refreshInterval: 5000,
   });
 
   async function createMarker(marker: Marker): Promise<boolean> {
-    const result = await fetcherWithMethod(
-      "/markers",
-      authHeader,
-      "POST",
-      marker
-    );
+    const result = await fetcherWithMethod('/markers', authHeader, 'POST', marker);
     if (result._id) {
       mutate((data) => {
         if (data) {
@@ -28,11 +23,7 @@ export const useMarkers = () => {
   }
 
   async function deleteMarker(markerId: string): Promise<boolean> {
-    const result = await fetcherWithMethod(
-      `/markers/${markerId}`,
-      authHeader,
-      "DELETE"
-    );
+    const result = await fetcherWithMethod(`/markers/${markerId}`, authHeader, 'DELETE');
     if (result) {
       mutate((data) => {
         if (data) {

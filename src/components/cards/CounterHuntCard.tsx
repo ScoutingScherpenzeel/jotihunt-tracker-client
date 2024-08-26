@@ -1,27 +1,13 @@
-import { Eye, Trash } from "lucide-react";
-import { Button } from "../ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
-import useCounterHuntStore from "@/stores/counterhunt.store";
-import { useState } from "react";
-import PropTypes, { InferProps } from "prop-types";
-import { MapRef } from "@/Map";
+import { Eye, Trash } from 'lucide-react';
+import { Button } from '../ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import useCounterHuntStore from '@/stores/counterhunt.store';
+import { useState } from 'react';
+import PropTypes, { InferProps } from 'prop-types';
+import { MapRef } from '@/Map';
 
-export default function CounterHuntCard({
-  mapRef,
-}: InferProps<typeof CounterHuntCard.propTypes>) {
+export default function CounterHuntCard({ mapRef }: InferProps<typeof CounterHuntCard.propTypes>) {
   // Home coordinates for zooming to the counter hunt
   const homeCoordsLat = import.meta.env.HOME_COORDS_LAT;
   const homeCoordsLon = import.meta.env.HOME_COORDS_LON;
@@ -55,16 +41,11 @@ export default function CounterHuntCard({
     <Card>
       <CardHeader>
         <CardTitle>Tegenhunt visualisatie</CardTitle>
-        <CardDescription>
-          Kies een windrichting om te zien wat het tegenhunt gebied is.
-        </CardDescription>
+        <CardDescription>Kies een windrichting om te zien wat het tegenhunt gebied is.</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex gap-2">
-          <Select
-            onValueChange={(value) => setChosenDirection(Number(value))}
-            value={chosenDirection.toString()}
-          >
+          <Select onValueChange={(value) => setChosenDirection(Number(value))} value={chosenDirection.toString()}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Kies windrichting..." />
             </SelectTrigger>
@@ -94,7 +75,5 @@ export default function CounterHuntCard({
 }
 
 CounterHuntCard.propTypes = {
-  mapRef: PropTypes.object.isRequired as PropTypes.Validator<
-    React.RefObject<MapRef>
-  >,
+  mapRef: PropTypes.object.isRequired as PropTypes.Validator<React.RefObject<MapRef>>,
 };

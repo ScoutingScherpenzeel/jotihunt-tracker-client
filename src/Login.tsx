@@ -1,24 +1,17 @@
-import { Input } from "./components/ui/input";
-import { Button } from "./components/ui/button";
-import logo from "./assets/images/logo.png";
+import { Input } from './components/ui/input';
+import { Button } from './components/ui/button';
+import logo from './assets/images/logo.png';
 
-import { Card, CardContent } from "./components/ui/card";
-import { useAuth } from "./hooks/auth.hook";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "./components/ui/form";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Card, CardContent } from './components/ui/card';
+import { useAuth } from './hooks/auth.hook';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './components/ui/form';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 const FormSchema = z.object({
-  email: z.string().email({ message: "Vul een geldig e-mailadres in." }),
+  email: z.string().email({ message: 'Vul een geldig e-mailadres in.' }),
   password: z.string(),
 });
 
@@ -29,20 +22,20 @@ export default function Login() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
   async function handleLogin(data: z.infer<typeof FormSchema>) {
     const success = await login(data.email, data.password);
     if (!success) {
-      form.setError("password", {
-        message: "Ongeldig e-mailadres of wachtwoord.",
+      form.setError('password', {
+        message: 'Ongeldig e-mailadres of wachtwoord.',
       });
     }
 
-    navigate("/");
+    navigate('/');
   }
 
   return (
@@ -54,9 +47,7 @@ export default function Login() {
               <img src={logo} alt="Jotihunt Tracker" className="w-20 h-20" />
             </div>
             <h1 className="text-3xl font-bold">Inloggen</h1>
-            <p className=" text-muted-foreground">
-              Vul je e-mailadres en wachtwoord in.
-            </p>
+            <p className=" text-muted-foreground">Vul je e-mailadres en wachtwoord in.</p>
           </div>
 
           <Form {...form}>
@@ -69,12 +60,7 @@ export default function Login() {
                     <FormItem>
                       <FormLabel>E-mailadres</FormLabel>
                       <FormControl>
-                        <Input
-                          {...field}
-                          type="email"
-                          required
-                          placeholder="jouwnaam@scoutingscherpenzeel.nl"
-                        />
+                        <Input {...field} type="email" required placeholder="jouwnaam@scoutingscherpenzeel.nl" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -99,10 +85,7 @@ export default function Login() {
               </div>
             </form>
           </Form>
-          <div className="mt-4 text-center text-sm">
-            Heb je geen account? Vraag een beheerder om een account aan te
-            maken.
-          </div>
+          <div className="mt-4 text-center text-sm">Heb je geen account? Vraag een beheerder om een account aan te maken.</div>
         </div>
       </div>
       <div className="relative hidden bg-muted lg:block">
@@ -111,11 +94,7 @@ export default function Login() {
             <CardContent>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <img
-                    src={logo}
-                    alt="Jotihunt Tracker"
-                    className="w-12 h-12"
-                  />
+                  <img src={logo} alt="Jotihunt Tracker" className="w-12 h-12" />
                   <div>
                     <h1 className="text-xl font-bold">Jotihunt Tracker</h1>
                     <h2>Scouting Scherpenzeel e.o.</h2>

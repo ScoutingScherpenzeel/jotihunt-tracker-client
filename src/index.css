@@ -29,7 +29,7 @@
 }
 
 .login-background {
-  background-image: url("assets/images/background.png");
+  background-image: url('assets/images/background.png');
 }
 
 @layer base {

@@ -1,7 +1,7 @@
-import { Article, useAuthSWR } from "../api";
+import { Article, useAuthSWR } from '../api';
 
 export const useArticles = () => {
-  const { data, error } = useAuthSWR<Article[]>("/articles", {
+  const { data, error } = useAuthSWR<Article[]>('/articles', {
     refreshInterval: 10000,
   });
 

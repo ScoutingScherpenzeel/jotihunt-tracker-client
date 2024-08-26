@@ -1,9 +1,9 @@
-import { useArticles } from "@/hooks/articles.hook";
-import Ripple from "../magicui/Ripple";
-import { useEffect, useState } from "react";
-import hintAlert from "@/assets/audio/hint-alert.mp3";
-import useInterval from "@/hooks/utils/interval.hook";
-import useSound from "use-sound";
+import { useArticles } from '@/hooks/articles.hook';
+import Ripple from '../magicui/Ripple';
+import { useEffect, useState } from 'react';
+import hintAlert from '@/assets/audio/hint-alert.mp3';
+import useInterval from '@/hooks/utils/interval.hook';
+import useSound from 'use-sound';
 
 export default function NextHintTime() {
   const { articles, isLoading, isError } = useArticles();
@@ -42,7 +42,7 @@ export default function NextHintTime() {
    */
   function getLastHintTime() {
     if (!articles) return;
-    const hints = articles.filter((article) => article.type === "hint");
+    const hints = articles.filter((article) => article.type === 'hint');
     if (hints.length === 0) return;
     const lastHint = hints[0];
     return new Date(lastHint.publishAt);
@@ -72,7 +72,7 @@ export default function NextHintTime() {
    * Play the hint alert sound.
    */
   function playSound() {
-    console.log("A new hint has arrived!");
+    console.log('A new hint has arrived!');
     play();
   }
 
@@ -83,10 +83,7 @@ export default function NextHintTime() {
     }
 
     // if the last hint time is before the start time, return the start time
-    if (
-      lastHintTime.getTime() <
-      new Date(import.meta.env.HUNT_START_TIME).getTime()
-    ) {
+    if (lastHintTime.getTime() < new Date(import.meta.env.HUNT_START_TIME).getTime()) {
       return new Date(import.meta.env.HUNT_START_TIME);
     }
 
@@ -102,26 +99,23 @@ export default function NextHintTime() {
     const nextHint = getNextHintTime();
     const diff = nextHint.getTime() - currentTime.getTime();
 
-    if (diff < 0) return "00:00:00";
+    if (diff < 0) return '00:00:00';
 
     const hours = Math.floor(diff / 1000 / 60 / 60);
     const minutes = Math.floor((diff / 1000 / 60) % 60);
     const seconds = Math.floor((diff / 1000) % 60);
-    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
-      2,
-      "0"
-    )}:${String(seconds).padStart(2, "0")}`;
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   }
 
   function getContent() {
-    if (isLoading) return "...";
-    if (isError) return "Fout!";
-    if (newHint) return "Nieuwe hint!";
+    if (isLoading) return '...';
+    if (isError) return 'Fout!';
+    if (newHint) return 'Nieuwe hint!';
 
     const huntEndTime = new Date(import.meta.env.HUNT_END_TIME as string);
     huntEndTime.setHours(huntEndTime.getHours() - 1);
 
-    if (currentTime > huntEndTime) return "Geen komende hints";
+    if (currentTime > huntEndTime) return 'Geen komende hints';
 
     return formatCountdown();
   }
@@ -129,10 +123,8 @@ export default function NextHintTime() {
   return (
     <div className="relative flex flex-col h-full w-full items-center justify-center overflow-hidden rounded-lg bg-card text-card-foreground card p-4">
       <p>Volgende hint:</p>
-      <p className="z-10 whitespace-pre-wrap text-center text-4xl tracking-tighter font-semibold text-white">
-        {getContent()}
-      </p>
-      <Ripple color={newHint ? "green" : "blue"} />
+      <p className="z-10 whitespace-pre-wrap text-center text-4xl tracking-tighter font-semibold text-white">{getContent()}</p>
+      <Ripple color={newHint ? 'green' : 'blue'} />
     </div>
   );
 }

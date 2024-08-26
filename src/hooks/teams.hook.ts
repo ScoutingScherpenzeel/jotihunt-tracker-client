@@ -1,7 +1,7 @@
-import { Team, useAuthSWR } from "../api";
+import { Team, useAuthSWR } from '../api';
 
 export const useTeams = () => {
-  const { data, error } = useAuthSWR<Team[]>("/teams");
+  const { data, error } = useAuthSWR<Team[]>('/teams');
 
   return {
     teams: data,

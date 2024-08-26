@@ -1,7 +1,7 @@
-import { BrowserRouter, Routes as RouterRoutes, Route } from "react-router-dom";
-import App from "./App";
-import Login from "./Login";
-import AuthOutlet from "@auth-kit/react-router/AuthOutlet";
+import { BrowserRouter, Routes as RouterRoutes, Route } from 'react-router-dom';
+import App from './App';
+import Login from './Login';
+import AuthOutlet from '@auth-kit/react-router/AuthOutlet';
 
 export default function Routes() {
   return (

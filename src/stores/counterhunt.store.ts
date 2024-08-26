@@ -1,5 +1,5 @@
-import { create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 interface CounterHuntState {
   direction: number;
@@ -21,10 +21,10 @@ const useCounterHuntStore = create<CounterHuntState>()(
       },
     }),
     {
-      name: "counter-hunt-storage",
+      name: 'counter-hunt-storage',
       storage: createJSONStorage(() => localStorage),
-    }
-  )
+    },
+  ),
 );
 
 export default useCounterHuntStore;

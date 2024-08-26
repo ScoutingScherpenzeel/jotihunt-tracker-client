@@ -1,5 +1,5 @@
-import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
+import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface HiddenAreasState {
   hiddenAreas: string[];
@@ -13,17 +13,15 @@ const useHiddenAreasStore = create<HiddenAreasState>()(
       toggleHidden: (areaName: string) => {
         areaName = areaName.toLowerCase();
         set((state) => ({
-          hiddenAreas: state.hiddenAreas.includes(areaName)
-            ? state.hiddenAreas.filter((area) => area !== areaName)
-            : [...state.hiddenAreas, areaName],
+          hiddenAreas: state.hiddenAreas.includes(areaName) ? state.hiddenAreas.filter((area) => area !== areaName) : [...state.hiddenAreas, areaName],
         }));
       },
     }),
     {
-      name: "hidden-areas-storage",
+      name: 'hidden-areas-storage',
       storage: createJSONStorage(() => localStorage),
-    }
-  )
+    },
+  ),
 );
 
 export default useHiddenAreasStore;
