@@ -12,6 +12,8 @@ type ImportMetaEnv = {
   MAPBOX_TOKEN: string
   HUNT_START_TIME: string
   HUNT_END_TIME: string
+  HOME_COORDS_LAT: string
+  HOME_COORDS_LON: string
   // @user-defined-start
   /*
    *  You can use this section to explicitly extend the type definition of `import.meta.env`

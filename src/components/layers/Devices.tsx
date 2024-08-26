@@ -3,8 +3,7 @@ import { useState } from "react";
 import MapPopup from "../map/MapPopup";
 import { useDevices } from "@/hooks/devices.hook";
 import carIcon from "@/assets/images/car.svg";
-import { knotsToKmh } from "@/lib/utils";
-import * as turf from "@turf/turf";
+import { createCircle, knotsToKmh } from "@/lib/utils";
 import { formatDistanceToNow, isBefore, parseISO, subMinutes } from "date-fns";
 import { nl } from "date-fns/locale";
 import { Button } from "../ui/button";
@@ -20,15 +19,6 @@ export default function Devices() {
     const date = parseISO(fixTime);
     const minutesAgo = subMinutes(new Date(), 5);
     return isBefore(date, minutesAgo);
-  }
-
-  function createCircle(longitude: number, latitude: number, radius: number) {
-    const center = [longitude, latitude];
-    const circle = turf.circle(center, radius, {
-      steps: 64,
-      units: "meters",
-    });
-    return circle;
   }
 
   return (

@@ -1,8 +1,9 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+import * as turf from "@turf/turf";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export function knotsToKmh(knots: number) {
@@ -31,4 +32,17 @@ export function getColorFromArea(area: string) {
 
 export function capitalizeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export function createCircle(
+  longitude: number,
+  latitude: number,
+  radius: number
+) {
+  const center = [longitude, latitude];
+  const circle = turf.circle(center, radius, {
+    steps: 64,
+    units: "meters",
+  });
+  return circle;
 }

@@ -18,6 +18,7 @@ import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import MapPopup from "./components/map/MapPopup";
 import { Button } from "./components/ui/button";
 import proj4 from "proj4";
+import HomeCircle from "./components/layers/HomeCircle";
 
 export interface MapRef {
   flyTo(options: mapboxgl.FlyToOptions): void;
@@ -28,6 +29,7 @@ interface MapProps {
   showDevices: boolean;
   showHintsPart1: boolean;
   showHintsPart2: boolean;
+  showHomeCircle: boolean;
 }
 
 const Map = forwardRef<MapRef, MapProps>(
@@ -37,6 +39,7 @@ const Map = forwardRef<MapRef, MapProps>(
       showDevices = true,
       showHintsPart1 = true,
       showHintsPart2 = true,
+      showHomeCircle = true,
     },
     ref
   ) => {
@@ -134,6 +137,7 @@ const Map = forwardRef<MapRef, MapProps>(
           {(showHintsPart1 || showHintsPart2) && (
             <Hints part1={showHintsPart1} part2={showHintsPart2} />
           )}
+          {showHomeCircle && <HomeCircle />}
         </Mapbox>
       </div>
     );
@@ -145,6 +149,7 @@ Map.propTypes = {
   showDevices: PropTypes.bool.isRequired,
   showHintsPart1: PropTypes.bool.isRequired,
   showHintsPart2: PropTypes.bool.isRequired,
+  showHomeCircle: PropTypes.bool.isRequired,
 };
 
 export default Map;

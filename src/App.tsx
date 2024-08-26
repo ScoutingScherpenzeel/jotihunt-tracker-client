@@ -27,8 +27,9 @@ function App() {
   const [showCars, setShowCars] = useState(true);
   const [showHintLocationsPart1, setShowHintLocationsPart1] = useState(true);
   const [showHintLocationsPart2, setShowHintLocationsPart2] = useState(true);
-  const [errorShown, setErrorShown] = useState(false);
+  const [showHomeCircle, setShowHomeCircle] = useState(true);
 
+  const [errorShown, setErrorShown] = useState(false);
   const [showMenu, setShowMenu] = useState(true);
 
   const mapRef = useRef<MapRef>(null);
@@ -127,6 +128,14 @@ function App() {
                         >
                           Hint locaties (speelhelft 2)
                         </DropdownMenuCheckboxItem>
+                        <DropdownMenuCheckboxItem
+                          checked={showHomeCircle}
+                          onCheckedChange={() =>
+                            setShowHomeCircle(!showHomeCircle)
+                          }
+                        >
+                          Tegenhunt cirkel
+                        </DropdownMenuCheckboxItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
@@ -152,6 +161,7 @@ function App() {
           showDevices={showCars}
           showHintsPart1={showHintLocationsPart1}
           showHintsPart2={showHintLocationsPart2}
+          showHomeCircle={showHomeCircle}
         />
       </SWRConfig>
     </>
