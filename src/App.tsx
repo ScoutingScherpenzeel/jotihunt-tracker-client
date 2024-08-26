@@ -22,33 +22,31 @@ function App() {
 
   const mapRef = useRef<MapRef>(null);
 
+  function onSWRError(error: any) {
+    if (error.response?.status === 401) {
+      toast({
+        variant: 'default',
+        title: 'Je sessie is verlopen.',
+        description: 'Log opnieuw in om verder te gaan.',
+        duration: Infinity,
+      });
+      navigate('/login');
+      return;
+    }
+    if (errorShown) return;
+    setErrorShown(true);
+    toast({
+      variant: 'destructive',
+      title: 'Oeps! Er is iets misgegaan.',
+      description: 'Er is een fout opgetreden bij het ophalen van de data, probeer het later opnieuw. (Foutmelding: ' + error.message + ')',
+      duration: Infinity,
+    });
+  }
+
   return (
     <>
-      <SWRConfig
-        value={{
-          onError: (error) => {
-            if (error.response?.status === 401) {
-              toast({
-                variant: 'default',
-                title: 'Je sessie is verlopen.',
-                description: 'Log opnieuw in om verder te gaan.',
-                duration: Infinity,
-              });
-              navigate('/login');
-              return;
-            }
-            if (errorShown) return;
-            setErrorShown(true);
-            toast({
-              variant: 'destructive',
-              title: 'Oeps! Er is iets misgegaan.',
-              description: 'Er is een fout opgetreden bij het ophalen van de data, probeer het later opnieuw. (Foutmelding: ' + error.message + ')',
-              duration: Infinity,
-            });
-          },
-        }}
-      >
-        <div className="absolute z-10 top-0 left-0  w-full md:w-1/5 md:min-w-[450px]">
+      <SWRConfig value={{ onError: onSWRError }}>
+        <div className="absolute z-10 top-0 left-0 w-full md:w-1/5 md:min-w-[450px]">
           <div className="flex flex-col p-2 gap-2">
             <Card>
               <CardContent>

@@ -6,6 +6,13 @@ export const useAuth = () => {
 
   const signIn = useSignIn();
 
+  /**
+   * Tries to login with the given credentials.
+   * Also signs in the user with the returned token.
+   * @param email The email address to login with
+   * @param password The password to login with
+   * @returns True if the login was successful, false otherwise
+   */
   async function login(email: string, password: string): Promise<boolean> {
     const response = await axios
       .post(`${baseUrl}/auth/login`, {

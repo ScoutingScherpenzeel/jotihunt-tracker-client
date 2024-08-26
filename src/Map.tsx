@@ -17,23 +17,22 @@ export interface MapRef {
   flyTo(options: mapboxgl.FlyToOptions): void;
 }
 
+// Mapbox settings
+const mapboxToken = import.meta.env.MAPBOX_TOKEN;
+const initialViewState = {
+  latitude: 52.12748401580578,
+  longitude: 5.82036696134869,
+  zoom: 9,
+};
+const maxBounds = [
+  [3.314971144228537, 50.80372101501058],
+  [7.092053256784122, 53.51040334737814],
+] as LngLatBoundsLike;
+const mapStyle = 'mapbox://styles/mapbox/streets-v12';
+
 const Map = forwardRef<MapRef>((_, ref) => {
-  // Mapbox settings
-  const mapboxToken = import.meta.env.MAPBOX_TOKEN;
-  const initialViewState = {
-    latitude: 52.12748401580578,
-    longitude: 5.82036696134869,
-    zoom: 9,
-  };
-  const maxBounds = [
-    [3.314971144228537, 50.80372101501058],
-    [7.092053256784122, 53.51040334737814],
-  ] as LngLatBoundsLike;
-  const mapStyle = 'mapbox://styles/mapbox/streets-v12';
-
-  // Store for all layers
-  const { showTeams, showDevices, showHintsPart1, showHintsPart2, showHomeCircle } = useLayersStore();
-
+  // Make map fly available to other components
+  const mapRef = useRef<MapboxRef>(null);
   useImperativeHandle(ref, () => ({
     flyTo: (options: mapboxgl.FlyToOptions) => {
       if (mapRef.current) {
@@ -42,10 +41,13 @@ const Map = forwardRef<MapRef>((_, ref) => {
     },
   }));
 
-  const mapRef = useRef<MapboxRef>(null);
-
+  // Store for all layers
+  const { showTeams, showDevices, showHintsPart1, showHintsPart2, showHomeCircle } = useLayersStore();
   const [popupPosition, setPopupPosition] = useState<mapboxgl.LngLat>();
 
+  /**
+   * Open the current location popup when the map is clicked.
+   */
   function openPopup(e: mapboxgl.MapMouseEvent) {
     if (popupPosition) return;
     setPopupPosition(e.lngLat);

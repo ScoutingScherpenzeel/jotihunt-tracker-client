@@ -9,6 +9,11 @@ export default function FoxStatusCard() {
   const { areas, isLoading: isLoadingAreas, isError: isErrorAreas, toggleHidden, isHidden } = useAreas();
   const { hunts, isLoading: isLoadingHunts, isError: isErrorHunts } = useHunts();
 
+  /**
+   * Get the last hunt for an area.
+   * @param areaName The name of the area
+   * @returns The last hunt for the area
+   */
   function getLastHunt(areaName: string): Hunt | undefined {
     return hunts?.find((hunt) => hunt.area === areaName);
   }

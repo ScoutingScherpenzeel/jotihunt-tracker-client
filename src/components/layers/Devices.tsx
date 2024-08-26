@@ -13,6 +13,11 @@ export default function Devices() {
   const [activeDeviceId, setActiveDeviceId] = useState<number>();
   const activeDevice = devices?.find((device) => device.deviceId === activeDeviceId);
 
+  /**
+   * Check if a timestamp is more than 5 minutes ago
+   * @param fixTime The timestamp to check
+   * @return True if the timestamp is more than 5 minutes ago, false otherwise
+   */
   function isMoreThanFiveMinutesAgo(fixTime: string) {
     const date = parseISO(fixTime);
     const minutesAgo = subMinutes(new Date(), 5);

@@ -76,6 +76,10 @@ export default function NextHintTime() {
     play();
   }
 
+  /**
+   * Get the next hint time.
+   * @returns The time when the next hint should be available.
+   */
   function getNextHintTime() {
     // if there is no last hint time, return the start time
     if (!lastHintTime) {
@@ -95,6 +99,10 @@ export default function NextHintTime() {
     return nextHint;
   }
 
+  /**
+   * Nicely format the countdown in 00:00:00 format.
+   * @returns The formatted countdown
+   */
   function formatCountdown() {
     const nextHint = getNextHintTime();
     const diff = nextHint.getTime() - currentTime.getTime();
@@ -107,6 +115,10 @@ export default function NextHintTime() {
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   }
 
+  /**
+   * Get the content to display based on the current state.
+   * @returns The content to display
+   */
   function getContent() {
     if (isLoading) return '...';
     if (isError) return 'Fout!';

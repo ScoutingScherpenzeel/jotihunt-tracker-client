@@ -7,6 +7,11 @@ const MAIN_CIRCLE_OPACITY = 0.24;
 const NUM_CIRCLES = 8;
 
 export default function Ripple({ color = 'sky' }: InferProps<typeof Ripple.propTypes>) {
+  /**
+   * Map the color of the ripple to a tailwind class
+   * @param color The color of the ripple
+   * @returns The tailwind class for the ripple
+   */
   function getRippleColor(color: string) {
     switch (color) {
       case 'blue':

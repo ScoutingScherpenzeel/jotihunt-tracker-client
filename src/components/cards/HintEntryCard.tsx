@@ -44,6 +44,11 @@ export default function HintEntryCard({ mapRef }: InferProps<typeof HintEntryCar
     },
   });
 
+  /**
+   * Get all available time options for the current area.
+   * Filters out hints that are already in the database.
+   * @returns The available time options
+   */
   function getTimeOptions(): { value: string; label: string }[] {
     const startTime = new Date(import.meta.env.HUNT_START_TIME);
     const endTime = new Date(import.meta.env.HUNT_END_TIME);
@@ -71,6 +76,10 @@ export default function HintEntryCard({ mapRef }: InferProps<typeof HintEntryCar
     return timeOptions;
   }
 
+  /**
+   * When submitted, create a new marker.
+   * Checks if the coördinates are valid.
+   */
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     // Convert RD coordinates to WGS84
     const x = Number(data.x);
@@ -118,6 +127,10 @@ export default function HintEntryCard({ mapRef }: InferProps<typeof HintEntryCar
     }
   }
 
+  /**
+   * Clear a field in the form.
+   * @param key The key of the field to clear
+   */
   function clearField(key: keyof z.infer<typeof FormSchema>) {
     form.setValue(key, '');
   }

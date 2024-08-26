@@ -27,6 +27,10 @@ export default function Login() {
     },
   });
 
+  /**
+   * Handle the login, references the auth hook.
+   * Navigates to the dashboard if successful.
+   */
   async function handleLogin(data: z.infer<typeof FormSchema>) {
     const success = await login(data.email, data.password);
     if (!success) {

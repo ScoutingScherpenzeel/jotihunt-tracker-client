@@ -9,6 +9,11 @@ import { useEffect, useState } from 'react';
 export default function FoxStatus({ name, status, lastUpdate, lastHunt, hidden }: InferProps<typeof FoxStatus.propTypes>) {
   const [currentTime, setCurrentTime] = useState(new Date());
 
+  /**
+   * Convert the status of an area to a tailwind class.
+   * @param status The status of the area
+   * @returns The tailwind classes for the status
+   */
   function getStatusStyles(status: string) {
     const isHuntable = areaIsHuntable();
     if (!isHuntable) return 'bg-blue-200 border-blue-400 text-blue-600';
@@ -24,6 +29,10 @@ export default function FoxStatus({ name, status, lastUpdate, lastHunt, hidden }
     }
   }
 
+  /**
+   * Whether the area is huntable or not.
+   * @returns True if the area is huntable, false otherwise
+   */
   function areaIsHuntable() {
     if (!lastHunt || !lastHunt.huntTime) return true;
     const lastHuntTime = new Date(lastHunt.huntTime);
@@ -31,6 +40,9 @@ export default function FoxStatus({ name, status, lastUpdate, lastHunt, hidden }
     return isBefore(nextHuntTime, currentTime); // Checks if next hunt time is before the current time
   }
 
+  /**
+   * The time until the area is huntable again (after 1h)
+   */
   function timeUntilHuntable() {
     if (!lastHunt || !lastHunt.huntTime) return null;
     const nextHuntTime = addSeconds(lastHunt.huntTime, 3600); // 3600 seconds = 1 hour
@@ -43,6 +55,9 @@ export default function FoxStatus({ name, status, lastUpdate, lastHunt, hidden }
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   }
 
+  /**
+   * Run a timer every second to update the shown timer.
+   */
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentTime(new Date());
