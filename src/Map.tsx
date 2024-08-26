@@ -54,7 +54,7 @@ const Map = forwardRef<MapRef>((_, ref) => {
   }
 
   return (
-    <div className="h-screen w-screen">
+    <div className="w-screen h-screen">
       <Mapbox
         ref={mapRef}
         reuseMaps

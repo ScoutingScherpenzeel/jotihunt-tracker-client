@@ -12,13 +12,15 @@ import HintEntryCard from './components/cards/HintEntryCard';
 import { useNavigate } from 'react-router-dom';
 import CounterHuntCard from './components/cards/CounterHuntCard';
 import Layers from './components/Layers';
+import useMenuStore from './stores/menu.store';
 
 function App() {
   const { toast } = useToast();
   const navigate = useNavigate();
 
   const [errorShown, setErrorShown] = useState(false);
-  const [showMenu, setShowMenu] = useState(true);
+
+  const { menuOpen, toggleMenu } = useMenuStore();
 
   const mapRef = useRef<MapRef>(null);
 
@@ -46,11 +48,11 @@ function App() {
   return (
     <>
       <SWRConfig value={{ onError: onSWRError }}>
-        <div className="absolute z-10 top-0 left-0 w-full md:w-1/5 md:min-w-[450px]">
+        <div className="absolute z-10 top-0 left-0 w-full md:w-1/5 md:min-w-[450px] h-screen overflow-y-auto">
           <div className="flex flex-col p-2 gap-2">
-            <Card>
+            <Card className="sticky top-2 z-10">
               <CardContent>
-                <div className="flex items-center justify-between">
+                <div className="flex gap-2 items-center justify-between">
                   <div className="flex items-center gap-3">
                     <img src={logo} alt="Jotihunt Tracker" className="w-12 h-12" />
                     <div>
@@ -60,7 +62,7 @@ function App() {
                   </div>
 
                   <div className="md:hidden">
-                    <Button variant="outline" size="sm" onClick={() => setShowMenu(!showMenu)}>
+                    <Button variant="outline" size="sm" onClick={toggleMenu}>
                       <MenuIcon className="h-4 w-4" />
                     </Button>
                   </div>
@@ -70,7 +72,7 @@ function App() {
               </CardContent>
             </Card>
 
-            {showMenu && (
+            {menuOpen && (
               <div className={`flex flex-col gap-2 animate-in md:animate-none slide-in-from-top-2`}>
                 <FoxStatusCard />
                 <HintEntryCard mapRef={mapRef} />

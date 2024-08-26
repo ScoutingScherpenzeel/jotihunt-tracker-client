@@ -6,12 +6,14 @@ import useCounterHuntStore from '@/stores/counterhunt.store';
 import { useState } from 'react';
 import PropTypes, { InferProps } from 'prop-types';
 import { MapRef } from '@/Map';
+import useMenuStore from '@/stores/menu.store';
 
 export default function CounterHuntCard({ mapRef }: InferProps<typeof CounterHuntCard.propTypes>) {
   // Home coordinates for zooming to the counter hunt
   const homeCoordsLat = import.meta.env.HOME_COORDS_LAT;
   const homeCoordsLon = import.meta.env.HOME_COORDS_LON;
 
+  const { setMenuOpen } = useMenuStore();
   const { direction, setDirection, setVisible } = useCounterHuntStore();
   const [chosenDirection, setChosenDirection] = useState(direction);
 
@@ -27,6 +29,7 @@ export default function CounterHuntCard({ mapRef }: InferProps<typeof CounterHun
       duration: 2000,
       zoom: 16,
     });
+    setMenuOpen(false);
   }
 
   /**
