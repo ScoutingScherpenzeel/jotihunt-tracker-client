@@ -17,6 +17,7 @@ import Hints from "./components/layers/Hints";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import MapPopup from "./components/map/MapPopup";
 import { Button } from "./components/ui/button";
+import proj4 from "proj4";
 
 export interface MapRef {
   flyTo(options: mapboxgl.FlyToOptions): void;
@@ -100,6 +101,21 @@ const Map = forwardRef<MapRef, MapProps>(
                   <h2 className="font-semibold">Gekozen locatie</h2>
                   <p>Breedtegraad: {popupPosition.lat.toFixed(7)}</p>
                   <p>Lengtegraad: {popupPosition.lng.toFixed(7)}</p>
+
+                  <p>
+                    RD-x:{" "}
+                    {proj4("WGS84", "RD", [
+                      popupPosition.lng,
+                      popupPosition.lat,
+                    ])[0].toFixed(0)}
+                  </p>
+                  <p>
+                    RD-y:{" "}
+                    {proj4("WGS84", "RD", [
+                      popupPosition.lng,
+                      popupPosition.lat,
+                    ])[1].toFixed(0)}
+                  </p>
                 </div>
                 <Button variant="outline" size="sm" asChild className="w-min">
                   <a

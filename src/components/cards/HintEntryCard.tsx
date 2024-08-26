@@ -20,12 +20,12 @@ import { Button } from "../ui/button";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { Pin, TrashIcon } from "lucide-react";
-import rdToWgs84 from "rd-to-wgs84";
-import { Marker } from "@/api";
+import { Marker, MarkerType } from "@/api";
 import { useMarkers } from "@/hooks/markers.hook";
 import { toast } from "../ui/use-toast";
 import PropTypes, { InferProps } from "prop-types";
 import { MapRef } from "@/Map";
+import proj4 from "proj4";
 
 const areaOptions = [
   { value: "alpha", label: "Alpha" },
@@ -76,6 +76,7 @@ export default function HintEntryCard({
 
     markers
       ?.filter((marker) => marker.area === form.watch("area"))
+      .filter((marker) => marker.type === MarkerType.Hint)
       .forEach((marker) => {
         const markerTime = new Date(marker.time);
         const index = timeOptions.findIndex((option) => {
@@ -95,8 +96,15 @@ export default function HintEntryCard({
     // Convert RD coordinates to WGS84
     const x = Number(data.x);
     const y = Number(data.y);
-    const converted = rdToWgs84(x, y);
-    if (converted.error) {
+    const converted = proj4("RD", "WGS84", [x, y]);
+    if (
+      converted[0] === undefined ||
+      converted[1] === undefined ||
+      x < 0 ||
+      x > 290000 ||
+      y < 290000 ||
+      y > 630000
+    ) {
       form.setError("x", { message: "Ongeldige coördinaten" });
       form.setError("y", { message: "Ongeldige coördinaten" });
       toast({
@@ -113,8 +121,9 @@ export default function HintEntryCard({
       time: new Date(data.time),
       location: {
         type: "Point",
-        coordinates: [converted.lon!, converted.lat!],
+        coordinates: [converted[0]!, converted[1]!],
       },
+      type: MarkerType.Hint,
     };
 
     const result = await createMarker(marker);
@@ -125,7 +134,7 @@ export default function HintEntryCard({
         description: "De hint is succesvol geregistreerd.",
       });
       mapRef.current?.flyTo({
-        center: [converted.lon!, converted.lat!],
+        center: [converted[0]!, converted[1]!],
         duration: 2000,
         zoom: 12,
       });
@@ -295,7 +304,7 @@ export default function HintEntryCard({
                     </Button>
                   </div>
                 </div>
-                <Button type="submit">
+                <Button type="submit" disabled={!form.formState.isValid}>
                   <Pin className="mr-2 h-4 w-4" /> Registreren
                 </Button>
               </div>

@@ -126,4 +126,11 @@ export interface Marker {
     type: string;
     coordinates: number[];
   };
+  type: MarkerType;
+}
+
+export enum MarkerType {
+  Hunt = "hunt",
+  Hint = "hint",
+  Spot = "spot",
 }
