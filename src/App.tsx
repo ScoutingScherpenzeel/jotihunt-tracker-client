@@ -72,14 +72,12 @@ function App() {
               </CardContent>
             </Card>
 
-            {menuOpen && (
-              <div className={`flex flex-col gap-2 animate-in md:animate-none slide-in-from-top-2`}>
-                <FoxStatusCard />
-                <HintEntryCard mapRef={mapRef} />
-                <CounterHuntCard mapRef={mapRef} />
-                <NextHintTime />
-              </div>
-            )}
+            <div className={`flex-col gap-2 animate-in md:animate-none slide-in-from-top-4 fade-in ${menuOpen ? 'flex' : 'hidden md:flex'}`}>
+              <FoxStatusCard />
+              <HintEntryCard mapRef={mapRef} />
+              <CounterHuntCard mapRef={mapRef} />
+              <NextHintTime />
+            </div>
           </div>
         </div>
 
