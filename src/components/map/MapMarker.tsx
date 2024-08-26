@@ -1,8 +1,10 @@
 import PropTypes, { InferProps } from "prop-types";
 
-export default function MapMarker({ color }: InferProps<typeof MapMarker.propTypes>) {
+export default function MapMarker({
+  color,
+}: InferProps<typeof MapMarker.propTypes>) {
   return (
-    <svg display="block" height="41px" width="27px" viewBox="0 0 27 41">
+    <svg display="block" height="34.8px" width="27px" viewBox="0 0 27 34.8">
       <ellipse
         cx="13.5"
         cy="34.8"

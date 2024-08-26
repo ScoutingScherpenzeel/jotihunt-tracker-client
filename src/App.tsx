@@ -18,6 +18,7 @@ import FoxStatusCard from "./components/cards/FoxStatusCard";
 import NextHintTime from "./components/cards/NextHintTimeCard";
 import HintEntryCard from "./components/cards/HintEntryCard";
 import { useNavigate } from "react-router-dom";
+import CounterHuntCard from "./components/cards/CounterHuntCard";
 
 function App() {
   const { toast } = useToast();
@@ -149,6 +150,7 @@ function App() {
               >
                 <FoxStatusCard />
                 <HintEntryCard mapRef={mapRef} />
+                <CounterHuntCard mapRef={mapRef} />
                 <NextHintTime />
               </div>
             )}

@@ -46,3 +46,29 @@ export function createCircle(
   });
   return circle;
 }
+
+export function createWindSector(
+  longitude: number,
+  latitude: number,
+  radius: number,
+  direction: number,
+  angle: number
+) {
+  const center = [longitude, latitude];
+  const halfAngle = angle / 2;
+
+  // Start and end angles for the sector
+  const startAngle = direction - halfAngle;
+  const endAngle = direction + halfAngle;
+
+  // Generate points along the arc
+  const arc = turf.lineArc(center, radius, startAngle, endAngle, {
+    steps: 64,
+    units: "meters",
+  });
+
+  // Create a polygon by closing the arc
+  const sector = turf.polygon([[center, ...arc.geometry.coordinates, center]]);
+
+  return sector;
+}
