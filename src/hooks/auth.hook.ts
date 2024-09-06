@@ -1,3 +1,4 @@
+import { User } from '@/api';
 import axios from 'axios';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
 
@@ -33,11 +34,14 @@ export const useAuth = () => {
       return false;
     }
 
+    const userState = response.data.user as User;
+
     const signinResult = signIn({
       auth: {
         token,
         type: 'Bearer',
       },
+      userState: userState,
     });
 
     return signinResult;

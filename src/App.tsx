@@ -11,7 +11,7 @@ import NextHintTime from './components/cards/NextHintTimeCard';
 import HintEntryCard from './components/cards/HintEntryCard';
 import { useNavigate } from 'react-router-dom';
 import CounterHuntCard from './components/cards/CounterHuntCard';
-import Layers from './components/Layers';
+import Settings from './components/Settings';
 import useMenuStore from './stores/menu.store';
 
 function App() {
@@ -67,7 +67,7 @@ function App() {
                     </Button>
                   </div>
 
-                  <Layers />
+                  <Settings />
                 </div>
               </CardContent>
             </Card>

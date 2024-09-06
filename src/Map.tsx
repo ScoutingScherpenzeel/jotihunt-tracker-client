@@ -12,6 +12,7 @@ import { Button } from './components/ui/button';
 import proj4 from 'proj4';
 import HomeCircle from './components/layers/HomeCircle';
 import useLayersStore from './stores/layers.store';
+import useSettingsStore from './stores/settings.store';
 
 export interface MapRef {
   flyTo(options: mapboxgl.FlyToOptions): void;
@@ -28,7 +29,6 @@ const maxBounds = [
   [3.314971144228537, 50.80372101501058],
   [7.092053256784122, 53.51040334737814],
 ] as LngLatBoundsLike;
-const mapStyle = 'mapbox://styles/mapbox/streets-v12';
 
 const Map = forwardRef<MapRef>((_, ref) => {
   // Make map fly available to other components
@@ -44,6 +44,9 @@ const Map = forwardRef<MapRef>((_, ref) => {
   // Store for all layers
   const { showTeams, showDevices, showHintsPart1, showHintsPart2, showHomeCircle } = useLayersStore();
   const [popupPosition, setPopupPosition] = useState<mapboxgl.LngLat>();
+
+  // Store for settings
+  const { mapStyle } = useSettingsStore();
 
   /**
    * Open the current location popup when the map is clicked.
@@ -71,6 +74,7 @@ const Map = forwardRef<MapRef>((_, ref) => {
         <FullscreenControl />
         <GeolocateControl />
         <AttributionControl customAttribution={'Jotihunt Tracker | Scouting Scherpenzeel'} compact={true} />
+
         {popupPosition && (
           <MapPopup
             onClose={() => {
