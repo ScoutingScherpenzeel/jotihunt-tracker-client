@@ -1,4 +1,4 @@
-import { CogIcon, EyeIcon, LayersIcon, LogOutIcon } from 'lucide-react';
+import { CogIcon, EyeIcon, LayersIcon, LogOutIcon, UsersIcon } from 'lucide-react';
 import { Button } from './ui/button';
 import {
   DropdownMenu,
@@ -91,6 +91,15 @@ export default function Settings() {
             </DropdownMenuPortal>
           </DropdownMenuSub>
           <DropdownMenuSeparator />
+          {auth?.admin && (
+            <>
+              <DropdownMenuItem onClick={() => navigate('/users')}>
+                <UsersIcon className="mr-2 h-4 w-4" />
+                Gebruikers
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </>
+          )}
           <DropdownMenuItem className="text-red-500" onClick={logout}>
             <LogOutIcon className="mr-2 h-4 w-4" />
             Uitloggen

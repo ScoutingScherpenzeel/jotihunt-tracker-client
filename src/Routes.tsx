@@ -2,6 +2,7 @@ import { BrowserRouter, Routes as RouterRoutes, Route } from 'react-router-dom';
 import App from './App';
 import Login from './Login';
 import AuthOutlet from '@auth-kit/react-router/AuthOutlet';
+import Users from './Users';
 
 export default function Routes() {
   return (
@@ -9,6 +10,7 @@ export default function Routes() {
       <RouterRoutes>
         <Route element={<AuthOutlet fallbackPath="/login" />}>
           <Route path="/" element={<App />} />
+          <Route path="/users" element={<Users />} />
         </Route>
         <Route path="/login" element={<Login />} />
       </RouterRoutes>
