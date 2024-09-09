@@ -1,4 +1,4 @@
-import { User } from '@/api';
+import { User } from '@/types/User';
 import axios from 'axios';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
 

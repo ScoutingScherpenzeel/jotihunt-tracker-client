@@ -1,4 +1,5 @@
-import { Device, useAuthSWR } from '../api';
+import { Device } from '@/types/Device';
+import { useAuthSWR } from '../lib/swr';
 
 export const useDevices = () => {
   const { data, error } = useAuthSWR<Device[]>('/tracker/positions', {

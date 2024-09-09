@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import { Layer, Marker as MapMarker, Source } from 'react-map-gl';
 import foxIcon from '@/assets/images/fox.svg';
 import { capitalizeFirstLetter, getColorFromArea } from '@/lib/utils';
-import { Marker } from '@/api';
+import { Marker } from '@/types/Marker';
 import MapPopup from '../map/MapPopup';
 import { useAreas } from '@/hooks/areas.hook';
 import { Button } from '../ui/button';

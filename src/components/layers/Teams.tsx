@@ -2,7 +2,7 @@ import { Marker } from 'react-map-gl';
 import { useTeams } from '../../hooks/teams.hook';
 import MapMarker from '../map/MapMarker';
 import { useMemo, useState } from 'react';
-import { Team } from '../../api';
+import { Team } from '@/types/Team';
 import MapPopup from '../map/MapPopup';
 import { getColorFromArea } from '@/lib/utils';
 import { useAreas } from '@/hooks/areas.hook';

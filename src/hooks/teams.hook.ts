@@ -1,4 +1,5 @@
-import { Team, useAuthSWR } from '../api';
+import { Team } from '@/types/Team';
+import { useAuthSWR } from '../lib/swr';
 
 export const useTeams = () => {
   const { data, error } = useAuthSWR<Team[]>('/teams');

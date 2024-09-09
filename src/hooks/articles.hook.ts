@@ -1,4 +1,5 @@
-import { Article, useAuthSWR } from '../api';
+import { Article } from '@/types/Article';
+import { useAuthSWR } from '../lib/swr';
 
 export const useArticles = () => {
   const { data, error } = useAuthSWR<Article[]>('/articles', {

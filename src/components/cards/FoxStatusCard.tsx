@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui
 import FoxStatus from './FoxStatus';
 import { Skeleton } from '../ui/skeleton';
 import { useHunts } from '@/hooks/hunts.hook';
-import { Hunt } from '@/api';
+import { Hunt } from '@/types/Hunt';
 
 export default function FoxStatusCard() {
   const { areas, isLoading: isLoadingAreas, isError: isErrorAreas, toggleHidden, isHidden } = useAreas();

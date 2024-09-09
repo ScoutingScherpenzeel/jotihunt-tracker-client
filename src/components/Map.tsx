@@ -3,16 +3,16 @@ import Mapbox, { AttributionControl, FullscreenControl, GeolocateControl, Naviga
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 
-import Teams from './components/layers/Teams';
-import Devices from './components/layers/Devices';
-import Hints from './components/layers/Hints';
+import Teams from './layers/Teams';
+import Devices from './layers/Devices';
+import Hints from './layers/Hints';
 import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
-import MapPopup from './components/map/MapPopup';
-import { Button } from './components/ui/button';
+import MapPopup from './map/MapPopup';
+import { Button } from './ui/button';
 import proj4 from 'proj4';
-import HomeCircle from './components/layers/HomeCircle';
-import useLayersStore from './stores/layers.store';
-import useSettingsStore from './stores/settings.store';
+import HomeCircle from './layers/HomeCircle';
+import useLayersStore from '../stores/layers.store';
+import useSettingsStore from '../stores/settings.store';
 
 export interface MapRef {
   flyTo(options: mapboxgl.FlyToOptions): void;

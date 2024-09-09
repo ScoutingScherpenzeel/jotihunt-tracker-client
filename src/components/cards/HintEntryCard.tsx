@@ -8,12 +8,13 @@ import { Button } from '../ui/button';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '../ui/input-otp';
 import { REGEXP_ONLY_DIGITS } from 'input-otp';
 import { Pin, TrashIcon } from 'lucide-react';
-import { Marker, MarkerType } from '@/api';
 import { useMarkers } from '@/hooks/markers.hook';
 import { toast } from '../ui/use-toast';
 import PropTypes, { InferProps } from 'prop-types';
-import { MapRef } from '@/Map';
+import { MapRef } from '@/components/Map';
 import proj4 from 'proj4';
+import { MarkerType } from '@/types/MarkerType';
+import { Marker } from '@/types/Marker';
 
 const areaOptions = [
   { value: 'alpha', label: 'Alpha' },

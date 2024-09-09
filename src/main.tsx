@@ -20,6 +20,7 @@ const authStore = createStore({
   cookieSecure: window.location.protocol === 'https:',
 });
 
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <>
     <AuthProvider store={authStore}>

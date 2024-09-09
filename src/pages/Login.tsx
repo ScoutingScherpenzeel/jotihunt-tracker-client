@@ -1,12 +1,12 @@
-import { Input } from './components/ui/input';
-import { Button } from './components/ui/button';
-import logo from './assets/images/logo.png';
+import { Input } from '../components/ui/input';
+import { Button } from '../components/ui/button';
+import logo from '@/assets/images/logo.png';
 
-import { Card, CardContent } from './components/ui/card';
-import { useAuth } from './hooks/auth.hook';
+import { Card, CardContent } from '../components/ui/card';
+import { useAuth } from '../hooks/auth.hook';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../components/ui/form';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 

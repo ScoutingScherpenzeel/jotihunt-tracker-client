@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import useCounterHuntStore from '@/stores/counterhunt.store';
 import { useState } from 'react';
 import PropTypes, { InferProps } from 'prop-types';
-import { MapRef } from '@/Map';
+import { MapRef } from '@/components/Map';
 import useMenuStore from '@/stores/menu.store';
 
 export default function CounterHuntCard({ mapRef }: InferProps<typeof CounterHuntCard.propTypes>) {

@@ -17,11 +17,11 @@ import {
 } from './ui/dropdown-menu';
 import useLayersStore from '@/stores/layers.store';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import { User } from '@/api';
 import useSettingsStore from '@/stores/settings.store';
 import { MapStyle } from '@/types/MapStyle';
 import useSignOut from 'react-auth-kit/hooks/useSignOut';
 import { useNavigate } from 'react-router-dom';
+import { User } from '@/types/User';
 
 export default function Settings() {
   const navigate = useNavigate();

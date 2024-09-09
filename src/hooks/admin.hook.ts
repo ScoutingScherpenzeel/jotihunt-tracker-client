@@ -1,27 +1,30 @@
-import { del, fetcherWithMethod, useAuthSWR, User } from '@/api';
+import { fetcherWithMethod, useAuthSWR } from '@/lib/swr';
+import { User } from '@/types/User';
 import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
-import useSWR from 'swr';
+import { useFetcher } from './utils/api.hook';
 
 export const useAdmin = () => {
   const { data, error, mutate } = useAuthSWR<User[]>('/admin/users');
   const authHeader = useAuthHeader();
+  const { fetch } = useFetcher();
 
-  async function updateUser(user: User) {
-    const { data } = await fetcherWithMethod(`/admin/users/${user._id}`, authHeader || '', 'PUT', user);
+  async function updateUser(user: User): Promise<boolean> {
+    // fetch the update function
+    const result = await fetch(`/admin/users/${user._id}`, 'PUT', user);
     mutate();
-    return data;
+    return result.status === 200;
   }
 
-  async function deleteUser(id: string) {
-    const { data } = await fetcherWithMethod(`/admin/users/${id}`, authHeader || '', 'DELETE');
+  async function deleteUser(id: string): Promise<boolean> {
+    const result = await fetcherWithMethod(`/admin/users/${id}`, authHeader || '', 'DELETE');
     mutate();
-    return data;
+    return result.status === 200;
   }
 
-  async function createUser(user: User) {
-    const { data } = await fetcherWithMethod('/admin/users', authHeader || '', 'POST', user);
+  async function createUser(user: User): Promise<boolean> {
+    const result = await fetcherWithMethod('/admin/users', authHeader || '', 'POST', user);
     mutate();
-    return data;
+    return result.status === 201;
   }
 
   return {

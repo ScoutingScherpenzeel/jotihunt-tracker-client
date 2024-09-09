@@ -1,4 +1,5 @@
-import { Hunt, useAuthSWR } from '../api';
+import { Hunt } from '@/types/Hunt';
+import { useAuthSWR } from '../lib/swr';
 
 export const useHunts = () => {
   const { data, error } = useAuthSWR<Hunt[]>('/hunts', {

@@ -1,4 +1,5 @@
-import { fetcherWithMethod, Marker, useAuthSWR } from '../api';
+import { Marker } from '@/types/Marker';
+import { fetcherWithMethod, useAuthSWR } from '../lib/swr';
 import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 
 export const useMarkers = () => {

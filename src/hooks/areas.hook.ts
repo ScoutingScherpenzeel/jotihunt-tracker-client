@@ -1,4 +1,5 @@
-import { Area, useAuthSWR } from '../api';
+import { Area } from '@/types/Area';
+import { useAuthSWR } from '../lib/swr';
 import useHiddenAreasStore from '@/stores/hiddenareas.store';
 
 export const useAreas = () => {
