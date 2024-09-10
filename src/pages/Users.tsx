@@ -46,7 +46,11 @@ export default function Users() {
     if (!selectedUser) return;
     const result = await deleteUser(selectedUser._id);
     setIsConfirmDeleteDialogOpen(false);
-    if (!result) toast({ title: 'Er is een fout opgetreden', description: 'De gebruiker kon niet worden verwijderd.', variant: 'destructive' });
+    if (!result) {
+      toast({ title: 'Er is een fout opgetreden', description: 'De gebruiker kon niet worden verwijderd.', variant: 'destructive' });
+    } else {
+      toast({ title: 'Gebruiker verwijderd', description: 'De gebruiker is succesvol verwijderd.' });
+    }
   }
 
   function handleEdit(user: User) {
@@ -104,7 +108,7 @@ export default function Users() {
   }
 
   return (
-    <div className="absolute z-10 top-0 left-0 w-full md:w-2/5 md:min-w-[450px] h-screen overflow-y-auto">
+    <div className="absolute z-10 top-0 left-0 w-full md:w-2/5 md:min-w-[700px] h-screen overflow-y-auto">
       <div className="flex flex-col p-2 gap-2">
         <Card className="sticky top-2 z-10">
           <CardContent>
@@ -115,8 +119,8 @@ export default function Users() {
               <h1 className="text-2xl font-bold">Gebruikers</h1>
             </div>
             <div className="flex justify-between items-center mb-4 gap-3">
-              <div className="relative">
-                <SearchIcon className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
+              <div className="relative flex items-center">
+                <SearchIcon className="absolute ml-2 h-4 w-4 text-gray-500" />
                 <Input type="text" placeholder="Zoek gebruikers..." value={searchTerm} onChange={handleSearch} className="pl-8" />
               </div>
               <Button onClick={handleCreate}>Nieuwe gebruiker</Button>
