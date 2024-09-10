@@ -80,19 +80,18 @@ export default function Users() {
       {[...Array(usersPerPage)].map((_, index) => (
         <TableRow key={index}>
           <TableCell>
-            <Skeleton className="h-4 w-[250px]" />
+            <Skeleton className="h-4 w-[200px]" />
           </TableCell>
           <TableCell>
-            <Skeleton className="h-4 w-[250px]" />
+            <Skeleton className="h-4 w-[300px]" />
           </TableCell>
           <TableCell>
-            <Skeleton className="h-4 w-[100px]" />
+            <Skeleton className="h-4 w-[50px]" />
           </TableCell>
           <TableCell>
             <div className="flex space-x-2">
-              <Skeleton className="h-8 w-8" />
-              <Skeleton className="h-8 w-8" />
-              <Skeleton className="h-8 w-8" />
+              <Skeleton className="h-10 w-10" />
+              <Skeleton className="h-10 w-10" />
             </div>
           </TableCell>
         </TableRow>
@@ -115,7 +114,7 @@ export default function Users() {
               </Button>
               <h1 className="text-2xl font-bold">Gebruikers</h1>
             </div>
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center mb-4 gap-3">
               <div className="relative">
                 <SearchIcon className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
                 <Input type="text" placeholder="Zoek gebruikers..." value={searchTerm} onChange={handleSearch} className="pl-8" />
@@ -125,10 +124,10 @@ export default function Users() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Naam</TableHead>
-                  <TableHead>E-mailadres</TableHead>
-                  <TableHead>Admin</TableHead>
-                  <TableHead>Acties</TableHead>
+                  <TableHead className="w-[35%]">Naam</TableHead>
+                  <TableHead className="w-[45%]">E-mailadres</TableHead>
+                  <TableHead className="w-[10%]">Admin</TableHead>
+                  <TableHead className="w-[10%]">Acties</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -156,9 +155,13 @@ export default function Users() {
               </TableBody>
             </Table>
             <div className="flex justify-between items-center mt-4">
-              <div>
-                {indexOfFirstUser + 1} tot {Math.min(indexOfLastUser, filteredUsers.length)} van {filteredUsers.length} gebruikers
-              </div>
+              {isLoading ? (
+                <Skeleton className="h-4 w-[200px]" />
+              ) : (
+                <div>
+                  {indexOfFirstUser + 1} tot {Math.min(indexOfLastUser, filteredUsers.length)} van {filteredUsers.length} gebruikers
+                </div>
+              )}
               <div className="flex space-x-2">
                 <Button variant="outline" onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
                   <ChevronLeftIcon className="h-4 w-4" />
