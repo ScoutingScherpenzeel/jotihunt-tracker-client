@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes as RouterRoutes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes as RouterRoutes, Route } from 'react-router-dom';
 import App from './pages/App';
 import Login from './pages/Login';
 import AuthOutlet from '@auth-kit/react-router/AuthOutlet';

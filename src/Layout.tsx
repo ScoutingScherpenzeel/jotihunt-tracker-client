@@ -1,6 +1,6 @@
 import { Outlet, useNavigate, useOutletContext } from 'react-router-dom';
 import { useToast } from './components/ui/use-toast';
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { RefObject, useRef, useState } from 'react';
 import { SWRConfig } from 'swr';
 import Map, { MapRef } from './components/Map';
 
