@@ -4,7 +4,7 @@ import { Offset } from 'mapbox-gl';
 
 export default function MapPopup({ longitude, latitude, onClose, offset = { bottom: [0, -45] } as Offset, children }: InferProps<typeof MapPopup.propTypes>) {
   return (
-    <Popup anchor="bottom" longitude={longitude} latitude={latitude} onClose={onClose} closeOnClick={true} offset={offset} maxWidth="400px">
+    <Popup anchor="bottom" longitude={longitude} latitude={latitude} onClose={onClose} closeOnClick={true} offset={offset} maxWidth="400px" className="z-20">
       <div>{children}</div>
     </Popup>
   );

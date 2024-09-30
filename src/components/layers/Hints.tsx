@@ -125,7 +125,7 @@ export default function Hints({ part1 = true, part2 = true }: InferProps<typeof 
           e.originalEvent.stopPropagation();
           setActiveMarker(marker);
         }}
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', zIndex: 10 }}
       >
         <div className="hover:brightness-125 hover:scale-105 transition-all ease-in-out">
           <img src={foxIcon} className="h-8" />

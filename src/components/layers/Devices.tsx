@@ -37,7 +37,7 @@ export default function Devices() {
               e.originalEvent.stopPropagation();
               setActiveDeviceId(device.deviceId);
             }}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'pointer', zIndex: 10 }}
           >
             <div className={`hover:brightness-125 hover:scale-105 transition-all ease-in-out ${isMoreThanFiveMinutesAgo(device.fixTime) && 'grayscale'}`}>
               <img src={carIcon} className="h-10" />
