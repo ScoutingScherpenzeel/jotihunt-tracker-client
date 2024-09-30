@@ -35,12 +35,15 @@ function App() {
                   </Button>
                 </div>
 
-                <Settings />
+                {/* Desktop position for settings menu */}
+                <Settings mobile={false} />
               </div>
             </CardContent>
           </Card>
 
           <div className={`flex-col gap-2 animate-in md:animate-none slide-in-from-top-4 fade-in ${menuOpen ? 'flex' : 'hidden md:flex'}`}>
+            {/* Mobile position for settings menu */}
+            <Settings mobile={true} />
             <FoxStatusCard />
             <HintEntryCard mapRef={mapRef} />
             <CounterHuntCard mapRef={mapRef} />
