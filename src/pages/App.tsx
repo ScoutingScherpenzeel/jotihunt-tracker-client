@@ -16,8 +16,8 @@ function App() {
 
   return (
     <>
-      <div className="absolute z-10 top-0 left-0 w-full md:w-1/5 md:min-w-[450px] h-screen overflow-y-auto">
-        <div className="flex flex-col p-2 gap-2">
+      <div className="absolute z-10 top-0 left-0 w-full md:w-1/5 md:min-w-[450px] h-screen overflow-y-auto pointer-events-none">
+        <div className="flex flex-col p-2 gap-2 pointer-events-auto">
           <Card className="sticky top-2 z-10">
             <CardContent>
               <div className="flex gap-2 items-center justify-between">
