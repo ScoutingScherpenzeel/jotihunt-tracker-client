@@ -76,6 +76,7 @@ export default function HintEntryCard({ mapRef }: InferProps<typeof HintEntryCar
 
     return timeOptions;
   }
+  const timeOptions = getTimeOptions();
 
   /**
    * When submitted, create a new marker.
@@ -185,11 +186,17 @@ export default function HintEntryCard({ mapRef }: InferProps<typeof HintEntryCar
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {getTimeOptions().map((option) => (
-                              <SelectItem key={option.value} value={option.value}>
-                                {option.label}
+                            {timeOptions.length > 0 ? (
+                              timeOptions.map((option) => (
+                                <SelectItem key={option.value} value={option.value}>
+                                  {option.label}
+                                </SelectItem>
+                              ))
+                            ) : (
+                              <SelectItem value="disabled" disabled>
+                                (Nog) geen tijdstip te kiezen
                               </SelectItem>
-                            ))}
+                            )}
                           </SelectContent>
                         </Select>
                       </FormItem>
