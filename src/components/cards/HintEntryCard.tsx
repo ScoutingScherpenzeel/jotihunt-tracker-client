@@ -142,7 +142,7 @@ export default function HintEntryCard({ mapRef }: InferProps<typeof HintEntryCar
       <Card>
         <CardHeader>
           <CardTitle>Hint registreren</CardTitle>
-          <CardDescription>Plaats een marker op de kaart.</CardDescription>
+          <CardDescription>Plaats een marker op de kaart op basis van RD-grid coördinaten.</CardDescription>
         </CardHeader>
 
         <CardContent>
