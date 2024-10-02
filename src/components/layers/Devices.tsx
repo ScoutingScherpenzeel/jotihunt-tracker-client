@@ -3,16 +3,26 @@ import { useState } from 'react';
 import MapPopup from '../map/MapPopup';
 import { useDevices } from '@/hooks/devices.hook';
 import carIcon from '@/assets/images/car.svg';
+import bicycleIcon from '@/assets/images/bicycle.svg';
+import walkingIcon from '@/assets/images/walking.svg';
+import motorbikeIcon from '@/assets/images/motorbike.svg';
+import phoneIcon from '@/assets/images/phone.svg';
 import { createCircle, knotsToKmh } from '@/lib/utils';
 import { formatDistanceToNow, isBefore, parseISO, subMinutes } from 'date-fns';
 import { nl } from 'date-fns/locale';
 import { Button } from '../ui/button';
 import { MapIcon } from 'lucide-react';
+import { Position } from '@/types/Position';
 
 export default function Devices() {
-  const { devices } = useDevices();
+  const GROUP_WALKING_ID: number = +import.meta.env.GROUP_WALKING_ID;
+  const GROUP_CAR_ID: number = +import.meta.env.GROUP_CAR_ID;
+  const GROUP_MOTORCYCLE_ID: number = +import.meta.env.GROUP_MOTORCYCLE_ID;
+  const GROUP_BIKE_ID: number = +import.meta.env.GROUP_BIKE_ID;
+
+  const { positions, devices } = useDevices();
   const [activeDeviceId, setActiveDeviceId] = useState<number>();
-  const activeDevice = devices?.find((device) => device.deviceId === activeDeviceId);
+  const activeDevice = positions?.find((device) => device.deviceId === activeDeviceId);
 
   /**
    * Check if a timestamp is more than 5 minutes ago
@@ -25,28 +35,45 @@ export default function Devices() {
     return isBefore(date, minutesAgo);
   }
 
+  function getIcon(position: Position) {
+    const device = devices?.find((device) => device.id === position.deviceId);
+    const groupId = device?.groupId;
+    switch (groupId) {
+      case GROUP_WALKING_ID:
+        return walkingIcon;
+      case GROUP_CAR_ID:
+        return carIcon;
+      case GROUP_MOTORCYCLE_ID:
+        return motorbikeIcon;
+      case GROUP_BIKE_ID:
+        return bicycleIcon;
+      default:
+        return phoneIcon;
+    }
+  }
+
   return (
     <>
-      {devices?.map((device) => (
-        <div key={device.deviceId}>
+      {positions?.map((position) => (
+        <div key={position.deviceId}>
           <Marker
-            key={device.id}
-            longitude={device.longitude}
-            latitude={device.latitude}
+            key={position.id}
+            longitude={position.longitude}
+            latitude={position.latitude}
             anchor="center"
             onClick={(e) => {
               e.originalEvent.stopPropagation();
-              setActiveDeviceId(device.deviceId);
+              setActiveDeviceId(position.deviceId);
             }}
             style={{ cursor: 'pointer', zIndex: 10 }}
           >
-            <div className={`hover:brightness-125 hover:scale-105 transition-all ease-in-out ${isMoreThanFiveMinutesAgo(device.fixTime) && 'grayscale'}`}>
-              <img src={carIcon} className="h-10" />
+            <div className={`hover:brightness-125 hover:scale-105 transition-all ease-in-out ${isMoreThanFiveMinutesAgo(position.fixTime) && 'grayscale'}`}>
+              <img src={getIcon(position)} className="h-10" />
             </div>
           </Marker>
-          <Source id={`circle-source-${device.deviceId}`} type="geojson" data={createCircle(device.longitude, device.latitude, device.accuracy)}>
+          <Source id={`circle-source-${position.deviceId}`} type="geojson" data={createCircle(position.longitude, position.latitude, position.accuracy)}>
             <Layer
-              id={`circle-layer-${device.deviceId}`}
+              id={`circle-layer-${position.deviceId}`}
               type="fill"
               paint={{
                 'fill-color': 'rgba(66, 135, 245, 0.2)',

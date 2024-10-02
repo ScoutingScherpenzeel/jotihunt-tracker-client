@@ -1,17 +1,20 @@
 export interface Device {
-  id: string;
-  attributes: {
-    batteryLevel: number;
-    distance: number;
-    totalDistance: number;
-    motion: boolean;
+  id: number;
+  attributes?: {
+    deviceImage?: string;
   };
-  deviceId: number;
-  latitude: number;
-  longitude: number;
-  speed: number;
-  course: number;
-  accuracy: number;
-  deviceName: string;
-  fixTime: string;
+  groupId: number;
+  groupName?: string;
+  calendarId: number;
+  name: string;
+  uniqueId: string;
+  status: string;
+  lastUpdate: Date;
+  positionId: number;
+  phone?: string;
+  model?: string;
+  contact?: string;
+  category?: string;
+  disabled: boolean;
+  expirationTime?: Date;
 }

@@ -14,6 +14,10 @@ type ImportMetaEnv = {
   HUNT_END_TIME: string
   HOME_COORDS_LAT: string
   HOME_COORDS_LON: string
+  GROUP_WALKING_ID: string
+  GROUP_CAR_ID: string
+  GROUP_MOTORCYCLE_ID: string
+  GROUP_BIKE_ID: string
   // @user-defined-start
   /*
    *  You can use this section to explicitly extend the type definition of `import.meta.env`

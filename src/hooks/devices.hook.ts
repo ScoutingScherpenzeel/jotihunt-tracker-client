@@ -1,14 +1,19 @@
-import { Device } from '@/types/Device';
+import { Position } from '@/types/Position';
 import { useAuthSWR } from '../lib/swr';
+import { Device } from '@/types/Device';
 
 export const useDevices = () => {
-  const { data, error } = useAuthSWR<Device[]>('/tracker/positions', {
+  const { data: positions, error: positionsError } = useAuthSWR<Position[]>('/tracker/positions', {
+    refreshInterval: 100,
+  });
+  const { data: devices, error: devicesError } = useAuthSWR<Device[]>('/tracker/devices', {
     refreshInterval: 100,
   });
 
   return {
-    devices: data,
-    isLoading: !error && !data,
-    isError: error,
+    positions: positions,
+    devices: devices,
+    isLoading: !(positionsError || devicesError) && !(positions && devices),
+    isError: positionsError || devicesError,
   };
 };
