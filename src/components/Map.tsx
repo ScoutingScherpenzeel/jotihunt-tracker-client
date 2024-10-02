@@ -13,6 +13,7 @@ import proj4 from 'proj4';
 import HomeCircle from './layers/HomeCircle';
 import useLayersStore from '../stores/layers.store';
 import useSettingsStore from '../stores/settings.store';
+import { MapIcon } from 'lucide-react';
 
 export interface MapRef {
   flyTo(options: mapboxgl.FlyToOptions): void;
@@ -95,7 +96,7 @@ const Map = forwardRef<MapRef>((_, ref) => {
               </div>
               <Button variant="outline" size="sm" asChild className="w-min">
                 <a target="_blank" rel="noreferrer" href={`https://www.google.com/maps?q=${popupPosition.lat},${popupPosition.lng}`}>
-                  Bekijk op Google Maps
+                  <MapIcon className="mr-2 h-4 w-4" /> Bekijk op google maps
                 </a>
               </Button>
             </div>

@@ -7,6 +7,7 @@ import MapPopup from '../map/MapPopup';
 import { getColorFromArea } from '@/lib/utils';
 import { useAreas } from '@/hooks/areas.hook';
 import { Button } from '../ui/button';
+import { MapIcon } from 'lucide-react';
 
 export default function Teams() {
   const { teams } = useTeams();
@@ -56,7 +57,7 @@ export default function Teams() {
             </div>
             <Button variant="outline" size="sm" asChild className="w-min">
               <a target="_blank" rel="noreferrer" href={`https://www.google.com/maps?q=${activeTeam.location.coordinates[1]},${activeTeam.location.coordinates[0]}`}>
-                Bekijk op Google Maps
+                <MapIcon className="mr-2 h-4 w-4" /> Bekijk op Google Maps
               </a>
             </Button>
           </div>

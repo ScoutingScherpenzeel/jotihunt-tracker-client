@@ -7,6 +7,7 @@ import { createCircle, knotsToKmh } from '@/lib/utils';
 import { formatDistanceToNow, isBefore, parseISO, subMinutes } from 'date-fns';
 import { nl } from 'date-fns/locale';
 import { Button } from '../ui/button';
+import { MapIcon } from 'lucide-react';
 
 export default function Devices() {
   const { devices } = useDevices();
@@ -72,7 +73,7 @@ export default function Devices() {
             </div>
             <Button variant="outline" size="sm" asChild className="w-min">
               <a target="_blank" rel="noreferrer" href={`https://www.google.com/maps?q=${activeDevice.latitude},${activeDevice.longitude}`}>
-                Bekijk op Google Maps
+                <MapIcon className="mr-2 h-4 w-4" /> Bekijk op Google Maps
               </a>
             </Button>
           </div>

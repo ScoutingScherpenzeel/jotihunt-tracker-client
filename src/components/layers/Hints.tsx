@@ -20,6 +20,8 @@ import {
 } from '@/components/ui/alert-dialog';
 import { toast } from '../ui/use-toast';
 import PropTypes, { InferProps } from 'prop-types';
+import { MapIcon, Trash2Icon, TrashIcon } from 'lucide-react';
+import proj4 from 'proj4';
 
 export default function Hints({ part1 = true, part2 = true }: InferProps<typeof Hints.propTypes>) {
   const { markers, deleteMarker } = useMarkers();
@@ -152,24 +154,31 @@ export default function Hints({ part1 = true, part2 = true }: InferProps<typeof 
       {activeMarker && (
         <MapPopup longitude={activeMarker.location.coordinates[0]} latitude={activeMarker.location.coordinates[1]} onClose={() => setActiveMarker(undefined)} offset={{ bottom: [0, -20] }}>
           <div className="flex flex-col gap-2">
-            <h2 className="font-semibold">
-              {capitalizeFirstLetter(activeMarker.area)} -{' '}
-              {new Date(activeMarker.time).toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit',
-              })}
-            </h2>
+            <div>
+              <h2 className="font-semibold">
+                {capitalizeFirstLetter(activeMarker.area)} -{' '}
+                {new Date(activeMarker.time).toLocaleTimeString([], {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+              </h2>
+              <p>Breedtegraad: {activeMarker.location.coordinates[1].toFixed(7)}</p>
+              <p>Lengtegraad: {activeMarker.location.coordinates[0].toFixed(7)}</p>
+
+              <p>RD-x: {proj4('WGS84', 'RD', [activeMarker.location.coordinates[0], activeMarker.location.coordinates[1]])[0].toFixed(0)}</p>
+              <p>RD-y: {proj4('WGS84', 'RD', [activeMarker.location.coordinates[0], activeMarker.location.coordinates[1]])[1].toFixed(0)}</p>
+            </div>
             <div className="flex flex-col gap-2">
               <Button variant="outline" size="sm" asChild className="w-min">
                 <a target="_blank" rel="noreferrer" href={`https://www.google.com/maps?q=${activeMarker.location.coordinates[1]},${activeMarker.location.coordinates[0]}`}>
-                  Bekijk op Google Maps
+                  <MapIcon className="mr-2 h-4 w-4" /> Bekijk op Google Maps
                 </a>
               </Button>
 
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button variant="destructive" size="sm">
-                    Verwijderen
+                    <Trash2Icon className="mr-2 h-4 w-4" /> Verwijderen
                   </Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
