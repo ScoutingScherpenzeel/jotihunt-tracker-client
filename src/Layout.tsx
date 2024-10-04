@@ -3,6 +3,7 @@ import { useToast } from './components/ui/use-toast';
 import { RefObject, useRef, useState } from 'react';
 import { SWRConfig } from 'swr';
 import Map, { MapRef } from './components/Map';
+import PWAPrompt from 'react-ios-pwa-prompt';
 
 type ContextType = {
   mapRef: RefObject<MapRef>;
@@ -40,6 +41,15 @@ export default function Layout() {
     <SWRConfig value={{ onError: onSWRError }}>
       <Outlet context={{ mapRef } satisfies ContextType} />
       <Map ref={mapRef} />
+      <PWAPrompt
+        promptOnVisit={1}
+        appIconPath="/icon512_maskable.png"
+        copyTitle="Installeer als app"
+        copySubtitle="Jotihunt Tracker"
+        copyDescription="Deze website kan als app geïnstalleerd worden. Volg de onderstaande instructies om deze app te installeren."
+        copyShareStep='Druk op de "Deel" knop in de menubalk'
+        copyAddToHomeScreenStep='Druk op "Zet op beginscherm"'
+      />
     </SWRConfig>
   );
 }
