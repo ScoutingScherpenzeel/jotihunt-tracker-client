@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../components/ui/form';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import usePWA from 'react-pwa-install-prompt';
 
 const FormSchema = z.object({
   email: z.string().email({ message: 'Vul een geldig e-mailadres in.' }),
@@ -18,6 +19,7 @@ const FormSchema = z.object({
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const { isStandalone, isInstallPromptSupported, promptInstall } = usePWA();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -40,6 +42,10 @@ export default function Login() {
     }
 
     navigate('/');
+
+    if (isInstallPromptSupported && !isStandalone) {
+      promptInstall();
+    }
   }
 
   return (

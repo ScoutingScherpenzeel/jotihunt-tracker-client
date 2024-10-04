@@ -1,4 +1,4 @@
-import { CogIcon, EyeIcon, LayersIcon, LogOutIcon, UsersIcon } from 'lucide-react';
+import { AppWindowIcon, CogIcon, DownloadCloudIcon, DownloadIcon, EyeIcon, LayersIcon, LogOutIcon, UsersIcon } from 'lucide-react';
 import { Button } from './ui/button';
 import {
   DropdownMenu,
@@ -23,9 +23,11 @@ import useSignOut from 'react-auth-kit/hooks/useSignOut';
 import { useNavigate } from 'react-router-dom';
 import { User } from '@/types/User';
 import PropTypes, { InferProps } from 'prop-types';
+import usePWA from 'react-pwa-install-prompt';
 
 export default function Settings({ mobile }: InferProps<typeof Settings.propTypes>) {
   const navigate = useNavigate();
+  const { isStandalone, isInstallPromptSupported, promptInstall } = usePWA();
 
   // Store for all layers / settings
   const { showTeams, showDevices, showHintsPart1, showHintsPart2, showHomeCircle, toggleTeams, toggleDevices, toggleHintsPart1, toggleHintsPart2, toggleHomeCircle } = useLayersStore();
@@ -62,6 +64,12 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
       <DropdownMenuContent align="start">
         <DropdownMenuLabel>Hoi, {auth?.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
+        {!isStandalone && isInstallPromptSupported && (
+          <DropdownMenuItem onClick={promptInstall}>
+            <DownloadIcon className="mr-2 h-4 w-4" />
+            Installeer app
+          </DropdownMenuItem>
+        )}
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
             <EyeIcon className="mr-2 h-4 w-4" />

@@ -10,6 +10,7 @@ type ContextType = {
 };
 
 export default function Layout() {
+
   const { toast } = useToast();
   const navigate = useNavigate();
   const [errorShown, setErrorShown] = useState(false);

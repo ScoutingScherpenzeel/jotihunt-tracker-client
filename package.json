@@ -52,6 +52,7 @@
     "react-leaflet-draw": "^0.20.4",
     "react-map-gl": "^7.1.7",
     "react-mapbox-gl-draw": "^2.0.4",
+    "react-pwa-install-prompt": "^1.0.5",
     "react-router-dom": "^6.23.1",
     "swr": "^2.2.5",
     "tailwind-merge": "^2.3.0",
