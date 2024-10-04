@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { toast } from '../ui/use-toast';
 import PropTypes, { InferProps } from 'prop-types';
-import { MapIcon, Trash2Icon, TrashIcon } from 'lucide-react';
+import { MapIcon, Trash2Icon } from 'lucide-react';
 import proj4 from 'proj4';
 
 export default function Hints({ part1 = true, part2 = true }: InferProps<typeof Hints.propTypes>) {
