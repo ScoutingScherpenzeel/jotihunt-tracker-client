@@ -10,7 +10,6 @@ type ContextType = {
 };
 
 export default function Layout() {
-
   const { toast } = useToast();
   const navigate = useNavigate();
   const [errorShown, setErrorShown] = useState(false);
@@ -44,7 +43,7 @@ export default function Layout() {
       <Map ref={mapRef} />
       <PWAPrompt
         promptOnVisit={1}
-        appIconPath="/icon512_maskable.png"
+        appIconPath="/icon_maskable.png"
         copyTitle="Installeer als app"
         copySubtitle="Jotihunt Tracker"
         copyDescription="Deze website kan als app geïnstalleerd worden. Volg de onderstaande instructies om deze app te installeren."
