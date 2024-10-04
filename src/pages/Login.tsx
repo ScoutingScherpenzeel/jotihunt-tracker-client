@@ -10,6 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import usePWA from 'react-pwa-install-prompt';
+import { isMobile } from 'react-device-detect';
 
 const FormSchema = z.object({
   email: z.string().email({ message: 'Vul een geldig e-mailadres in.' }),
@@ -43,7 +44,7 @@ export default function Login() {
 
     navigate('/');
 
-    if (isInstallPromptSupported && !isStandalone) {
+    if (isInstallPromptSupported && !isStandalone && isMobile) {
       promptInstall();
     }
   }
