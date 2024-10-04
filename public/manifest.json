@@ -18,6 +18,7 @@
   "dir": "auto",
   "lang": "nl-NL",
   "name": "Jotihunt Tracker",
+  "short_name": "Jotihunt Tracker",
   "start_url": "/",
   "description": "Jotihunt Tracker voor Scouting Scherpenzeel e.o."
 }
