@@ -40,6 +40,7 @@ export default function Login() {
       form.setError('password', {
         message: 'Ongeldig e-mailadres of wachtwoord.',
       });
+      return;
     }
 
     navigate('/');
