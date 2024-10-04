@@ -35,6 +35,11 @@ export default function Devices() {
     return isBefore(date, minutesAgo);
   }
 
+  /**
+   * Get the icon for a device
+   * @param position The "raw" position object to get the group from
+   * @returns The SVG icon for the device
+   */
   function getIcon(position: Position) {
     const device = devices?.find((device) => device.id === position.deviceId);
     const groupId = device?.groupId;
