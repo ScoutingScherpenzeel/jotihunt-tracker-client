@@ -1,4 +1,4 @@
-import { AppWindowIcon, CogIcon, DownloadCloudIcon, DownloadIcon, EyeIcon, LayersIcon, LogOutIcon, UsersIcon } from 'lucide-react';
+import { CogIcon, DownloadIcon, EyeIcon, LayersIcon, LogOutIcon, UsersIcon } from 'lucide-react';
 import { Button } from './ui/button';
 import {
   DropdownMenu,
