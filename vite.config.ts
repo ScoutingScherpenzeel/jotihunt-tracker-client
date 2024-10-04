@@ -3,7 +3,6 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import { viteEnvs } from 'vite-envs';
 import { VitePWA, VitePWAOptions } from 'vite-plugin-pwa';
-import basicSsl from '@vitejs/plugin-basic-ssl';
 
 const pwaManifest: Partial<VitePWAOptions> = {
   registerType: 'autoUpdate',
@@ -53,7 +52,6 @@ export default defineConfig({
       declarationFile: '.env.example',
     }),
     VitePWA(pwaManifest),
-    basicSsl(),
   ],
   resolve: {
     alias: {
