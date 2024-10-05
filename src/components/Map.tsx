@@ -72,7 +72,6 @@ const Map = forwardRef<MapRef>((_, ref) => {
       >
         <NavigationControl />
         <ScaleControl />
-        <FullscreenControl />
         <GeolocateControl />
         <AttributionControl customAttribution={'Jotihunt Tracker | Scouting Scherpenzeel'} compact={true} />
 
