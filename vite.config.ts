@@ -75,4 +75,11 @@ export default defineConfig({
     strictPort: true,
     host: true,
   },
+  build: {
+    rollupOptions: {
+      output: {
+        chunkFileNames: '[name].[hash].js',
+      },
+    },
+  },
 });

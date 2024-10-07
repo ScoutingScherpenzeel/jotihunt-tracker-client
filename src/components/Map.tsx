@@ -1,4 +1,4 @@
-import Mapbox, { AttributionControl, FullscreenControl, GeolocateControl, NavigationControl, ScaleControl, MapRef as MapboxRef, LngLatBoundsLike } from 'react-map-gl';
+import Mapbox, { AttributionControl, GeolocateControl, NavigationControl, ScaleControl, MapRef as MapboxRef, LngLatBoundsLike } from 'react-map-gl';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
@@ -72,7 +72,6 @@ const Map = forwardRef<MapRef>((_, ref) => {
       >
         <NavigationControl />
         <ScaleControl />
-        <FullscreenControl />
         <GeolocateControl />
         <AttributionControl customAttribution={'Jotihunt Tracker | Scouting Scherpenzeel'} compact={true} />
 
