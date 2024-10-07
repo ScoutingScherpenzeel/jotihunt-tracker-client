@@ -1,11 +1,15 @@
 import { User } from '@/types/User';
 import axios from 'axios';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
+import { useFetcher } from './utils/api.hook';
+import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 
 export const useAuth = () => {
   const baseUrl = import.meta.env.API_BASE_URL;
 
   const signIn = useSignIn();
+  const { fetch } = useFetcher();
+  const authHeader = useAuthHeader();
 
   /**
    * Tries to login with the given credentials.
@@ -47,7 +51,33 @@ export const useAuth = () => {
     return signinResult;
   }
 
+  async function updatePassword(oldPassword: string, newPassword: string) {
+    try {
+      const response = await fetch('/auth/update-password', 'POST', {
+        oldPassword,
+        newPassword,
+        confirmPassword: newPassword,
+      });
+      return response.status === 200;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  async function updateUserState(user: User) {
+    const token = authHeader ? authHeader.split(' ')[1] : '';
+    signIn({
+      auth: {
+        token,
+        type: 'Bearer',
+      },
+      userState: user,
+    });
+  }
+
   return {
     login,
+    updatePassword,
+    updateUserState,
   };
 };

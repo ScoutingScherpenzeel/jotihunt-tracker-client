@@ -1,9 +1,12 @@
 import { Outlet, useNavigate, useOutletContext } from 'react-router-dom';
 import { useToast } from './components/ui/use-toast';
-import { RefObject, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import { SWRConfig } from 'swr';
 import Map, { MapRef } from './components/Map';
 import PWAPrompt from 'react-ios-pwa-prompt';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import { User } from './types/User';
+import ResetPassword from './components/ResetPassword';
 
 type ContextType = {
   mapRef: RefObject<MapRef>;
@@ -13,8 +16,18 @@ export default function Layout() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [errorShown, setErrorShown] = useState(false);
-
+  const auth = useAuthUser<User>();
   const mapRef = useRef<MapRef>(null);
+  const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
+
+  /**
+   * If reset password is required, open the dialog.
+   */
+  useEffect(() => {
+    if (auth?.requiresPasswordChange) {
+      setResetPasswordOpen(true);
+    }
+  }, [auth?.requiresPasswordChange]);
 
   function onSWRError(error: any) {
     if (error.response?.status === 401) {
@@ -39,6 +52,7 @@ export default function Layout() {
 
   return (
     <SWRConfig value={{ onError: onSWRError }}>
+      <ResetPassword open={resetPasswordOpen} setIsOpen={setResetPasswordOpen} allowClose={false} />
       <Outlet context={{ mapRef } satisfies ContextType} />
       <Map ref={mapRef} />
       <PWAPrompt

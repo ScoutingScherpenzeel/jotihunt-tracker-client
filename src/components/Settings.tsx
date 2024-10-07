@@ -1,4 +1,4 @@
-import { BugIcon, CogIcon, DownloadIcon, EyeIcon, LayersIcon, LogOutIcon, UsersIcon } from 'lucide-react';
+import { BugIcon, CogIcon, DownloadIcon, EyeIcon, KeyIcon, LayersIcon, LogOutIcon, UsersIcon } from 'lucide-react';
 import { Button } from './ui/button';
 import {
   DropdownMenu,
@@ -26,10 +26,13 @@ import PropTypes, { InferProps } from 'prop-types';
 import usePWA from 'react-pwa-install-prompt';
 import { Dialog, DialogTrigger } from './ui/dialog';
 import DebugInfo from './DebugInfo';
+import ResetPassword from './ResetPassword';
+import { useState } from 'react';
 
 export default function Settings({ mobile }: InferProps<typeof Settings.propTypes>) {
   const navigate = useNavigate();
   const { isStandalone, isInstallPromptSupported, promptInstall } = usePWA();
+  const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
 
   // Store for all layers / settings
   const { showTeams, showDevices, showHintsPart1, showHintsPart2, showHomeCircle, toggleTeams, toggleDevices, toggleHintsPart1, toggleHintsPart2, toggleHomeCircle } = useLayersStore();
@@ -129,12 +132,17 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
               <DropdownMenuSeparator />
             </>
           )}
+          <DropdownMenuItem onClick={() => setResetPasswordOpen(true)}>
+            <KeyIcon className="mr-2 h-4 w-4" /> Wachtwoord wijzigen
+          </DropdownMenuItem>
           <DropdownMenuItem className="text-red-500" onClick={logout}>
             <LogOutIcon className="mr-2 h-4 w-4" />
             Uitloggen
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      <ResetPassword open={resetPasswordOpen} setIsOpen={setResetPasswordOpen} allowClose={true} />
       <DebugInfo />
     </Dialog>
   );
