@@ -25,7 +25,7 @@ function App() {
                   <img src={logo} alt="Jotihunt Tracker" className="w-12 h-12" />
                   <div>
                     <h1 className="text-xl font-bold">Jotihunt Tracker</h1>
-                    <h2>Scouting Scherpenzeel e.o.</h2>
+                    <h2 className="truncate">Scouting Scherpenzeel e.o.</h2>
                   </div>
                 </div>
 
