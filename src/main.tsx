@@ -5,6 +5,10 @@ import Routes from './Routes.tsx';
 import createStore from 'react-auth-kit/createStore';
 import AuthProvider from 'react-auth-kit';
 import proj4 from 'proj4';
+import { registerSW } from 'virtual:pwa-register';
+
+// Service worker registration
+registerSW({ immediate: true });
 
 // Define projection for RD coordinates
 proj4.defs(
@@ -19,7 +23,6 @@ const authStore = createStore({
   cookieDomain: window.location.hostname,
   cookieSecure: window.location.protocol === 'https:',
 });
-
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <>

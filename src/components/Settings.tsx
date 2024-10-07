@@ -24,7 +24,7 @@ import { useNavigate } from 'react-router-dom';
 import { User } from '@/types/User';
 import PropTypes, { InferProps } from 'prop-types';
 import usePWA from 'react-pwa-install-prompt';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
+import { Dialog, DialogTrigger } from './ui/dialog';
 import DebugInfo from './DebugInfo';
 
 export default function Settings({ mobile }: InferProps<typeof Settings.propTypes>) {

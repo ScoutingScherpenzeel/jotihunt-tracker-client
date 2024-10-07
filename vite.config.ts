@@ -6,7 +6,9 @@ import { VitePWA, VitePWAOptions } from 'vite-plugin-pwa';
 
 const pwaManifest: Partial<VitePWAOptions> = {
   registerType: 'autoUpdate',
-  includeAssets: ['icon_maskable.png', 'favicon.ico'],
+  workbox: {
+    globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+  },
   manifest: {
     name: 'Jotihunt Tracker',
     short_name: 'Jotihunt Tracker',
