@@ -1,4 +1,4 @@
-import { CogIcon, DownloadIcon, EyeIcon, LayersIcon, LogOutIcon, UsersIcon } from 'lucide-react';
+import { BugIcon, CogIcon, DownloadIcon, EyeIcon, LayersIcon, LogOutIcon, UsersIcon } from 'lucide-react';
 import { Button } from './ui/button';
 import {
   DropdownMenu,
@@ -24,6 +24,8 @@ import { useNavigate } from 'react-router-dom';
 import { User } from '@/types/User';
 import PropTypes, { InferProps } from 'prop-types';
 import usePWA from 'react-pwa-install-prompt';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
+import DebugInfo from './DebugInfo';
 
 export default function Settings({ mobile }: InferProps<typeof Settings.propTypes>) {
   const navigate = useNavigate();
@@ -59,73 +61,82 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
   );
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>{mobile ? mobileTrigger() : desktopTrigger()}</DropdownMenuTrigger>
-      <DropdownMenuContent align="start">
-        <DropdownMenuLabel>Hoi, {auth?.name}</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        {!isStandalone && isInstallPromptSupported && (
-          <DropdownMenuItem onClick={promptInstall}>
-            <DownloadIcon className="mr-2 h-4 w-4" />
-            Installeer app
-          </DropdownMenuItem>
-        )}
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>
-            <EyeIcon className="mr-2 h-4 w-4" />
-            Zichtbare lagen
-          </DropdownMenuSubTrigger>
-          <DropdownMenuPortal>
-            <DropdownMenuSubContent>
-              <DropdownMenuCheckboxItem checked={showTeams} onCheckedChange={toggleTeams} onSelect={(e) => e.preventDefault()}>
-                Deelnemende groepen
-              </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem checked={showDevices} onCheckedChange={toggleDevices} onSelect={(e) => e.preventDefault()}>
-                Huidige locatie auto's
-              </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem checked={showHintsPart1} onCheckedChange={toggleHintsPart1} onSelect={(e) => e.preventDefault()}>
-                Hint locaties (speelhelft 1)
-              </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem checked={showHintsPart2} onCheckedChange={toggleHintsPart2} onSelect={(e) => e.preventDefault()}>
-                Hint locaties (speelhelft 2)
-              </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem checked={showHomeCircle} onCheckedChange={toggleHomeCircle} onSelect={(e) => e.preventDefault()}>
-                Tegenhunt cirkel
-              </DropdownMenuCheckboxItem>
-            </DropdownMenuSubContent>
-          </DropdownMenuPortal>
-        </DropdownMenuSub>
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>
-            <LayersIcon className="mr-2 h-4 w-4" />
-            Kaartstijl
-          </DropdownMenuSubTrigger>
-          <DropdownMenuPortal>
-            <DropdownMenuSubContent>
-              <DropdownMenuRadioGroup value={mapStyle} onValueChange={(s) => setMapStyle(s as MapStyle)}>
-                <DropdownMenuRadioItem value={MapStyle.Streets}>Straten</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value={MapStyle.Outdoors}>Outdoor</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value={MapStyle.Satellite}>Satelliet</DropdownMenuRadioItem>
-              </DropdownMenuRadioGroup>
-            </DropdownMenuSubContent>
-          </DropdownMenuPortal>
-        </DropdownMenuSub>
-        <DropdownMenuSeparator />
-        {auth?.admin && (
-          <>
-            <DropdownMenuItem onClick={() => navigate('/users')}>
-              <UsersIcon className="mr-2 h-4 w-4" />
-              Gebruikers
+    <Dialog>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>{mobile ? mobileTrigger() : desktopTrigger()}</DropdownMenuTrigger>
+        <DropdownMenuContent align="start">
+          <DropdownMenuLabel>Hoi, {auth?.name}</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          {!isStandalone && isInstallPromptSupported && (
+            <DropdownMenuItem onClick={promptInstall}>
+              <DownloadIcon className="mr-2 h-4 w-4" />
+              Installeer app
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-          </>
-        )}
-        <DropdownMenuItem className="text-red-500" onClick={logout}>
-          <LogOutIcon className="mr-2 h-4 w-4" />
-          Uitloggen
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+          )}
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <EyeIcon className="mr-2 h-4 w-4" />
+              Zichtbare lagen
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                <DropdownMenuCheckboxItem checked={showTeams} onCheckedChange={toggleTeams} onSelect={(e) => e.preventDefault()}>
+                  Deelnemende groepen
+                </DropdownMenuCheckboxItem>
+                <DropdownMenuCheckboxItem checked={showDevices} onCheckedChange={toggleDevices} onSelect={(e) => e.preventDefault()}>
+                  Huidige locatie auto's
+                </DropdownMenuCheckboxItem>
+                <DropdownMenuCheckboxItem checked={showHintsPart1} onCheckedChange={toggleHintsPart1} onSelect={(e) => e.preventDefault()}>
+                  Hint locaties (speelhelft 1)
+                </DropdownMenuCheckboxItem>
+                <DropdownMenuCheckboxItem checked={showHintsPart2} onCheckedChange={toggleHintsPart2} onSelect={(e) => e.preventDefault()}>
+                  Hint locaties (speelhelft 2)
+                </DropdownMenuCheckboxItem>
+                <DropdownMenuCheckboxItem checked={showHomeCircle} onCheckedChange={toggleHomeCircle} onSelect={(e) => e.preventDefault()}>
+                  Tegenhunt cirkel
+                </DropdownMenuCheckboxItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <LayersIcon className="mr-2 h-4 w-4" />
+              Kaartstijl
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                <DropdownMenuRadioGroup value={mapStyle} onValueChange={(s) => setMapStyle(s as MapStyle)}>
+                  <DropdownMenuRadioItem value={MapStyle.Streets}>Straten</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value={MapStyle.Outdoors}>Outdoor</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value={MapStyle.Satellite}>Satelliet</DropdownMenuRadioItem>
+                </DropdownMenuRadioGroup>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+          <DropdownMenuSeparator />
+          {auth?.admin && (
+            <>
+              <DropdownMenuItem onClick={() => navigate('/users')}>
+                <UsersIcon className="mr-2 h-4 w-4" />
+                Gebruikers
+              </DropdownMenuItem>
+              <DialogTrigger asChild>
+                <DropdownMenuItem>
+                  <BugIcon className="mr-2 h-4 w-4" />
+                  Debug
+                </DropdownMenuItem>
+              </DialogTrigger>
+              <DropdownMenuSeparator />
+            </>
+          )}
+          <DropdownMenuItem className="text-red-500" onClick={logout}>
+            <LogOutIcon className="mr-2 h-4 w-4" />
+            Uitloggen
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <DebugInfo />
+    </Dialog>
   );
 }
 

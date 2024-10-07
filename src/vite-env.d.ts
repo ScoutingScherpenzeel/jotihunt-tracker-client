@@ -8,6 +8,8 @@ type ImportMetaEnv = {
   MODE: string
   DEV: boolean
   PROD: boolean
+  BUILD_TIME: number
+  VERSION: string
   API_BASE_URL: string
   MAPBOX_TOKEN: string
   HUNT_START_TIME: string
