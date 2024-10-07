@@ -8,6 +8,7 @@ const pwaManifest: Partial<VitePWAOptions> = {
   registerType: 'autoUpdate',
   workbox: {
     globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+    maximumFileSizeToCacheInBytes: 1024 * 1024 * 10,
   },
   manifest: {
     name: 'Jotihunt Tracker',
