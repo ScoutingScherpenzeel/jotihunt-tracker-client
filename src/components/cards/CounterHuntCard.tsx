@@ -41,7 +41,7 @@ export default function CounterHuntCard({ mapRef }: InferProps<typeof CounterHun
   }
 
   return (
-    <Card>
+    <Card collapsible={true} defaultOpen={true}>
       <CardHeader>
         <CardTitle>Tegenhunt visualisatie</CardTitle>
         <CardDescription>Kies een windrichting om te zien wat het tegenhunt gebied is.</CardDescription>

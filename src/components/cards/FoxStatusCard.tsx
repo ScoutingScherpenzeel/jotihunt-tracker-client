@@ -20,7 +20,7 @@ export default function FoxStatusCard() {
 
   return (
     <>
-      <Card>
+      <Card collapsible={true} defaultOpen={true}>
         <CardHeader>
           <CardTitle>Vossen status</CardTitle>
           <CardDescription>Klik op een deelgebied om deze te verbergen op de kaart.</CardDescription>
