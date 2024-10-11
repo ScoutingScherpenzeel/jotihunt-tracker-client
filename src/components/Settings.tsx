@@ -65,7 +65,7 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
 
   return (
     <Dialog>
-      <DropdownMenu>
+      <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>{mobile ? mobileTrigger() : desktopTrigger()}</DropdownMenuTrigger>
         <DropdownMenuContent align="start">
           <DropdownMenuLabel>Hoi, {auth?.name}</DropdownMenuLabel>
