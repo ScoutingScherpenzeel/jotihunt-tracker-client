@@ -47,7 +47,7 @@ const CardTitle = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HT
   return collapsible ? (
     <div className="flex justify-between items-center">
       <h3 ref={ref} className={cn('text-lg font-semibold leading-none tracking-tight', className)} {...props} />
-      <CollapsibleTrigger asChild className="hover:bg-gray-100 rounded-sm cursor-pointer hover:ring-4 ring-gray-100 w-4 h-4">
+      <CollapsibleTrigger asChild className="hover:bg-accent rounded-sm cursor-pointer hover:ring-4 ring-accent w-4 h-4">
         <ChevronDownIcon className={cn('transition-transform', { 'rotate-180': open })} />
       </CollapsibleTrigger>
     </div>

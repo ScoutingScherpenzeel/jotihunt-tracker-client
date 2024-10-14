@@ -4,7 +4,7 @@
 
 /* Mapbox popup styling */
 .mapboxgl-popup-content {
-  @apply animate-in fade-in;
+  @apply animate-in fade-in !bg-background;
   border-radius: 0.5rem !important;
   padding: 1rem;
   font-size: 0.875rem;
@@ -30,6 +30,25 @@
 
 .login-background {
   background-image: url('assets/images/background.png');
+}
+
+.mapboxgl-ctrl-group > button {
+  @apply !bg-background;
+}
+
+.mapboxgl-ctrl-attrib {
+  @apply !bg-background;
+  a {
+    @apply !text-foreground;
+  }
+}
+
+body.dark .mapboxgl-ctrl-group > button > span {
+  filter: invert(1);
+}
+
+body.dark .mapboxgl-ctrl-attrib-button {
+  filter: invert(1);
 }
 
 @layer base {

@@ -8,15 +8,21 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface SettingsState {
   mapStyle: MapStyle;
+  darkMode?: Boolean;
   setMapStyle: (mapStyle: MapStyle) => void;
+  setDarkMode: (darkMode?: Boolean) => void;
 }
 
 const useSettingsStore = create<SettingsState>()(
   persist(
     (set) => ({
       mapStyle: MapStyle.Streets,
+      darkMode: undefined,
       setMapStyle: (mapStyle: MapStyle) => {
         set({ mapStyle });
+      },
+      setDarkMode: (darkMode?: Boolean) => {
+        set({ darkMode });
       },
     }),
     {

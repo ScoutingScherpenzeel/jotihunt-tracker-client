@@ -1,4 +1,4 @@
-import { BugIcon, CogIcon, DownloadIcon, EyeIcon, KeyIcon, LayersIcon, LogOutIcon, UsersIcon } from 'lucide-react';
+import { BugIcon, CogIcon, DownloadIcon, EyeIcon, KeyIcon, LayersIcon, LogOutIcon, MoonIcon, UsersIcon } from 'lucide-react';
 import { Button } from './ui/button';
 import {
   DropdownMenu,
@@ -36,7 +36,7 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
 
   // Store for all layers / settings
   const { showTeams, showDevices, showHintsPart1, showHintsPart2, showHomeCircle, toggleTeams, toggleDevices, toggleHintsPart1, toggleHintsPart2, toggleHomeCircle } = useLayersStore();
-  const { mapStyle, setMapStyle } = useSettingsStore();
+  const { mapStyle, setMapStyle, darkMode, setDarkMode } = useSettingsStore();
 
   // Authentication stuff
   const auth = useAuthUser<User>();
@@ -47,8 +47,24 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
     navigate('/login');
   }
 
+  function changeDarkMode(d: string) {
+    if (d === 'true') {
+      setDarkMode(true);
+      if (mapStyle === MapStyle.Streets) {
+        setMapStyle(MapStyle.Dark);
+      }
+    } else if (d === 'false') {
+      setDarkMode(false);
+      if (mapStyle === MapStyle.Dark) {
+        setMapStyle(MapStyle.Streets);
+      }
+    } else {
+      setDarkMode(undefined);
+    }
+  }
+
   const mobileTrigger = () => (
-    <div className="block md:hidden bg-white">
+    <div className="block md:hidden bg-background rounded-lg">
       <Button size="default" className="w-full">
         <CogIcon className="h-4 nr-2" /> Instellingen
       </Button>
@@ -112,6 +128,22 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
                   <DropdownMenuRadioItem value={MapStyle.Streets}>Straten</DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value={MapStyle.Outdoors}>Outdoor</DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value={MapStyle.Satellite}>Satelliet</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value={MapStyle.Dark}>Donker</DropdownMenuRadioItem>
+                </DropdownMenuRadioGroup>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <MoonIcon className="mr-2 h-4 w-4" />
+              Donkere modus
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                <DropdownMenuRadioGroup value={darkMode != null ? `${darkMode}` : 'auto'} onValueChange={(d) => changeDarkMode(d)}>
+                  <DropdownMenuRadioItem value={'auto'}>Automatisch</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value={'true'}>Aan</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value={'false'}>Uit</DropdownMenuRadioItem>
                 </DropdownMenuRadioGroup>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>

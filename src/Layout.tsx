@@ -7,6 +7,7 @@ import PWAPrompt from 'react-ios-pwa-prompt';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { User } from './types/User';
 import ResetPassword from './components/ResetPassword';
+import useSettingsStore from './stores/settings.store';
 
 type ContextType = {
   mapRef: RefObject<MapRef>;
@@ -19,6 +20,23 @@ export default function Layout() {
   const auth = useAuthUser<User>();
   const mapRef = useRef<MapRef>(null);
   const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
+  const { darkMode } = useSettingsStore();
+
+  function isDarkMode() {
+    const prefersColorSchemeDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (darkMode === undefined) {
+      return prefersColorSchemeDark;
+    }
+    return darkMode;
+  }
+
+  useEffect(() => {
+    if (isDarkMode()) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  }, [darkMode]);
 
   /**
    * If reset password is required, open the dialog.

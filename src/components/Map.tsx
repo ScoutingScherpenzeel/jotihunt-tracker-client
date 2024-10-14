@@ -73,8 +73,9 @@ const Map = forwardRef<MapRef>((_, ref) => {
         <NavigationControl />
         <ScaleControl />
         <GeolocateControl />
-        <AttributionControl customAttribution={'Jotihunt Tracker | Scouting Scherpenzeel'} compact={true} />
-
+        <div className="bg-background">
+          <AttributionControl customAttribution={'Jotihunt Tracker | Scouting Scherpenzeel'} compact={true} />
+        </div>
         {popupPosition && (
           <MapPopup
             onClose={() => {
