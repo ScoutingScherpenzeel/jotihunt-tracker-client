@@ -7,6 +7,7 @@ import bicycleIcon from '@/assets/images/bicycle.svg';
 import walkingIcon from '@/assets/images/walking.svg';
 import motorbikeIcon from '@/assets/images/motorbike.svg';
 import phoneIcon from '@/assets/images/phone.svg';
+import arrow from '@/assets/images/arrow.svg';
 import { createCircle, knotsToKmh } from '@/lib/utils';
 import { formatDistanceToNow, isBefore, parseISO, subMinutes } from 'date-fns';
 import { nl } from 'date-fns/locale';
@@ -57,6 +58,23 @@ export default function Devices() {
     }
   }
 
+  function getCoursePositionStyle(course: number) {
+    // Distance the arrow will be translated away from the center (adjust as needed)
+    const distance = 30;
+
+    // Swap the X and Y calculations to correct the 90-degree offset
+    const translateX = Math.sin((course * Math.PI) / 180) * distance;
+    const translateY = -Math.cos((course * Math.PI) / 180) * distance;
+
+    // Combine rotation and translation
+    return {
+      transform: `translate(${translateX}px, ${translateY}px) rotate(${course}deg)`, //
+      transformOrigin: 'center center',
+    };
+  }
+
+  console.log(positions);
+
   return (
     <>
       {positions?.map((position) => (
@@ -72,7 +90,12 @@ export default function Devices() {
             }}
             style={{ cursor: 'pointer', zIndex: 10 }}
           >
-            <div className={`hover:brightness-125 hover:scale-105 transition-all ease-in-out ${isMoreThanFiveMinutesAgo(position.fixTime) && 'grayscale'}`}>
+            <div className={`h-10 hover:brightness-125 hover:scale-105 transition-all ease-in-out ${isMoreThanFiveMinutesAgo(position.fixTime) && 'grayscale'}`}>
+              {position.speed > 0 && (
+                <div className="absolute w-10 h-10 transform flex items-center justify-center" style={getCoursePositionStyle(position.course)}>
+                  <img src={arrow} alt="arrow" className="w-7 h-7" />
+                </div>
+              )}
               <img src={getIcon(position)} className="h-10" />
             </div>
           </Marker>
