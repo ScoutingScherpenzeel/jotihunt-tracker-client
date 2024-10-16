@@ -64,7 +64,6 @@ export default function MarkerRegistration({ lat, lng }: { lat: number; lng: num
   function handleOpenChange(open: boolean) {
     setDialogOpen(open);
     form.reset();
-    form.clearErrors();
   }
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -192,7 +191,7 @@ export default function MarkerRegistration({ lat, lng }: { lat: number; lng: num
             />
           </div>
           <DialogFooter className="gap-2">
-            <Button variant="outline" onClick={() => handleOpenChange(false)}>
+            <Button variant="outline" type="button" onClick={() => handleOpenChange(false)}>
               Annuleren
             </Button>
             <Button variant="default" type="submit" disabled={!form.formState.isValid}>
