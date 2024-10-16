@@ -27,16 +27,7 @@ export default function FoxStatusCard() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-3 gap-2">
-            {(isLoadingAreas || isErrorAreas || isLoadingHunts || isErrorHunts) && (!areas || !hunts) && (
-              <>
-                <Skeleton className="h-[52px] rounded-lg" />
-                <Skeleton className="h-[52px] rounded-lg" />
-                <Skeleton className="h-[52px] rounded-lg" />
-                <Skeleton className="h-[52px] rounded-lg" />
-                <Skeleton className="h-[52px] rounded-lg" />
-                <Skeleton className="h-[52px] rounded-lg" />
-              </>
-            )}
+            {(isLoadingAreas || isErrorAreas || isLoadingHunts || isErrorHunts) && (!areas || !hunts) && <FoxStatusSkeleton />}
             {areas &&
               hunts &&
               areas.map((area) => (
@@ -47,6 +38,19 @@ export default function FoxStatusCard() {
           </div>
         </CardContent>
       </Card>
+    </>
+  );
+}
+
+function FoxStatusSkeleton() {
+  return (
+    <>
+      <Skeleton className="h-[52px] rounded-lg" />
+      <Skeleton className="h-[52px] rounded-lg" />
+      <Skeleton className="h-[52px] rounded-lg" />
+      <Skeleton className="h-[52px] rounded-lg" />
+      <Skeleton className="h-[52px] rounded-lg" />
+      <Skeleton className="h-[52px] rounded-lg" />
     </>
   );
 }

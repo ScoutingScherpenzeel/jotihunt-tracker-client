@@ -129,6 +129,140 @@ export default function HintEntryCard({ mapRef }: InferProps<typeof HintEntryCar
     form.setValue(key, '');
   }
 
+  const formComponent = () => (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="flex flex-col gap-4">
+          <div className="flex gap-4 w-full">
+            <FormField
+              control={form.control}
+              name="area"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Deelgebied</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Kies deelgebied..." />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {areaOptions.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="time"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Tijdstip</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger disabled={!form.watch('area')}>
+                        <SelectValue placeholder="Kies tijdstip..." />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {timeOptions.length > 0 ? (
+                        timeOptions.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <SelectItem value="disabled" disabled>
+                          (Nog) geen tijdstip te kiezen
+                        </SelectItem>
+                      )}
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="flex flex-col gap-4">
+            <div className="flex gap-2 items-end">
+              <FormField
+                control={form.control}
+                name="x"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>X-coördinaat</FormLabel>
+                    <FormControl>
+                      <InputOTP autoComplete="off" maxLength={6} pattern={REGEXP_ONLY_DIGITS} {...field}>
+                        <InputOTPGroup>
+                          <InputOTPSlot index={0} />
+                          <InputOTPSlot index={1} />
+                          <InputOTPSlot index={2} />
+                          <InputOTPSlot index={3} />
+                          <InputOTPSlot index={4} />
+                          <InputOTPSlot index={5} />
+                        </InputOTPGroup>
+                      </InputOTP>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <Button
+                variant="outline"
+                tabIndex={-1}
+                onClick={(e) => {
+                  e.preventDefault();
+                  clearField('x');
+                }}
+              >
+                <TrashIcon className="h-4 w-4" />
+              </Button>
+            </div>
+            <div className="flex gap-2 items-end">
+              <FormField
+                control={form.control}
+                name="y"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Y-coördinaat</FormLabel>
+                    <FormControl>
+                      <InputOTP autoComplete="off" maxLength={6} pattern={REGEXP_ONLY_DIGITS} {...field}>
+                        <InputOTPGroup>
+                          <InputOTPSlot index={0} />
+                          <InputOTPSlot index={1} />
+                          <InputOTPSlot index={2} />
+                          <InputOTPSlot index={3} />
+                          <InputOTPSlot index={4} />
+                          <InputOTPSlot index={5} />
+                        </InputOTPGroup>
+                      </InputOTP>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <Button
+                variant="outline"
+                tabIndex={-1}
+                onClick={(e) => {
+                  e.preventDefault();
+                  clearField('y');
+                }}
+              >
+                <TrashIcon className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+          <Button type="submit" disabled={!form.formState.isValid}>
+            <Pin className="mr-2 h-4 w-4" /> Registreren
+          </Button>
+        </div>
+      </form>
+    </Form>
+  );
+
   return (
     <>
       <Card collapsible={true} defaultOpen={true}>
@@ -136,140 +270,7 @@ export default function HintEntryCard({ mapRef }: InferProps<typeof HintEntryCar
           <CardTitle>Hint registreren</CardTitle>
           <CardDescription>Plaats een marker op de kaart op basis van RD-grid coördinaten.</CardDescription>
         </CardHeader>
-
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <div className="flex flex-col gap-4">
-                <div className="flex gap-4 w-full">
-                  <FormField
-                    control={form.control}
-                    name="area"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel>Deelgebied</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Kies deelgebied..." />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {areaOptions.map((option) => (
-                              <SelectItem key={option.value} value={option.value}>
-                                {option.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="time"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel>Tijdstip</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
-                          <FormControl>
-                            <SelectTrigger disabled={!form.watch('area')}>
-                              <SelectValue placeholder="Kies tijdstip..." />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {timeOptions.length > 0 ? (
-                              timeOptions.map((option) => (
-                                <SelectItem key={option.value} value={option.value}>
-                                  {option.label}
-                                </SelectItem>
-                              ))
-                            ) : (
-                              <SelectItem value="disabled" disabled>
-                                (Nog) geen tijdstip te kiezen
-                              </SelectItem>
-                            )}
-                          </SelectContent>
-                        </Select>
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className="flex flex-col gap-4">
-                  <div className="flex gap-2 items-end">
-                    <FormField
-                      control={form.control}
-                      name="x"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>X-coördinaat</FormLabel>
-                          <FormControl>
-                            <InputOTP autoComplete="off" maxLength={6} pattern={REGEXP_ONLY_DIGITS} {...field}>
-                              <InputOTPGroup>
-                                <InputOTPSlot index={0} />
-                                <InputOTPSlot index={1} />
-                                <InputOTPSlot index={2} />
-                                <InputOTPSlot index={3} />
-                                <InputOTPSlot index={4} />
-                                <InputOTPSlot index={5} />
-                              </InputOTPGroup>
-                            </InputOTP>
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <Button
-                      variant="outline"
-                      tabIndex={-1}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        clearField('x');
-                      }}
-                    >
-                      <TrashIcon className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  <div className="flex gap-2 items-end">
-                    <FormField
-                      control={form.control}
-                      name="y"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Y-coördinaat</FormLabel>
-                          <FormControl>
-                            <InputOTP autoComplete="off" maxLength={6} pattern={REGEXP_ONLY_DIGITS} {...field}>
-                              <InputOTPGroup>
-                                <InputOTPSlot index={0} />
-                                <InputOTPSlot index={1} />
-                                <InputOTPSlot index={2} />
-                                <InputOTPSlot index={3} />
-                                <InputOTPSlot index={4} />
-                                <InputOTPSlot index={5} />
-                              </InputOTPGroup>
-                            </InputOTP>
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <Button
-                      variant="outline"
-                      tabIndex={-1}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        clearField('y');
-                      }}
-                    >
-                      <TrashIcon className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-                <Button type="submit" disabled={!form.formState.isValid}>
-                  <Pin className="mr-2 h-4 w-4" /> Registreren
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </CardContent>
+        <CardContent>{formComponent()}</CardContent>
       </Card>
     </>
   );

@@ -38,6 +38,11 @@ export default function MarkerRegistration({ lat, lng }: { lat: number; lng: num
     },
   });
 
+  /**
+   * Get a list of all dates between the hunt start and end time.
+   * Yes, you can also assume that the hunt starts on saterday and ends on sunday, but that'd be impractical for testing.
+   * @returns A list of all dates between the hunt start and end time.
+   */
   function getDays() {
     const days = [];
     let currentDate = new Date(HUNT_START_TIME);
@@ -48,6 +53,10 @@ export default function MarkerRegistration({ lat, lng }: { lat: number; lng: num
     return days;
   }
 
+  /**
+   * Get either the current date or the first hunt date if the current date is not within the hunt time.
+   * @returns The date.
+   */
   function getCurrentOrFirstDate() {
     const currentDay = new Date();
     if (currentDay < HUNT_START_TIME || currentDay > HUNT_END_TIME) {
@@ -56,16 +65,29 @@ export default function MarkerRegistration({ lat, lng }: { lat: number; lng: num
     return currentDay;
   }
 
+  /**
+   * Open a dialog to register a marker.
+   * @param markerType What type of marker to open the dialog for.
+   */
   function openDialog(markerType: MarkerType) {
     setMarkerType(markerType);
     setDialogOpen(true);
   }
 
+  /**
+   * Properly handle resetting the form on dialog open change.
+   * @param open Whether the dialog is open.
+   */
   function handleOpenChange(open: boolean) {
     setDialogOpen(open);
     form.reset();
   }
 
+  /**
+   * Submit the form data to create a marker.
+   * @param data The form data.
+   * @returns Absolutely nothing :)
+   */
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const day = new Date(data.day);
     const time = new Date(data.time);

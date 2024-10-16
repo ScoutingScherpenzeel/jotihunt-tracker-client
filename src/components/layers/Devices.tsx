@@ -11,10 +11,9 @@ import arrow from '@/assets/images/arrow.svg';
 import { createCircle, knotsToKmh } from '@/lib/utils';
 import { formatDistanceToNow, isBefore, parseISO, subMinutes } from 'date-fns';
 import { nl } from 'date-fns/locale';
-import { Button } from '../ui/button';
-import { MapIcon } from 'lucide-react';
 import { Position } from '@/types/Position';
 import MarkerRegistration from '../map/MarkerRegistration';
+import GoogleMapsButton from '../map/GoogleMapsButton';
 
 export default function Devices() {
   const GROUP_WALKING_ID: number = +import.meta.env.GROUP_WALKING_ID;
@@ -59,15 +58,24 @@ export default function Devices() {
     }
   }
 
+  /**
+   * Get the CSS style for the device icon based on the course.
+   * Displays an arrow pointing in the direction of the course.
+   * For example, with a course of 45 (P = device position):
+   *
+   *         *
+   *        /
+   *       P
+   *
+   * @param course The heading of the device.
+   * @returns The CSS style for the device icon.
+   */
   function getCoursePositionStyle(course: number) {
-    // Distance the arrow will be translated away from the center (adjust as needed)
     const distance = 30;
 
-    // Swap the X and Y calculations to correct the 90-degree offset
     const translateX = Math.sin((course * Math.PI) / 180) * distance;
     const translateY = -Math.cos((course * Math.PI) / 180) * distance;
 
-    // Combine rotation and translation
     return {
       transform: `translate(${translateX}px, ${translateY}px) rotate(${course}deg)`, //
       transformOrigin: 'center center',
@@ -125,11 +133,7 @@ export default function Devices() {
                 })}
               </p>
             </div>
-            <Button variant="outline" size="sm" asChild className="w-full">
-              <a target="_blank" rel="noreferrer" href={`https://www.google.com/maps?q=${activeDevice.latitude},${activeDevice.longitude}`}>
-                <MapIcon className="mr-2 h-4 w-4" /> Bekijk op Google Maps
-              </a>
-            </Button>
+            <GoogleMapsButton lat={activeDevice.latitude} lng={activeDevice.longitude} />
             <MarkerRegistration lat={activeDevice.latitude} lng={activeDevice.longitude} />
           </div>
         </MapPopup>

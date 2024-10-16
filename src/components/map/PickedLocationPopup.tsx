@@ -1,8 +1,7 @@
-import { MapIcon } from 'lucide-react';
-import { Button } from '../ui/button';
 import MapPopup from './MapPopup';
 import proj4 from 'proj4';
 import MarkerRegistration from './MarkerRegistration';
+import GoogleMapsButton from './GoogleMapsButton';
 
 export default function PickedLocationPopup({ lat, lng, onClose }: { lat: number; lng: number; onClose: () => void }) {
   return (
@@ -16,12 +15,7 @@ export default function PickedLocationPopup({ lat, lng, onClose }: { lat: number
           <p>RD-x: {proj4('WGS84', 'RD', [lng, lat])[0].toFixed(0)}</p>
           <p>RD-y: {proj4('WGS84', 'RD', [lng, lat])[1].toFixed(0)}</p>
         </div>
-        <Button variant="outline" size="sm" asChild className="w-full">
-          <a target="_blank" rel="noreferrer" href={`https://www.google.com/maps?q=${lat},${lng}`}>
-            <MapIcon className="mr-2 h-4 w-4" /> Bekijk op google maps
-          </a>
-        </Button>
-
+        <GoogleMapsButton lat={lat} lng={lng} />
         <MarkerRegistration lat={lat} lng={lng} />
       </div>
     </MapPopup>

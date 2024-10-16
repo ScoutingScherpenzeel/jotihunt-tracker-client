@@ -6,8 +6,7 @@ import { Team } from '@/types/Team';
 import MapPopup from '../map/MapPopup';
 import { getColorFromArea } from '@/lib/utils';
 import { useAreas } from '@/hooks/areas.hook';
-import { Button } from '../ui/button';
-import { MapIcon } from 'lucide-react';
+import GoogleMapsButton from '../map/GoogleMapsButton';
 
 export default function Teams() {
   const { teams } = useTeams();
@@ -44,7 +43,7 @@ export default function Teams() {
       {markers}
       {activeTeam && (
         <MapPopup longitude={activeTeam.location.coordinates[0]} latitude={activeTeam.location.coordinates[1]} onClose={() => setActiveTeam(undefined)}>
-          <div className="mr-6 flex flex-col gap-3">
+          <div className="mr-6 flex flex-col gap-3 w-full">
             <div>
               <h2 className="font-semibold">{activeTeam.name}</h2>
               <p>Accomodatie: {activeTeam.accomodation}</p>
@@ -55,11 +54,7 @@ export default function Teams() {
                 {activeTeam.postCode} {activeTeam.city}
               </p>
             </div>
-            <Button variant="outline" size="sm" asChild className="w-min">
-              <a target="_blank" rel="noreferrer" href={`https://www.google.com/maps?q=${activeTeam.location.coordinates[1]},${activeTeam.location.coordinates[0]}`}>
-                <MapIcon className="mr-2 h-4 w-4" /> Bekijk op Google Maps
-              </a>
-            </Button>
+            <GoogleMapsButton lat={activeTeam.location.coordinates[1]} lng={activeTeam.location.coordinates[0]} />
           </div>
         </MapPopup>
       )}

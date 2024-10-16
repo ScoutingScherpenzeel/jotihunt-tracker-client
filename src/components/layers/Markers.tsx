@@ -23,9 +23,10 @@ import {
 } from '@/components/ui/alert-dialog';
 import { toast } from '../ui/use-toast';
 import PropTypes, { InferProps } from 'prop-types';
-import { MapIcon, Trash2Icon } from 'lucide-react';
+import { Trash2Icon } from 'lucide-react';
 import proj4 from 'proj4';
 import { MarkerType } from '@/types/MarkerType';
+import GoogleMapsButton from '../map/GoogleMapsButton';
 
 export default function Markers({ part1 = true, part2 = true }: InferProps<typeof Markers.propTypes>) {
   const { markers, deleteMarker } = useMarkers();
@@ -35,10 +36,14 @@ export default function Markers({ part1 = true, part2 = true }: InferProps<typeo
 
   const startTime = new Date(import.meta.env.HUNT_START_TIME);
   const endTime = new Date(import.meta.env.HUNT_END_TIME);
-  // midnight start of the next day
   const midnight = new Date(startTime);
   midnight.setHours(24, 0, 0, 0);
 
+  /**
+   * Get a specific icon for a marker type.
+   * @param type The type of marker.
+   * @returns The image source for the icon.
+   */
   function getIconForType(type: MarkerType) {
     switch (type) {
       case MarkerType.Hint:
@@ -52,6 +57,10 @@ export default function Markers({ part1 = true, part2 = true }: InferProps<typeo
     }
   }
 
+  /**
+   * Action to delete a marker.
+   * @param marker The marker to delete.
+   */
   async function deleteMarkerAction(marker: Marker) {
     const result = await deleteMarker(marker._id!);
     if (result) {
@@ -69,7 +78,11 @@ export default function Markers({ part1 = true, part2 = true }: InferProps<typeo
     }
   }
 
-  // Helper function to filter markers based on time and visibility
+  /**
+   * Helper function to filter markers based on time and visibility.
+   * @param markers The markers to filter.
+   * @returns The filtered markers.
+   */
   function filterByTimeAndVisibility(markers: Marker[]): Marker[] {
     return markers.filter((marker) => {
       const markerTime = new Date(marker.time);
@@ -89,13 +102,17 @@ export default function Markers({ part1 = true, part2 = true }: InferProps<typeo
     });
   }
 
-  // Filter markers based on time and visibility
+  /**
+   * Filter markers based on time and visibility
+   */
   const visibleMarkers = useMemo(() => {
     if (!markers) return [];
     return filterByTimeAndVisibility(markers);
   }, [markers, part1, part2, isVisible]);
 
-  // Group and sort markers by area for line creation
+  /**
+   * Group and sort markers by area for line creation
+   */
   const sortedGroupedMarkers = useMemo(() => {
     const groupedMarkers = visibleMarkers.reduce(
       (acc, marker) => {
@@ -115,7 +132,9 @@ export default function Markers({ part1 = true, part2 = true }: InferProps<typeo
     return groupedMarkers;
   }, [visibleMarkers]);
 
-  // Create line sources based on visible markers
+  /**
+   * Create line sources based on visible markers
+   */
   const lineSources = useMemo(() => {
     return Object.keys(sortedGroupedMarkers).map((area) => {
       const coordinates = sortedGroupedMarkers[area].map((marker) => marker.location.coordinates);
@@ -132,7 +151,9 @@ export default function Markers({ part1 = true, part2 = true }: InferProps<typeo
     }) as { id: string; data: GeoJSON.Feature<GeoJSON.LineString> }[];
   }, [sortedGroupedMarkers]);
 
-  // Create map markers
+  /**
+   * Create map markers
+   */
   const mapMarkers = useMemo(() => {
     return visibleMarkers?.map((marker) => (
       <MapMarker
@@ -187,12 +208,7 @@ export default function Markers({ part1 = true, part2 = true }: InferProps<typeo
               <p>RD-y: {proj4('WGS84', 'RD', [activeMarker.location.coordinates[0], activeMarker.location.coordinates[1]])[1].toFixed(0)}</p>
             </div>
             <div className="flex flex-col gap-2 w-full">
-              <Button variant="outline" size="sm" asChild className="w-full">
-                <a target="_blank" rel="noreferrer" href={`https://www.google.com/maps?q=${activeMarker.location.coordinates[1]},${activeMarker.location.coordinates[0]}`}>
-                  <MapIcon className="mr-2 h-4 w-4" /> Bekijk op Google Maps
-                </a>
-              </Button>
-
+              <GoogleMapsButton lat={activeMarker.location.coordinates[1]} lng={activeMarker.location.coordinates[0]} />
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button variant="destructive" size="sm" className="w-full">
