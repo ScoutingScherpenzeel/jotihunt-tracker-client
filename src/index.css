@@ -51,6 +51,9 @@ body.dark {
   .mapboxgl-popup-tip {
     @apply border-t-background;
   }
+  ::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
 }
 
 @layer base {
