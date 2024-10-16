@@ -179,7 +179,7 @@ export default function Markers({ part1 = true, part2 = true }: InferProps<typeo
                   minute: '2-digit',
                 })}
               </h2>
-              <p>Soort marker: {activeMarker.type}</p>
+              <p>Soort marker: {capitalizeFirstLetter(activeMarker.type)}</p>
               <p>Breedtegraad: {activeMarker.location.coordinates[1].toFixed(7)}</p>
               <p>Lengtegraad: {activeMarker.location.coordinates[0].toFixed(7)}</p>
 
