@@ -35,7 +35,7 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
   const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
 
   // Store for all layers / settings
-  const { showTeams, showDevices, showHintsPart1, showHintsPart2, showHomeCircle, toggleTeams, toggleDevices, toggleHintsPart1, toggleHintsPart2, toggleHomeCircle } = useLayersStore();
+  const { showTeams, showDevices, showMarkersPart1, showMarkersPart2, showHomeCircle, toggleTeams, toggleDevices, toggleMarkersPart1, toggleMarkersPart2, toggleHomeCircle } = useLayersStore();
   const { mapStyle, setMapStyle, darkMode, setDarkMode } = useSettingsStore();
 
   // Authentication stuff
@@ -99,11 +99,11 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
                 <DropdownMenuCheckboxItem checked={showDevices} onCheckedChange={toggleDevices} onSelect={(e) => e.preventDefault()}>
                   Huidige locatie auto's
                 </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem checked={showHintsPart1} onCheckedChange={toggleHintsPart1} onSelect={(e) => e.preventDefault()}>
-                  Hint locaties (speelhelft 1)
+                <DropdownMenuCheckboxItem checked={showMarkersPart1} onCheckedChange={toggleMarkersPart1} onSelect={(e) => e.preventDefault()}>
+                  Markers (speelhelft 1)
                 </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem checked={showHintsPart2} onCheckedChange={toggleHintsPart2} onSelect={(e) => e.preventDefault()}>
-                  Hint locaties (speelhelft 2)
+                <DropdownMenuCheckboxItem checked={showMarkersPart2} onCheckedChange={toggleMarkersPart2} onSelect={(e) => e.preventDefault()}>
+                  Markers (speelhelft 2)
                 </DropdownMenuCheckboxItem>
                 <DropdownMenuCheckboxItem checked={showHomeCircle} onCheckedChange={toggleHomeCircle} onSelect={(e) => e.preventDefault()}>
                   Tegenhunt cirkel

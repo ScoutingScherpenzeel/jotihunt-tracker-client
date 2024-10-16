@@ -15,15 +15,7 @@ import { MapRef } from '@/components/Map';
 import proj4 from 'proj4';
 import { MarkerType } from '@/types/MarkerType';
 import { Marker } from '@/types/Marker';
-
-const areaOptions = [
-  { value: 'alpha', label: 'Alpha' },
-  { value: 'bravo', label: 'Bravo' },
-  { value: 'charlie', label: 'Charlie' },
-  { value: 'delta', label: 'Delta' },
-  { value: 'echo', label: 'Echo' },
-  { value: 'foxtrot', label: 'Foxtrot' },
-];
+import { areaOptions } from '@/lib/utils';
 
 const FormSchema = z.object({
   area: z.enum([...areaOptions.map((option) => option.value)] as [string, ...string[]]),

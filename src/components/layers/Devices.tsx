@@ -14,6 +14,7 @@ import { nl } from 'date-fns/locale';
 import { Button } from '../ui/button';
 import { MapIcon } from 'lucide-react';
 import { Position } from '@/types/Position';
+import MarkerRegistration from '../map/MarkerRegistration';
 
 export default function Devices() {
   const GROUP_WALKING_ID: number = +import.meta.env.GROUP_WALKING_ID;
@@ -111,7 +112,7 @@ export default function Devices() {
       ))}
       {activeDevice && (
         <MapPopup longitude={activeDevice.longitude} latitude={activeDevice.latitude} onClose={() => setActiveDeviceId(undefined)} offset={{ bottom: [0, -20] }}>
-          <div className="mr-6 flex flex-col gap-2">
+          <div className="mr-6 flex flex-col gap-2 w-full">
             <div>
               <h2 className="font-semibold">{activeDevice.deviceName}</h2>
               <p>Snelheid: {Math.round(knotsToKmh(activeDevice.speed))} km/h</p>
@@ -124,11 +125,12 @@ export default function Devices() {
                 })}
               </p>
             </div>
-            <Button variant="outline" size="sm" asChild className="w-min">
+            <Button variant="outline" size="sm" asChild className="w-full">
               <a target="_blank" rel="noreferrer" href={`https://www.google.com/maps?q=${activeDevice.latitude},${activeDevice.longitude}`}>
                 <MapIcon className="mr-2 h-4 w-4" /> Bekijk op Google Maps
               </a>
             </Button>
+            <MarkerRegistration lat={activeDevice.latitude} lng={activeDevice.longitude} />
           </div>
         </MapPopup>
       )}

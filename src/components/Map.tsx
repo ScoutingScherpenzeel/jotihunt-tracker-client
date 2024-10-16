@@ -5,17 +5,14 @@ import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 
 import Teams from './layers/Teams';
 import Devices from './layers/Devices';
-import Hints from './layers/Hints';
+import Markers from './layers/Markers';
 import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
-import MapPopup from './map/MapPopup';
-import { Button } from './ui/button';
-import proj4 from 'proj4';
 import HomeCircle from './layers/HomeCircle';
 import useLayersStore from '../stores/layers.store';
 import useSettingsStore from '../stores/settings.store';
-import { MapIcon } from 'lucide-react';
 import { MapStyle } from '@/types/MapStyle';
 import { useDarkMode } from '@/hooks/utils/darkmode.hook';
+import PickedLocationPopup from './map/PickedLocationPopup';
 
 export interface MapRef {
   flyTo(options: mapboxgl.FlyToOptions): void;
@@ -45,7 +42,7 @@ const Map = forwardRef<MapRef>((_, ref) => {
   }));
 
   // Store for all layers
-  const { showTeams, showDevices, showHintsPart1, showHintsPart2, showHomeCircle } = useLayersStore();
+  const { showTeams, showDevices, showMarkersPart1, showMarkersPart2, showHomeCircle } = useLayersStore();
   const [popupPosition, setPopupPosition] = useState<mapboxgl.LngLat>();
 
   // Store for settings
@@ -83,35 +80,10 @@ const Map = forwardRef<MapRef>((_, ref) => {
         <div className="bg-background">
           <AttributionControl customAttribution={'Jotihunt Tracker | Scouting Scherpenzeel'} compact={true} />
         </div>
-        {popupPosition && (
-          <MapPopup
-            onClose={() => {
-              setPopupPosition(undefined);
-            }}
-            longitude={popupPosition?.lng || 0}
-            latitude={popupPosition?.lat || 0}
-            offset={{ bottom: [0, 0] }}
-          >
-            <div className="mr-6 flex flex-col gap-2">
-              <div>
-                <h2 className="font-semibold">Gekozen locatie</h2>
-                <p>Breedtegraad: {popupPosition.lat.toFixed(7)}</p>
-                <p>Lengtegraad: {popupPosition.lng.toFixed(7)}</p>
-
-                <p>RD-x: {proj4('WGS84', 'RD', [popupPosition.lng, popupPosition.lat])[0].toFixed(0)}</p>
-                <p>RD-y: {proj4('WGS84', 'RD', [popupPosition.lng, popupPosition.lat])[1].toFixed(0)}</p>
-              </div>
-              <Button variant="outline" size="sm" asChild className="w-min">
-                <a target="_blank" rel="noreferrer" href={`https://www.google.com/maps?q=${popupPosition.lat},${popupPosition.lng}`}>
-                  <MapIcon className="mr-2 h-4 w-4" /> Bekijk op google maps
-                </a>
-              </Button>
-            </div>
-          </MapPopup>
-        )}
+        {popupPosition && <PickedLocationPopup lng={popupPosition.lng} lat={popupPosition.lat} onClose={() => setPopupPosition(undefined)} />}
         {showTeams && <Teams />}
         {showDevices && <Devices />}
-        {(showHintsPart1 || showHintsPart2) && <Hints part1={showHintsPart1} part2={showHintsPart2} />}
+        {(showMarkersPart1 || showMarkersPart2) && <Markers part1={showMarkersPart1} part2={showMarkersPart2} />}
         {showHomeCircle && <HomeCircle />}
       </Mapbox>
     </div>

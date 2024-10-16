@@ -1,7 +1,10 @@
 import { useMarkers } from '@/hooks/markers.hook';
 import { useMemo, useState } from 'react';
 import { Layer, Marker as MapMarker, Source } from 'react-map-gl';
-import foxIcon from '@/assets/images/fox.svg';
+import foxHint from '@/assets/images/fox-hint.svg';
+import foxHunt from '@/assets/images/fox-hunt.svg';
+import foxSpot from '@/assets/images/fox-spot.svg';
+import fox from '@/assets/images/fox.svg';
 import { capitalizeFirstLetter, getColorFromArea } from '@/lib/utils';
 import { Marker } from '@/types/Marker';
 import MapPopup from '../map/MapPopup';
@@ -22,8 +25,9 @@ import { toast } from '../ui/use-toast';
 import PropTypes, { InferProps } from 'prop-types';
 import { MapIcon, Trash2Icon } from 'lucide-react';
 import proj4 from 'proj4';
+import { MarkerType } from '@/types/MarkerType';
 
-export default function Hints({ part1 = true, part2 = true }: InferProps<typeof Hints.propTypes>) {
+export default function Markers({ part1 = true, part2 = true }: InferProps<typeof Markers.propTypes>) {
   const { markers, deleteMarker } = useMarkers();
   const { isVisible } = useAreas();
 
@@ -35,18 +39,31 @@ export default function Hints({ part1 = true, part2 = true }: InferProps<typeof 
   const midnight = new Date(startTime);
   midnight.setHours(24, 0, 0, 0);
 
-  async function deleteHint(marker: Marker) {
+  function getIconForType(type: MarkerType) {
+    switch (type) {
+      case MarkerType.Hint:
+        return foxHint;
+      case MarkerType.Hunt:
+        return foxHunt;
+      case MarkerType.Spot:
+        return foxSpot;
+      default:
+        return fox;
+    }
+  }
+
+  async function deleteMarkerAction(marker: Marker) {
     const result = await deleteMarker(marker._id!);
     if (result) {
       setActiveMarker(undefined);
       toast({
-        title: 'Hint verwijderd!',
-        description: 'De hint is succesvol verwijderd.',
+        title: 'Marker verwijderd!',
+        description: 'De marker is succesvol verwijderd.',
       });
     } else {
       toast({
-        title: 'Fout bij verwijderen hint.',
-        description: 'Er is iets fout gegaan bij het verwijderen van de hint. Probeer het later opnieuw.',
+        title: 'Fout bij verwijderen marker.',
+        description: 'Er is iets fout gegaan bij het verwijderen van de marker. Probeer het later opnieuw.',
         variant: 'destructive',
       });
     }
@@ -130,7 +147,7 @@ export default function Hints({ part1 = true, part2 = true }: InferProps<typeof 
         style={{ cursor: 'pointer', zIndex: 10 }}
       >
         <div className="hover:brightness-125 hover:scale-105 transition-all ease-in-out">
-          <img src={foxIcon} className="h-8" />
+          <img src={getIconForType(marker.type)} className="h-10" />
         </div>
       </MapMarker>
     ));
@@ -162,14 +179,15 @@ export default function Hints({ part1 = true, part2 = true }: InferProps<typeof 
                   minute: '2-digit',
                 })}
               </h2>
+              <p>Soort marker: {activeMarker.type}</p>
               <p>Breedtegraad: {activeMarker.location.coordinates[1].toFixed(7)}</p>
               <p>Lengtegraad: {activeMarker.location.coordinates[0].toFixed(7)}</p>
 
               <p>RD-x: {proj4('WGS84', 'RD', [activeMarker.location.coordinates[0], activeMarker.location.coordinates[1]])[0].toFixed(0)}</p>
               <p>RD-y: {proj4('WGS84', 'RD', [activeMarker.location.coordinates[0], activeMarker.location.coordinates[1]])[1].toFixed(0)}</p>
             </div>
-            <div className="flex flex-col gap-2">
-              <Button variant="outline" size="sm" asChild className="w-min">
+            <div className="flex flex-col gap-2 w-full">
+              <Button variant="outline" size="sm" asChild className="w-full">
                 <a target="_blank" rel="noreferrer" href={`https://www.google.com/maps?q=${activeMarker.location.coordinates[1]},${activeMarker.location.coordinates[0]}`}>
                   <MapIcon className="mr-2 h-4 w-4" /> Bekijk op Google Maps
                 </a>
@@ -177,18 +195,18 @@ export default function Hints({ part1 = true, part2 = true }: InferProps<typeof 
 
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <Button variant="destructive" size="sm">
+                  <Button variant="destructive" size="sm" className="w-full">
                     <Trash2Icon className="mr-2 h-4 w-4" /> Verwijderen
                   </Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
                     <AlertDialogTitle>Weet je het zeker?</AlertDialogTitle>
-                    <AlertDialogDescription>Deze actie kan niet ongedaan gemaakt worden. Dit zal alle informatie van deze hint permanent verwijderen.</AlertDialogDescription>
+                    <AlertDialogDescription>Deze actie kan niet ongedaan gemaakt worden. Dit zal alle informatie van deze marker permanent verwijderen.</AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Annuleren</AlertDialogCancel>
-                    <AlertDialogAction onClick={() => deleteHint(activeMarker)}>Doorgaan</AlertDialogAction>
+                    <AlertDialogAction onClick={() => deleteMarkerAction(activeMarker)}>Doorgaan</AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
@@ -200,7 +218,7 @@ export default function Hints({ part1 = true, part2 = true }: InferProps<typeof 
   );
 }
 
-Hints.propTypes = {
+Markers.propTypes = {
   part1: PropTypes.bool.isRequired,
   part2: PropTypes.bool.isRequired,
 };

@@ -98,3 +98,12 @@ export function createWindSector(longitude: number, latitude: number, radius: nu
 
   return sector;
 }
+
+export const areaOptions = [
+  { value: 'alpha', label: 'Alpha' },
+  { value: 'bravo', label: 'Bravo' },
+  { value: 'charlie', label: 'Charlie' },
+  { value: 'delta', label: 'Delta' },
+  { value: 'echo', label: 'Echo' },
+  { value: 'foxtrot', label: 'Foxtrot' },
+];
