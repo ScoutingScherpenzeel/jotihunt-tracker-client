@@ -191,7 +191,7 @@ export default function MarkerRegistration({ lat, lng }: { lat: number; lng: num
               }}
             />
           </div>
-          <DialogFooter>
+          <DialogFooter className="gap-2">
             <Button variant="outline" onClick={() => handleOpenChange(false)}>
               Annuleren
             </Button>
