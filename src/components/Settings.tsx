@@ -50,14 +50,8 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
   function changeDarkMode(d: string) {
     if (d === 'true') {
       setDarkMode(true);
-      if (mapStyle === MapStyle.Streets) {
-        setMapStyle(MapStyle.Dark);
-      }
     } else if (d === 'false') {
       setDarkMode(false);
-      if (mapStyle === MapStyle.Dark) {
-        setMapStyle(MapStyle.Streets);
-      }
     } else {
       setDarkMode(undefined);
     }
@@ -125,6 +119,7 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
                 <DropdownMenuRadioGroup value={mapStyle} onValueChange={(s) => setMapStyle(s as MapStyle)}>
+                  <DropdownMenuRadioItem value={''}>Automatisch</DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value={MapStyle.Streets}>Straten</DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value={MapStyle.Outdoors}>Outdoor</DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value={MapStyle.Satellite}>Satelliet</DropdownMenuRadioItem>

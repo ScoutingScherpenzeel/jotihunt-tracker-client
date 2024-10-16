@@ -14,7 +14,6 @@ const pwaManifest: Partial<VitePWAOptions> = {
     name: 'Jotihunt Tracker',
     short_name: 'Jotihunt Tracker',
     description: 'Jotihunt Tracker voor Scouting Scherpenzeel e.o.',
-    theme_color: '#F97316',
     icons: [
       {
         src: 'pwa-64x64.png',

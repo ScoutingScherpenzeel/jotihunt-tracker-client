@@ -14,6 +14,8 @@ import HomeCircle from './layers/HomeCircle';
 import useLayersStore from '../stores/layers.store';
 import useSettingsStore from '../stores/settings.store';
 import { MapIcon } from 'lucide-react';
+import { MapStyle } from '@/types/MapStyle';
+import { useDarkMode } from '@/hooks/utils/darkmode.hook';
 
 export interface MapRef {
   flyTo(options: mapboxgl.FlyToOptions): void;
@@ -48,6 +50,11 @@ const Map = forwardRef<MapRef>((_, ref) => {
 
   // Store for settings
   const { mapStyle } = useSettingsStore();
+  const isDarkMode = useDarkMode();
+  let correctedMapStyle = mapStyle;
+  if (!correctedMapStyle) {
+    correctedMapStyle = isDarkMode ? MapStyle.Dark : MapStyle.Streets;
+  }
 
   /**
    * Open the current location popup when the map is clicked.
@@ -66,7 +73,7 @@ const Map = forwardRef<MapRef>((_, ref) => {
         initialViewState={initialViewState}
         style={{ width: '100%', height: '100%' }}
         attributionControl={false}
-        mapStyle={mapStyle}
+        mapStyle={correctedMapStyle}
         maxBounds={maxBounds}
         onClick={openPopup}
       >

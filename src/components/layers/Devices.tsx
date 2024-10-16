@@ -73,8 +73,6 @@ export default function Devices() {
     };
   }
 
-  console.log(positions);
-
   return (
     <>
       {positions?.map((position) => (

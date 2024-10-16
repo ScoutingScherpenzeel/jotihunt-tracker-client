@@ -16,7 +16,7 @@ interface SettingsState {
 const useSettingsStore = create<SettingsState>()(
   persist(
     (set) => ({
-      mapStyle: MapStyle.Streets,
+      mapStyle: '' as MapStyle,
       darkMode: undefined,
       setMapStyle: (mapStyle: MapStyle) => {
         set({ mapStyle });
