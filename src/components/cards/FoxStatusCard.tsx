@@ -11,11 +11,12 @@ export default function FoxStatusCard() {
 
   /**
    * Get the last hunt for an area.
+   * Exclude the hunts that have status "Tegenhunt", those don't matter for the time since 2024.
    * @param areaName The name of the area
    * @returns The last hunt for the area
    */
   function getLastHunt(areaName: string): Hunt | undefined {
-    return hunts?.find((hunt) => hunt.area === areaName);
+    return hunts?.filter((hunt) => !hunt.status.toLowerCase().includes('tegenhunt')).find((hunt) => hunt.area === areaName);
   }
 
   return (
