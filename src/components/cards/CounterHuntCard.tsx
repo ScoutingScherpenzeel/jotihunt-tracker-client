@@ -7,11 +7,12 @@ import { useState } from 'react';
 import PropTypes, { InferProps } from 'prop-types';
 import { MapRef } from '@/components/Map';
 import useMenuStore from '@/stores/menu.store';
+import { useTeams } from '@/hooks/teams.hook';
 
 export default function CounterHuntCard({ mapRef }: InferProps<typeof CounterHuntCard.propTypes>) {
   // Home coordinates for zooming to the counter hunt
-  const homeCoordsLat = import.meta.env.HOME_COORDS_LAT;
-  const homeCoordsLon = import.meta.env.HOME_COORDS_LON;
+  const { teams } = useTeams();
+  const homeTeam = teams?.find((team) => team.apiId == import.meta.env.HOME_TEAM_API_ID);
 
   const { setMenuOpen } = useMenuStore();
   const { direction, setDirection, setVisible } = useCounterHuntStore();
@@ -24,11 +25,13 @@ export default function CounterHuntCard({ mapRef }: InferProps<typeof CounterHun
   function showCounterHunt() {
     setVisible(true);
     setDirection(chosenDirection);
-    mapRef.current?.flyTo({
-      center: [homeCoordsLon, homeCoordsLat],
-      duration: 2000,
-      zoom: 16,
-    });
+    if (homeTeam) {
+      mapRef.current?.flyTo({
+        center: [homeTeam?.location.coordinates[0], homeTeam?.location.coordinates[1]],
+        duration: 2000,
+        zoom: 16,
+      });
+    }
     setMenuOpen(false);
   }
 

@@ -8,12 +8,11 @@ export default function DebugInfo() {
   const API_BASE_URL = import.meta.env.API_BASE_URL;
   const HUNT_START_TIME = import.meta.env.HUNT_START_TIME;
   const HUNT_END_TIME = import.meta.env.HUNT_END_TIME;
-  const HOME_COORDS_LAT = import.meta.env.HOME_COORDS_LAT;
-  const HOME_COORDS_LON = import.meta.env.HOME_COORDS_LON;
   const GROUP_WALKING_ID = import.meta.env.GROUP_WALKING_ID;
   const GROUP_CAR_ID = import.meta.env.GROUP_CAR_ID;
   const GROUP_MOTORCYCLE_ID = import.meta.env.GROUP_MOTORCYCLE_ID;
   const GROUP_BIKE_ID = import.meta.env.GROUP_BIKE_ID;
+  const HOME_TEAM_API_ID = import.meta.env.HOME_TEAM_API_ID;
 
   return (
     <DialogContent>
@@ -33,9 +32,7 @@ export default function DebugInfo() {
         <p>API base URL: {API_BASE_URL}</p>
         <p>Hunt start: {new Date(HUNT_START_TIME).toLocaleString()}</p>
         <p>Hunt einde: {new Date(HUNT_END_TIME).toLocaleString()}</p>
-        <p>
-          Basis coördinaten: {HOME_COORDS_LAT}, {HOME_COORDS_LON}
-        </p>
+        <p>Thuisbasis API ID: {HOME_TEAM_API_ID}</p>
         <p>Groep ID lopend: {GROUP_WALKING_ID}</p>
         <p>Groep ID auto: {GROUP_CAR_ID}</p>
         <p>Groep ID motor: {GROUP_MOTORCYCLE_ID}</p>
