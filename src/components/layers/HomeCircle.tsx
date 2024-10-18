@@ -15,7 +15,7 @@ export default function HomeCircle() {
   if (!visible) {
     return (
       <>
-        <Source id={`circle-source-home`} type="geojson" data={createCircle(homeCoordsLon, homeCoordsLat, 450)}>
+        <Source id={`circle-source-home`} type="geojson" data={createCircle(homeCoordsLon, homeCoordsLat, 500)}>
           <Layer
             id={`circle-layer-home`}
             type="fill"
@@ -32,7 +32,7 @@ export default function HomeCircle() {
   // Otherwise, show the wind sector
   return (
     <>
-      <Source id={`circle-source-home`} type="geojson" data={createWindSector(homeCoordsLon, homeCoordsLat, 450, direction, windAngleRange)}>
+      <Source id={`circle-source-home`} type="geojson" data={createWindSector(homeCoordsLon, homeCoordsLat, 500, direction, windAngleRange)}>
         <Layer
           id={`circle-layer-home`}
           type="fill"

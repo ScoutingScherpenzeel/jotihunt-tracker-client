@@ -1,16 +1,20 @@
-import { Marker } from 'react-map-gl';
+import { Layer, Marker, Source } from 'react-map-gl';
 import { useTeams } from '../../hooks/teams.hook';
 import MapMarker from '../map/MapMarker';
 import { useMemo, useState } from 'react';
 import { Team } from '@/types/Team';
 import MapPopup from '../map/MapPopup';
-import { getColorFromArea } from '@/lib/utils';
+import { createCircle, getColorFromArea } from '@/lib/utils';
 import { useAreas } from '@/hooks/areas.hook';
 import GoogleMapsButton from '../map/GoogleMapsButton';
 import { Badge } from '../ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import useLayersStore from '@/stores/layers.store';
 
 export default function Teams() {
+  const HOME_TEAM_API_ID = import.meta.env.HOME_TEAM_API_ID;
+
+  const { showGroupCircles } = useLayersStore();
   const { teams, setTeamArea } = useTeams();
   const { isVisible } = useAreas();
 
@@ -23,11 +27,11 @@ export default function Teams() {
     setTeamArea(activeTeam._id, area);
   }
 
-  const markers = useMemo(
-    () =>
-      teams
-        ?.filter((team) => isVisible(team.area || ''))
-        .map((team) => (
+  const markers = useMemo(() => {
+    return teams
+      ?.filter((team) => isVisible(team.area || ''))
+      .map((team) => (
+        <>
           <Marker
             key={team._id}
             longitude={team.location.coordinates[0]}
@@ -43,9 +47,21 @@ export default function Teams() {
               <MapMarker color={getColorFromArea(team.area || '')} />
             </div>
           </Marker>
-        )),
-    [teams, isVisible],
-  );
+          {showGroupCircles && team.apiId != HOME_TEAM_API_ID && (
+            <Source key={team.apiId} id={`circle-team-${team.apiId}`} type="geojson" data={createCircle(team.location.coordinates[0], team.location.coordinates[1], 500)}>
+              <Layer
+                id={`circle-team-layer-${team.apiId}`}
+                type="fill"
+                paint={{
+                  'fill-color': `${getColorFromArea(team.area || '')}`,
+                  'fill-opacity': 0.2,
+                }}
+              />
+            </Source>
+          )}
+        </>
+      ));
+  }, [teams, isVisible]);
 
   return (
     <>

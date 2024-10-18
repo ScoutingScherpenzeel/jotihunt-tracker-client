@@ -35,7 +35,20 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
   const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
 
   // Store for all layers / settings
-  const { showTeams, showDevices, showMarkersPart1, showMarkersPart2, showHomeCircle, toggleTeams, toggleDevices, toggleMarkersPart1, toggleMarkersPart2, toggleHomeCircle } = useLayersStore();
+  const {
+    showTeams,
+    showDevices,
+    showMarkersPart1,
+    showMarkersPart2,
+    showHomeCircle,
+    showGroupCircles,
+    toggleGroupCircles,
+    toggleTeams,
+    toggleDevices,
+    toggleMarkersPart1,
+    toggleMarkersPart2,
+    toggleHomeCircle,
+  } = useLayersStore();
   const { mapStyle, setMapStyle, darkMode, setDarkMode } = useSettingsStore();
 
   // Authentication stuff
@@ -107,6 +120,9 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
                 </DropdownMenuCheckboxItem>
                 <DropdownMenuCheckboxItem checked={showHomeCircle} onCheckedChange={toggleHomeCircle} onSelect={(e) => e.preventDefault()}>
                   Tegenhunt cirkel
+                </DropdownMenuCheckboxItem>
+                <DropdownMenuCheckboxItem checked={showGroupCircles} onCheckedChange={toggleGroupCircles} onSelect={(e) => e.preventDefault()}>
+                  Groepen cirkels
                 </DropdownMenuCheckboxItem>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>

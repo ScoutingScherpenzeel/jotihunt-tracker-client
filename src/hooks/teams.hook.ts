@@ -3,7 +3,9 @@ import { useAuthSWR } from '../lib/swr';
 import { useFetcher } from './utils/api.hook';
 
 export const useTeams = () => {
-  const { data, error, mutate } = useAuthSWR<Team[]>('/teams');
+  const { data, error, mutate } = useAuthSWR<Team[]>('/teams', {
+    refreshInterval: 1000,
+  });
   const { fetch } = useFetcher();
 
   async function setTeamArea(id: string, area: string) {

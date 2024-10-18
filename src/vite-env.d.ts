@@ -18,6 +18,7 @@ type ImportMetaEnv = {
   HUNT_END_TIME: string
   HOME_COORDS_LAT: string
   HOME_COORDS_LON: string
+  HOME_TEAM_API_ID: string
   GROUP_WALKING_ID: string
   GROUP_CAR_ID: string
   GROUP_MOTORCYCLE_ID: string
