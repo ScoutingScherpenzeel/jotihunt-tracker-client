@@ -7,12 +7,21 @@ import MapPopup from '../map/MapPopup';
 import { getColorFromArea } from '@/lib/utils';
 import { useAreas } from '@/hooks/areas.hook';
 import GoogleMapsButton from '../map/GoogleMapsButton';
+import { Badge } from '../ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 
 export default function Teams() {
-  const { teams } = useTeams();
+  const { teams, setTeamArea } = useTeams();
   const { isVisible } = useAreas();
 
   const [activeTeam, setActiveTeam] = useState<Team>();
+  const { areas } = useAreas();
+
+  function handleAreaChange(area: string) {
+    if (!activeTeam) return;
+    activeTeam.area = area;
+    setTeamArea(activeTeam._id, area);
+  }
 
   const markers = useMemo(
     () =>
@@ -46,6 +55,18 @@ export default function Teams() {
           <div className="mr-6 flex flex-col gap-3 w-full">
             <div>
               <h2 className="font-semibold">{activeTeam.name}</h2>
+              <div className="flex items-center gap-1">
+                <p>Deelgebied</p>
+                <Badge
+                  variant={'outline'}
+                  className="text-white border-0"
+                  style={{
+                    backgroundColor: getColorFromArea(activeTeam.area || ''),
+                  }}
+                >
+                  {activeTeam.area ?? 'Onbekend'}
+                </Badge>
+              </div>
               <p>Accomodatie: {activeTeam.accomodation}</p>
               <p>
                 {activeTeam.street} {activeTeam.houseNumber} {activeTeam.houseNumberAddition}
@@ -54,7 +75,23 @@ export default function Teams() {
                 {activeTeam.postCode} {activeTeam.city}
               </p>
             </div>
-            <GoogleMapsButton lat={activeTeam.location.coordinates[1]} lng={activeTeam.location.coordinates[0]} />
+            {/* Select with areas */}
+            <div className="flex flex-col gap-2">
+              <Select onValueChange={handleAreaChange} defaultValue={activeTeam.area ? activeTeam.area : undefined}>
+                <SelectTrigger autoFocus={false}>
+                  <SelectValue placeholder="Kies deelgebied..." />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={null as any}>Onbekend</SelectItem>
+                  {areas?.map((area) => (
+                    <SelectItem key={area._id} value={area.name}>
+                      {area.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <GoogleMapsButton lat={activeTeam.location.coordinates[1]} lng={activeTeam.location.coordinates[0]} />
+            </div>
           </div>
         </MapPopup>
       )}
