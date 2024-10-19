@@ -16,8 +16,7 @@ export default function FoxStatusCard() {
    * @returns The last hunt for the area
    */
   function getLastHunt(areaName: string): Hunt | undefined {
-    console.log(hunts?.filter((hunt) => !hunt.status.toLowerCase().includes('tegenhunt')).find((hunt) => hunt.area === areaName));
-    return hunts?.filter((hunt) => !hunt.status.toLowerCase().includes('tegenhunt')).find((hunt) => hunt.area === areaName);
+    return hunts?.filter((hunt) => !hunt.status.toLowerCase().includes('tegenhunt')).find((hunt) => hunt.area.toLowerCase() == areaName.toLowerCase());
   }
 
   return (
