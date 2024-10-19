@@ -124,7 +124,7 @@ export default function Devices() {
             <div>
               <h2 className="font-semibold">{activeDevice.deviceName}</h2>
               <p>Snelheid: {Math.round(knotsToKmh(activeDevice.speed))} km/h</p>
-              <p>Batterij: {activeDevice.attributes.batteryLevel}%</p>
+              <p>Batterij: {Math.round(activeDevice.attributes.batteryLevel)}%</p>
               <p>
                 Laatste update:{' '}
                 {formatDistanceToNow(activeDevice.fixTime, {
