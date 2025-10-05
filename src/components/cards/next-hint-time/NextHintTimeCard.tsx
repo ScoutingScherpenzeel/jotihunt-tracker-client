@@ -1,8 +1,8 @@
-import { useArticles } from '@/hooks/articles.hook';
-import Ripple from '../magicui/Ripple';
+import { useArticles } from '@/hooks/articles.hook.ts';
+import Ripple from '../../magicui/Ripple.tsx';
 import { useEffect, useState } from 'react';
 import hintAlert from '@/assets/audio/hint-alert.mp3';
-import useInterval from '@/hooks/utils/interval.hook';
+import useInterval from '@/hooks/utils/interval.hook.ts';
 import useSound from 'use-sound';
 
 export default function NextHintTime() {

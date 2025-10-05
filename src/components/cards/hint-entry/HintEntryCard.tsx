@@ -1,21 +1,21 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../ui/card.tsx';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select.tsx';
+import { Form, FormControl, FormField, FormItem, FormLabel } from '../../ui/form.tsx';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '../ui/button';
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '../ui/input-otp';
+import { Button } from '../../ui/button.tsx';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '../../ui/input-otp.tsx';
 import { REGEXP_ONLY_DIGITS } from 'input-otp';
 import { Pin, TrashIcon } from 'lucide-react';
-import { useMarkers } from '@/hooks/markers.hook';
-import { toast } from '../ui/use-toast';
+import { useMarkers } from '@/hooks/markers.hook.ts';
+import { toast } from '../../ui/use-toast.ts';
 import PropTypes, { InferProps } from 'prop-types';
-import { MapRef } from '@/components/Map';
+import { MapRef } from '@/components/Map.tsx';
 import proj4 from 'proj4';
-import { MarkerType } from '@/types/MarkerType';
-import { Marker } from '@/types/Marker';
-import { areaOptions } from '@/lib/utils';
+import { MarkerType } from '@/types/MarkerType.ts';
+import { Marker } from '@/types/Marker.ts';
+import { areaOptions } from '@/lib/utils.ts';
 
 const FormSchema = z.object({
   area: z.enum([...areaOptions.map((option) => option.value)] as [string, ...string[]]),

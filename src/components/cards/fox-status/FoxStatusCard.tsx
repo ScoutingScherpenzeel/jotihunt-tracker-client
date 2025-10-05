@@ -1,9 +1,9 @@
-import { useAreas } from '@/hooks/areas.hook';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import FoxStatus from './FoxStatus';
-import { Skeleton } from '../ui/skeleton';
-import { useHunts } from '@/hooks/hunts.hook';
-import { Hunt } from '@/types/Hunt';
+import { useAreas } from '@/hooks/areas.hook.ts';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../ui/card.tsx';
+import FoxStatus from './FoxStatus.tsx';
+import { Skeleton } from '../../ui/skeleton.tsx';
+import { useHunts } from '@/hooks/hunts.hook.ts';
+import { Hunt } from '@/types/Hunt.ts';
 
 export default function FoxStatusCard() {
   const { areas, isLoading: isLoadingAreas, isError: isErrorAreas, toggleHidden, isHidden } = useAreas();
@@ -27,7 +27,7 @@ export default function FoxStatusCard() {
           <CardDescription>Klik op een deelgebied om deze te verbergen op de kaart.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-4 gap-2">
             {(isLoadingAreas || isErrorAreas || isLoadingHunts || isErrorHunts) && (!areas || !hunts) && <FoxStatusSkeleton />}
             {areas &&
               hunts &&

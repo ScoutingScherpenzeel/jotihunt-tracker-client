@@ -1,9 +1,9 @@
 import PropTypes, { InferProps } from 'prop-types';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../../ui/tooltip.tsx';
 import { TooltipProvider } from '@radix-ui/react-tooltip';
 import { addSeconds, differenceInSeconds, formatDistance, formatDistanceToNow, isBefore } from 'date-fns';
 import { nl } from 'date-fns/locale';
-import { Hunt } from '@/types/Hunt';
+import { Hunt } from '@/types/Hunt.ts';
 import { useEffect, useState } from 'react';
 
 export default function FoxStatus({ name, status, lastUpdate, lastHunt, hidden }: InferProps<typeof FoxStatus.propTypes>) {

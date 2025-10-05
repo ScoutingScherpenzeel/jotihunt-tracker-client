@@ -1,13 +1,13 @@
 import { Eye, Trash } from 'lucide-react';
-import { Button } from '../ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import useCounterHuntStore from '@/stores/counterhunt.store';
+import { Button } from '../../ui/button.tsx';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../ui/card.tsx';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select.tsx';
+import useCounterHuntStore from '@/stores/counterhunt.store.ts';
 import { useState } from 'react';
 import PropTypes, { InferProps } from 'prop-types';
-import { MapRef } from '@/components/Map';
-import useMenuStore from '@/stores/menu.store';
-import { useTeams } from '@/hooks/teams.hook';
+import { MapRef } from '@/components/Map.tsx';
+import useMenuStore from '@/stores/menu.store.ts';
+import { useTeams } from '@/hooks/teams.hook.ts';
 
 export default function CounterHuntCard({ mapRef }: InferProps<typeof CounterHuntCard.propTypes>) {
   // Home coordinates for zooming to the counter hunt
