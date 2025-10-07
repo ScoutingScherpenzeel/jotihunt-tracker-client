@@ -8,7 +8,7 @@ import { createCircle, getColorFromArea } from '@/lib/utils';
 import { useAreas } from '@/hooks/areas.hook';
 import GoogleMapsButton from '../map/GoogleMapsButton';
 import { Badge } from '../ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '../ui/select';
 import useLayersStore from '@/stores/layers.store';
 
 export default function Teams() {
@@ -23,8 +23,8 @@ export default function Teams() {
 
   function handleAreaChange(area: string) {
     if (!activeTeam) return;
-    activeTeam.area = area;
-    setTeamArea(activeTeam._id, area);
+    activeTeam.area = area === 'onbekend' ? undefined : area;
+    setTeamArea(activeTeam._id, activeTeam.area);
   }
 
   const markers = useMemo(() => {
@@ -93,12 +93,12 @@ export default function Teams() {
             </div>
             {/* Select with areas */}
             <div className="flex flex-col gap-2">
-              <Select onValueChange={handleAreaChange} value={activeTeam.area ?? undefined}>
+              <Select onValueChange={handleAreaChange} value={activeTeam.area ?? 'onbekend'}>
                 <SelectTrigger autoFocus={false}>
                   <SelectValue placeholder="Kies deelgebied..." />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value={null as any}>Onbekend</SelectItem>
+                  <SelectItem value="onbekend">Onbekend deelgebied</SelectItem>
                   {areas?.map((area) => (
                     <SelectItem key={area._id} value={area.name}>
                       {area.name}
@@ -106,6 +106,7 @@ export default function Teams() {
                   ))}
                 </SelectContent>
               </Select>
+
               <GoogleMapsButton lat={activeTeam.location.coordinates[1]} lng={activeTeam.location.coordinates[0]} />
             </div>
           </div>
