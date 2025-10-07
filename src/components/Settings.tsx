@@ -1,4 +1,15 @@
-import { BugIcon, CogIcon, DownloadIcon, EyeIcon, KeyIcon, LayersIcon, LogOutIcon, MoonIcon, UsersIcon } from 'lucide-react';
+import {
+    BugIcon,
+    CogIcon,
+    DownloadIcon,
+    EyeIcon,
+    KeyIcon,
+    LayersIcon,
+    LogOutIcon,
+    MoonIcon, RefreshCwIcon,
+    ShieldIcon,
+    UsersIcon
+} from 'lucide-react';
 import { Button } from './ui/button';
 import {
   DropdownMenu,
@@ -22,17 +33,27 @@ import { MapStyle } from '@/types/MapStyle';
 import useSignOut from 'react-auth-kit/hooks/useSignOut';
 import { useNavigate } from 'react-router-dom';
 import { User } from '@/types/User';
-import PropTypes, { InferProps } from 'prop-types';
+import PropTypes, {InferProps} from 'prop-types';
 import usePWA from 'react-pwa-install-prompt';
 import { Dialog, DialogTrigger } from './ui/dialog';
 import DebugInfo from './DebugInfo';
 import ResetPassword from './ResetPassword';
 import { useState } from 'react';
+import {
+    AlertDialog, AlertDialogAction, AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription, AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle
+} from "@/components/ui/alert-dialog.tsx";
+import {useTeams} from "@/hooks/teams.hook.ts";
+import {useToast} from "@/components/ui/use-toast.ts";
 
 export default function Settings({ mobile }: InferProps<typeof Settings.propTypes>) {
   const navigate = useNavigate();
   const { isStandalone, isInstallPromptSupported, promptInstall } = usePWA();
   const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
+    const [isConfirmReloadDialogOpen, setIsConfirmReloadDialogOpen] = useState(false);
 
   // Store for all layers / settings
   const {
@@ -50,6 +71,8 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
     toggleHomeCircle,
   } = useLayersStore();
   const { mapStyle, setMapStyle, darkMode, setDarkMode } = useSettingsStore();
+  const { reloadTeams } = useTeams();
+  const { toast } = useToast();
 
   // Authentication stuff
   const auth = useAuthUser<User>();
@@ -68,6 +91,23 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
     } else {
       setDarkMode(undefined);
     }
+  }
+
+  async function handleReloadTeams() {
+      const result = await reloadTeams();
+        if (result) {
+            toast({
+                title: 'Teams herladen',
+                description: 'Alle teams zijn succesvol herladen vanuit de Jotihunt API.',
+            });
+            setIsConfirmReloadDialogOpen(false);
+        } else {
+            toast({
+                variant: 'destructive',
+                title: 'Fout bij herladen teams',
+                description: 'Er is iets misgegaan bij het herladen van de teams. Probeer het later opnieuw.',
+            });
+        }
   }
 
   const mobileTrigger = () => (
@@ -166,6 +206,19 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
                 <UsersIcon className="mr-2 h-4 w-4" />
                 Gebruikers
               </DropdownMenuItem>
+                <DropdownMenuSub>
+                    <DropdownMenuSubTrigger>
+                        <ShieldIcon className="mr-2 h-4 w-4" />
+                        Admin tools
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuPortal>
+                        <DropdownMenuSubContent>
+                            <DropdownMenuItem onClick={() => setIsConfirmReloadDialogOpen(true)}>
+                                <RefreshCwIcon className="mr-2 h-4 w-4" />Herlaad teams uit database
+                            </DropdownMenuItem>
+                        </DropdownMenuSubContent>
+                    </DropdownMenuPortal>
+                </DropdownMenuSub>
               <DialogTrigger asChild>
                 <DropdownMenuItem>
                   <BugIcon className="mr-2 h-4 w-4" />
@@ -187,6 +240,22 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
 
       <ResetPassword open={resetPasswordOpen} setIsOpen={setResetPasswordOpen} allowClose={true} />
       <DebugInfo />
+
+        <AlertDialog open={isConfirmReloadDialogOpen} onOpenChange={setIsConfirmReloadDialogOpen}>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Weet je zeker dat je all teams wilt herladen?</AlertDialogTitle>
+                    <AlertDialogDescription>Dit reset alle ingevulde deelgebieden. Deze actie kan niet ongedaan worden gemaakt.</AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel>Annuleren</AlertDialogCancel>
+                    <AlertDialogAction variant="destructive" onClick={handleReloadTeams}>
+                        Herladen
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+
     </Dialog>
   );
 }

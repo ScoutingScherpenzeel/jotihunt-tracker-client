@@ -14,10 +14,21 @@ export const useTeams = () => {
     return result.status === 200;
   }
 
+  async function reloadTeams() {
+    try {
+      const result = await fetch('/teams/reload', 'POST');
+      mutate();
+      return result.status === 200;
+    } catch (e) {
+      return false;
+    }
+  }
+
   return {
     teams: data,
     isLoading: !error && !data,
     isError: error,
     setTeamArea,
+    reloadTeams,
   };
 };
