@@ -8,7 +8,7 @@ export const useTeams = () => {
   });
   const { fetch } = useFetcher();
 
-  async function setTeamArea(id: string, area: string) {
+  async function setTeamArea(id: string, area: string | undefined) {
     const result = await fetch(`/teams/${id}/area`, 'PUT', { area });
     mutate();
     return result.status === 200;
