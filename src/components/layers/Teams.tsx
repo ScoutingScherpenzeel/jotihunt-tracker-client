@@ -1,5 +1,5 @@
 import { Layer, Marker, Source } from 'react-map-gl';
-import { useTeams } from '../../hooks/teams.hook';
+import { useTeams } from '@/hooks/teams.hook.ts';
 import MapMarker from '../map/MapMarker';
 import { useMemo, useState } from 'react';
 import { Team } from '@/types/Team';
@@ -93,7 +93,7 @@ export default function Teams() {
             </div>
             {/* Select with areas */}
             <div className="flex flex-col gap-2">
-              <Select onValueChange={handleAreaChange} defaultValue={activeTeam.area ? activeTeam.area : undefined}>
+              <Select onValueChange={handleAreaChange} value={activeTeam.area ?? undefined}>
                 <SelectTrigger autoFocus={false}>
                   <SelectValue placeholder="Kies deelgebied..." />
                 </SelectTrigger>
