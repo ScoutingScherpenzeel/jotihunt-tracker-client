@@ -66,13 +66,11 @@ export default function CounterHuntCard({ mapRef }: InferProps<typeof CounterHun
               <SelectItem value="315">NW - Noordwest</SelectItem>
             </SelectContent>
           </Select>
-          <Button onClick={showCounterHunt} className="flex-1 md:w-auto">
-            <Eye className="mr-2 h-4 w-4" />
-            Toon
+          <Button onClick={showCounterHunt}>
+            <Eye />Toon
           </Button>
-          <Button variant="outline" onClick={removeCounterHunt} className="flex-1 md:w-auto">
-            <Trash className="mr-2 h-4 w-4" />
-            Verwijder
+          <Button variant="outline" onClick={removeCounterHunt} >
+            <Trash />Verwijder
           </Button>
         </div>
       </CardContent>

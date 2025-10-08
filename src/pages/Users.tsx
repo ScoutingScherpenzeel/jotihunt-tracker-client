@@ -114,7 +114,7 @@ export default function Users() {
           <CardContent>
             <div className="flex items-center mb-6 gap-3">
               <Button variant="outline" size="icon" onClick={() => navigate('/')} aria-label="Go back to home">
-                <ArrowLeftIcon className="h-4 w-4" />
+                <ArrowLeftIcon />
               </Button>
               <h1 className="text-2xl font-bold">Gebruikers</h1>
             </div>
@@ -146,10 +146,10 @@ export default function Users() {
                       <TableCell>
                         <div className="flex space-x-2">
                           <Button variant="outline" size="icon" onClick={() => handleEdit(user)}>
-                            <PencilIcon className="h-4 w-4" />
+                            <PencilIcon />
                           </Button>
                           <Button variant="outline" size="icon" onClick={() => handleDelete(user)}>
-                            <Trash2Icon className="h-4 w-4" />
+                            <Trash2Icon />
                           </Button>
                         </div>
                       </TableCell>
@@ -168,10 +168,10 @@ export default function Users() {
               )}
               <div className="flex space-x-2">
                 <Button variant="outline" onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
-                  <ChevronLeftIcon className="h-4 w-4" />
+                  <ChevronLeftIcon />
                 </Button>
                 <Button variant="outline" onClick={() => setCurrentPage(currentPage + 1)} disabled={indexOfLastUser >= filteredUsers.length}>
-                  <ChevronRightIcon className="h-4 w-4" />
+                  <ChevronRightIcon />
                 </Button>
               </div>
             </div>
@@ -185,7 +185,7 @@ export default function Users() {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Annuleren</AlertDialogCancel>
-                  <AlertDialogAction variant="destructive" onClick={handleDeleteConfirm}>
+                  <AlertDialogAction onClick={handleDeleteConfirm}>
                     Verwijderen
                   </AlertDialogAction>
                 </AlertDialogFooter>

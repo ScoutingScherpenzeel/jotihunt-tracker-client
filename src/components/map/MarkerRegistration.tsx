@@ -45,7 +45,7 @@ export default function MarkerRegistration({ lat, lng }: { lat: number; lng: num
    */
   function getDays() {
     const days = [];
-    let currentDate = new Date(HUNT_START_TIME);
+    const currentDate = new Date(HUNT_START_TIME);
     while (currentDate <= HUNT_END_TIME) {
       days.push(new Date(currentDate));
       currentDate.setDate(currentDate.getDate() + 1);
@@ -217,7 +217,7 @@ export default function MarkerRegistration({ lat, lng }: { lat: number; lng: num
               Annuleren
             </Button>
             <Button variant="default" type="submit" disabled={!form.formState.isValid}>
-              <PinIcon className="mr-2 h-4 w-4" />
+              <PinIcon />
               Opslaan
             </Button>
           </DialogFooter>
@@ -243,10 +243,10 @@ export default function MarkerRegistration({ lat, lng }: { lat: number; lng: num
       {dialog()}
       <div className="flex gap-2 w-full">
         <Button variant="default" size="sm" className="w-full" onClick={() => openDialog(MarkerType.Hunt)}>
-          <LocateFixedIcon className="mr-2 h-4 w-4" /> Vos hunt
+          <LocateFixedIcon /> Vos hunt
         </Button>
         <Button variant="default" size="sm" className="w-full" onClick={() => openDialog(MarkerType.Spot)}>
-          <GlassesIcon className="mr-2 h-4 w-4" /> Vos spot
+          <GlassesIcon /> Vos spot
         </Button>
       </div>
     </>

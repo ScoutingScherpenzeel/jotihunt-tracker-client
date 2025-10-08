@@ -46,7 +46,7 @@ export default function HintEntryCard({ mapRef }: InferProps<typeof HintEntryCar
     const startTime = new Date(import.meta.env.HUNT_START_TIME);
     const endTime = new Date(import.meta.env.HUNT_END_TIME);
     const currentTime = new Date();
-    let adjustedEndTime = currentTime > endTime ? endTime : currentTime;
+    const adjustedEndTime = currentTime > endTime ? endTime : currentTime;
 
     const timeOptions: { value: string; label: string }[] = [];
     for (let i = startTime; i < adjustedEndTime; i.setHours(i.getHours() + 1)) {
@@ -218,7 +218,7 @@ export default function HintEntryCard({ mapRef }: InferProps<typeof HintEntryCar
                   clearField('x');
                 }}
               >
-                <TrashIcon className="h-4 w-4" />
+                <TrashIcon />
               </Button>
             </div>
             <div className="flex gap-2 items-end">
@@ -251,12 +251,12 @@ export default function HintEntryCard({ mapRef }: InferProps<typeof HintEntryCar
                   clearField('y');
                 }}
               >
-                <TrashIcon className="h-4 w-4" />
+                <TrashIcon />
               </Button>
             </div>
           </div>
           <Button type="submit" disabled={!form.formState.isValid}>
-            <Pin className="mr-2 h-4 w-4" /> Registreren
+            <Pin /> Registreren
           </Button>
         </div>
       </form>

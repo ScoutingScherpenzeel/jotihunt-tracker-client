@@ -113,7 +113,7 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
   const mobileTrigger = () => (
     <div className="block md:hidden bg-background rounded-lg">
       <Button size="default" className="w-full">
-        <CogIcon className="h-4 nr-2" /> Instellingen
+        <CogIcon /> Instellingen
       </Button>
     </div>
   );
@@ -121,7 +121,7 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
   const desktopTrigger = () => (
     <div className="md:block hidden">
       <Button variant="outline" size="sm">
-        <CogIcon className="h-4 w-4" />
+        <CogIcon />
       </Button>
     </div>
   );
@@ -249,7 +249,7 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Annuleren</AlertDialogCancel>
-                    <AlertDialogAction variant="destructive" onClick={handleReloadTeams}>
+                    <AlertDialogAction onClick={handleReloadTeams}>
                         Herladen
                     </AlertDialogAction>
                 </AlertDialogFooter>

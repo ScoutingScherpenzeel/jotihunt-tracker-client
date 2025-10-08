@@ -1,5 +1,5 @@
 import { useMarkers } from '@/hooks/markers.hook';
-import { useMemo, useState } from 'react';
+import {useCallback, useMemo, useState} from 'react';
 import { Layer, Marker as MapMarker, Source } from 'react-map-gl';
 import foxHint from '@/assets/images/fox-hint.svg';
 import foxHunt from '@/assets/images/fox-hunt.svg';
@@ -83,24 +83,24 @@ export default function Markers({ part1 = true, part2 = true }: InferProps<typeo
    * @param markers The markers to filter.
    * @returns The filtered markers.
    */
-  function filterByTimeAndVisibility(markers: Marker[]): Marker[] {
-    return markers.filter((marker) => {
-      const markerTime = new Date(marker.time);
+  const filterByTimeAndVisibility = useCallback((markers: Marker[]) => {
+      return markers.filter((marker) => {
+          const markerTime = new Date(marker.time);
 
-      // Part 1: From HUNT_START_TIME until MIDNIGHT (00:00)
-      if (part1 && markerTime >= startTime && markerTime < midnight) {
-        return isVisible(marker.area);
-      }
+          // Part 1: From HUNT_START_TIME until MIDNIGHT (00:00)
+          if (part1 && markerTime >= startTime && markerTime < midnight) {
+              return isVisible(marker.area);
+          }
 
-      // Part 2: From MIDNIGHT until HUNT_END_TIME
-      if (part2 && markerTime >= midnight && markerTime <= endTime) {
-        return isVisible(marker.area);
-      }
+          // Part 2: From MIDNIGHT until HUNT_END_TIME
+          if (part2 && markerTime >= midnight && markerTime <= endTime) {
+              return isVisible(marker.area);
+          }
 
-      // If neither part1 nor part2 matches, or the area is not visible, filter out the marker
-      return false;
-    });
-  }
+          // If neither part1 nor part2 matches, or the area is not visible, filter out the marker
+          return false;
+      });
+  }, [part1, part2, isVisible]);
 
   /**
    * Filter markers based on time and visibility
@@ -108,7 +108,7 @@ export default function Markers({ part1 = true, part2 = true }: InferProps<typeo
   const visibleMarkers = useMemo(() => {
     if (!markers) return [];
     return filterByTimeAndVisibility(markers);
-  }, [markers, part1, part2, isVisible]);
+  }, [markers, filterByTimeAndVisibility]);
 
   /**
    * Group and sort markers by area for line creation
@@ -168,7 +168,7 @@ export default function Markers({ part1 = true, part2 = true }: InferProps<typeo
         style={{ cursor: 'pointer', zIndex: 10 }}
       >
         <div className="hover:brightness-125 hover:scale-105 transition-all ease-in-out">
-          <img src={getIconForType(marker.type)} className="h-10" />
+          <img alt={"marker"} src={getIconForType(marker.type)} className="h-10" />
         </div>
       </MapMarker>
     ));
@@ -212,7 +212,7 @@ export default function Markers({ part1 = true, part2 = true }: InferProps<typeo
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button variant="destructive" size="sm" className="w-full">
-                    <Trash2Icon className="mr-2 h-4 w-4" /> Verwijderen
+                    <Trash2Icon /> Verwijderen
                   </Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>

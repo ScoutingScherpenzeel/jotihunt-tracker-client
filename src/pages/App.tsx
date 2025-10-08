@@ -10,6 +10,7 @@ import Settings from '../components/Settings';
 import useMenuStore from '../stores/menu.store';
 import { useOutlet } from '@/Layout';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import SearchCard from "@/components/cards/search/SearchCard.tsx";
 
 function App() {
   const { menuOpen, toggleMenu } = useMenuStore();
@@ -33,7 +34,7 @@ function App() {
 
                   <div className="md:hidden">
                     <Button variant="outline" size="sm" onClick={toggleMenu}>
-                      <MenuIcon className="h-4 w-4" />
+                      <MenuIcon />
                     </Button>
                   </div>
 
@@ -54,6 +55,9 @@ function App() {
           </div>
         </ScrollArea>
       </div>
+        <div className={"absolute top-2 right-12 z-20"}>
+            <SearchCard mapRef={mapRef}/>
+        </div>
     </>
   );
 }
