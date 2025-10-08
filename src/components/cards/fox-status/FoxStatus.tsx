@@ -1,6 +1,5 @@
 import PropTypes, { InferProps } from 'prop-types';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../ui/tooltip.tsx';
-import { TooltipProvider } from '@radix-ui/react-tooltip';
 import { addSeconds, differenceInSeconds, formatDistance, formatDistanceToNow, isBefore } from 'date-fns';
 import { nl } from 'date-fns/locale';
 import { Hunt } from '@/types/Hunt.ts';
@@ -68,7 +67,6 @@ export default function FoxStatus({ name, status, lastUpdate, lastHunt, hidden }
 
   return (
     <>
-      <TooltipProvider>
         <Tooltip delayDuration={300}>
           <TooltipTrigger className="w-full">
             <div className={`border-2 rounded-lg h-[52px] flex flex-col justify-center leading-none hover:brightness-105 ${hidden && 'opacity-50'} ${getStatusStyles(status)}`}>
@@ -101,7 +99,6 @@ export default function FoxStatus({ name, status, lastUpdate, lastHunt, hidden }
             </p>
           </TooltipContent>
         </Tooltip>
-      </TooltipProvider>
     </>
   );
 }

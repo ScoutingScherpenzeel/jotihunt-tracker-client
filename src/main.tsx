@@ -6,6 +6,7 @@ import createStore from 'react-auth-kit/createStore';
 import AuthProvider from 'react-auth-kit';
 import proj4 from 'proj4';
 import { registerSW } from 'virtual:pwa-register';
+import {TooltipProvider} from "@/components/ui/tooltip.tsx";
 
 // Service worker registration
 registerSW({ immediate: true });
@@ -26,9 +27,11 @@ const authStore = createStore({
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <>
+      <TooltipProvider>
     <AuthProvider store={authStore}>
-      <Routes />
+        <Routes />
     </AuthProvider>
+      </TooltipProvider>
     <Toaster />
   </>,
 );
