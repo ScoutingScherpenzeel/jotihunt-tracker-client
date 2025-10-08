@@ -169,7 +169,7 @@ export default function HintEntryCard({ mapRef }: InferProps<typeof HintEntryCar
                         <SelectValue placeholder="Kies tijdstip..." />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent className="max-h-[280px]">
                       {timeOptions.length > 0 ? (
                         timeOptions.map((option) => (
                           <SelectItem key={option.value} value={option.value}>

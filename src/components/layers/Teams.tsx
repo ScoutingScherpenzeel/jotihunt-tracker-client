@@ -74,7 +74,6 @@ export default function Teams() {
               <div className="flex items-center gap-1">
                 <p>Deelgebied</p>
                 <Badge
-                  variant={'outline'}
                   className="text-white border-0"
                   style={{
                     backgroundColor: getColorFromArea(activeTeam.area || ''),
