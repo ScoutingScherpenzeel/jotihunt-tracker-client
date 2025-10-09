@@ -14,6 +14,7 @@ import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip.t
 
 export default function Teams() {
     const HOME_TEAM_API_ID = import.meta.env.HOME_TEAM_API_ID;
+    const TEAMS_AREA_EDITING = import.meta.env.TEAMS_AREA_EDITING === 'true';
 
     const {showGroupCircles} = useLayersStore();
     const {teams, setTeamArea} = useTeams();
@@ -24,6 +25,7 @@ export default function Teams() {
     const {areas} = useAreas();
 
     function handleAreaChange(area: string) {
+        if(!TEAMS_AREA_EDITING) return;
         if (!activeTeam) return;
         activeTeam.area = area === 'onbekend' ? undefined : area;
         setTeamArea(activeTeam._id, activeTeam.area);
@@ -129,24 +131,27 @@ export default function Teams() {
                             </p>
                         </div>
                         {/* Select with areas */}
-                        <div className="flex flex-col gap-2">
-                            <Select onValueChange={handleAreaChange} value={activeTeam.area ?? 'onbekend'}>
-                                <SelectTrigger autoFocus={false}>
-                                    <SelectValue placeholder="Kies deelgebied..."/>
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="onbekend">Onbekend deelgebied</SelectItem>
-                                    {areas?.map((area) => (
-                                        <SelectItem key={area._id} value={area.name}>
-                                            {area.name}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
 
-                            <GoogleMapsButton lat={activeTeam.location.coordinates[1]}
-                                              lng={activeTeam.location.coordinates[0]}/>
-                        </div>
+                            <div className="flex flex-col gap-2">
+                                {TEAMS_AREA_EDITING && (
+                                <Select onValueChange={handleAreaChange} value={activeTeam.area ?? 'onbekend'}>
+                                    <SelectTrigger autoFocus={false}>
+                                        <SelectValue placeholder="Kies deelgebied..."/>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="onbekend">Onbekend deelgebied</SelectItem>
+                                        {areas?.map((area) => (
+                                            <SelectItem key={area._id} value={area.name}>
+                                                {area.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                )}
+                                <GoogleMapsButton lat={activeTeam.location.coordinates[1]}
+                                                  lng={activeTeam.location.coordinates[0]}/>
+                            </div>
+
                     </div>
                 </MapPopup>
             )}

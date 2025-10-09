@@ -21,6 +21,7 @@ type ImportMetaEnv = {
   GROUP_CAR_ID: string
   GROUP_MOTORCYCLE_ID: string
   GROUP_BIKE_ID: string
+  TEAMS_AREA_EDITING: string
   // @user-defined-start
   /*
    *  You can use this section to explicitly extend the type definition of `import.meta.env`

@@ -214,7 +214,7 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
                     <DropdownMenuPortal>
                         <DropdownMenuSubContent>
                             <DropdownMenuItem onClick={() => setIsConfirmReloadDialogOpen(true)}>
-                                <RefreshCwIcon className="mr-2 h-4 w-4" />Herlaad teams uit database
+                                <RefreshCwIcon className="mr-2 h-4 w-4" />Herlaad teams uit API
                             </DropdownMenuItem>
                         </DropdownMenuSubContent>
                     </DropdownMenuPortal>
