@@ -28,7 +28,7 @@ export default function FoxStatusCard() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-4 gap-2">
-            {(isLoadingAreas || isErrorAreas || isLoadingHunts || isErrorHunts) && (!areas || !hunts) && <FoxStatusSkeleton />}
+            {((isLoadingAreas || isErrorAreas || isLoadingHunts || isErrorHunts) || (!areas || !hunts)) && <FoxStatusSkeleton />}
             {areas &&
               hunts &&
               areas.map((area) => (
