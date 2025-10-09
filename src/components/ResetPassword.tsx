@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './ui/dialog';
+import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle} from './ui/dialog';
 import PropTypes, { InferProps } from 'prop-types';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -71,7 +71,7 @@ export default function ResetPassword({ open, setIsOpen, allowClose = true }: In
   return (
     <>
       <Dialog open={open} onOpenChange={handleOpenChange}>
-        <DialogContent onInteractOutside={handleInteractOutside} showCloseButton={allowClose}>
+        <DialogContent onInteractOutside={handleInteractOutside} hideClose={!allowClose}>
           <DialogHeader>
             <DialogTitle>Wachtwoord wijzigen</DialogTitle>
             <DialogDescription>{allowClose ? 'Vul je oude en nieuw wachtwoord in.' : 'Je bent verplicht je wachtwoord te wijzigen. Vul je oude en een nieuw wachtwoord in.'}</DialogDescription>
