@@ -1,7 +1,7 @@
 import { useTeams } from '@/hooks/teams.hook';
 import { createCircle, createWindSector } from '@/lib/utils';
 import useCounterHuntStore from '@/stores/counterhunt.store';
-import { Layer, Source } from 'react-map-gl';
+import { Layer, Source } from 'react-map-gl/mapbox';
 
 export default function HomeCircle() {
   const { teams } = useTeams();

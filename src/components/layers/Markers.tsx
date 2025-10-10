@@ -1,6 +1,6 @@
 import { useMarkers } from '@/hooks/markers.hook';
 import {useCallback, useMemo, useState} from 'react';
-import { Layer, Marker as MapMarker, Source } from 'react-map-gl';
+import { Layer, Marker as MapMarker, Source } from 'react-map-gl/mapbox';
 import foxHint from '@/assets/images/fox-hint.svg';
 import foxHunt from '@/assets/images/fox-hunt.svg';
 import foxSpot from '@/assets/images/fox-spot.svg';

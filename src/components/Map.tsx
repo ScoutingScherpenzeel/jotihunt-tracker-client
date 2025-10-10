@@ -1,7 +1,6 @@
-import Mapbox, { AttributionControl, GeolocateControl, NavigationControl, ScaleControl, MapRef as MapboxRef, LngLatBoundsLike } from 'react-map-gl';
+import Mapbox, { AttributionControl, GeolocateControl, NavigationControl, ScaleControl, MapRef as MapboxRef, LngLatBoundsLike } from 'react-map-gl/mapbox';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
-import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 
 import Teams from './layers/Teams';
 import Devices from './layers/Devices';
@@ -13,17 +12,18 @@ import useSettingsStore from '../stores/settings.store';
 import { MapStyle } from '@/types/MapStyle';
 import { useDarkMode } from '@/hooks/utils/darkmode.hook';
 import PickedLocationPopup from './map/PickedLocationPopup';
+type FlyToOpts = NonNullable<Parameters<mapboxgl.Map["flyTo"]>[0]>;
 
 export interface MapRef {
-  flyTo(options: mapboxgl.FlyToOptions): void;
+  flyTo(options: FlyToOpts): void;
 }
 
 // Mapbox settings
 const mapboxToken = import.meta.env.MAPBOX_TOKEN;
 const initialViewState = {
-  latitude: 52.12748401580578,
-  longitude: 5.82036696134869,
-  zoom: 9,
+  latitude: 52.1209259,
+  longitude: 5.6869246,
+  zoom: 9.5,
 };
 const maxBounds = [
   [3.314971144228537, 50.80372101501058],
@@ -34,7 +34,7 @@ const Map = forwardRef<MapRef>((_, ref) => {
   // Make map fly available to other components
   const mapRef = useRef<MapboxRef>(null);
   useImperativeHandle(ref, () => ({
-    flyTo: (options: mapboxgl.FlyToOptions) => {
+    flyTo: (options: FlyToOpts) => {
       if (mapRef.current) {
         mapRef.current.flyTo(options);
       }

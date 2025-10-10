@@ -1,4 +1,4 @@
-import {Layer, Marker, Source} from 'react-map-gl';
+import {Layer, Marker, Source} from 'react-map-gl/mapbox';
 import {useTeams} from '@/hooks/teams.hook.ts';
 import MapMarker from '../map/MapMarker';
 import {useMemo, useState} from 'react';
@@ -25,7 +25,7 @@ export default function Teams() {
     const {areas} = useAreas();
 
     function handleAreaChange(area: string) {
-        if(!TEAMS_AREA_EDITING) return;
+        if (!TEAMS_AREA_EDITING) return;
         if (!activeTeam) return;
         activeTeam.area = area === 'onbekend' ? undefined : area;
         setTeamArea(activeTeam._id, activeTeam.area);
@@ -132,8 +132,8 @@ export default function Teams() {
                         </div>
                         {/* Select with areas */}
 
-                            <div className="flex flex-col gap-2">
-                                {TEAMS_AREA_EDITING && (
+                        <div className="flex flex-col gap-2">
+                            {TEAMS_AREA_EDITING && (
                                 <Select onValueChange={handleAreaChange} value={activeTeam.area ?? 'onbekend'}>
                                     <SelectTrigger autoFocus={false}>
                                         <SelectValue placeholder="Kies deelgebied..."/>
@@ -147,10 +147,10 @@ export default function Teams() {
                                         ))}
                                     </SelectContent>
                                 </Select>
-                                )}
-                                <GoogleMapsButton lat={activeTeam.location.coordinates[1]}
-                                                  lng={activeTeam.location.coordinates[0]}/>
-                            </div>
+                            )}
+                            <GoogleMapsButton lat={activeTeam.location.coordinates[1]}
+                                              lng={activeTeam.location.coordinates[0]}/>
+                        </div>
 
                     </div>
                 </MapPopup>
