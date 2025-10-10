@@ -12,6 +12,7 @@ import useSettingsStore from '../stores/settings.store';
 import { MapStyle } from '@/types/MapStyle';
 import { useDarkMode } from '@/hooks/utils/darkmode.hook';
 import PickedLocationPopup from './map/PickedLocationPopup';
+import {FullscreenControl} from "react-map-gl/mapbox";
 type FlyToOpts = NonNullable<Parameters<mapboxgl.Map["flyTo"]>[0]>;
 
 export interface MapRef {
@@ -77,6 +78,7 @@ const Map = forwardRef<MapRef>((_, ref) => {
         <NavigationControl />
         <ScaleControl />
         <GeolocateControl />
+          <FullscreenControl/>
         <div className="bg-background">
           <AttributionControl customAttribution={'Jotihunt Tracker | Scouting Scherpenzeel'} compact={true} />
         </div>
