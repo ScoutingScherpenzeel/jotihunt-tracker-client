@@ -21,12 +21,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { toast } from '../ui/use-toast';
 import PropTypes, { InferProps } from 'prop-types';
 import { Trash2Icon } from 'lucide-react';
 import proj4 from 'proj4';
 import { MarkerType } from '@/types/MarkerType';
 import GoogleMapsButton from '../map/GoogleMapsButton';
+import {toast} from "sonner";
 
 export default function Markers({ part1 = true, part2 = true }: InferProps<typeof Markers.propTypes>) {
   const { markers, deleteMarker } = useMarkers();
@@ -65,15 +65,12 @@ export default function Markers({ part1 = true, part2 = true }: InferProps<typeo
     const result = await deleteMarker(marker._id!);
     if (result) {
       setActiveMarker(undefined);
-      toast({
-        title: 'Marker verwijderd!',
+      toast.success('Marker verwijderd!', {
         description: 'De marker is succesvol verwijderd.',
       });
     } else {
-      toast({
-        title: 'Fout bij verwijderen marker.',
+      toast.error('Fout bij verwijderen marker.', {
         description: 'Er is iets fout gegaan bij het verwijderen van de marker. Probeer het later opnieuw.',
-        variant: 'destructive',
       });
     }
   }

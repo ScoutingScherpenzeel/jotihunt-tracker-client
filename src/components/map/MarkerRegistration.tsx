@@ -12,7 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '../ui/input';
 import { Marker } from '@/types/Marker';
 import { useMarkers } from '@/hooks/markers.hook';
-import { useToast } from '../ui/use-toast';
+import {toast} from "sonner";
 
 const HUNT_START_TIME = new Date(import.meta.env.HUNT_START_TIME);
 const HUNT_END_TIME = new Date(import.meta.env.HUNT_END_TIME);
@@ -27,7 +27,6 @@ export default function MarkerRegistration({ lat, lng }: { lat: number; lng: num
   const [dialogOpen, setDialogOpen] = useState(false);
   const [markerType, setMarkerType] = useState<MarkerType>();
   const { createMarker } = useMarkers();
-  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -114,9 +113,9 @@ export default function MarkerRegistration({ lat, lng }: { lat: number; lng: num
     const result = await createMarker(marker);
     if (result) {
       handleOpenChange(false);
-      toast({ variant: 'default', title: 'Marker geplaatst!', description: 'De marker is succesvol geplaatst.' });
+      toast.success('Marker geplaatst!', { description: 'De marker is succesvol geplaatst.' });
     } else {
-      toast({ variant: 'destructive', title: 'Er is iets misgegaan.', description: 'Er is een fout opgetreden bij het plaatsen van de marker, probeer het later opnieuw.' });
+      toast.error('Er is iets misgegaan.', { description: 'Er is een fout opgetreden bij het plaatsen van de marker, probeer het later opnieuw.' });
     }
   }
 

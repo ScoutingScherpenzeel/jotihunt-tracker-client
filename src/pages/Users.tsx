@@ -12,8 +12,8 @@ import { Skeleton } from '../components/ui/skeleton';
 import { Label } from '../components/ui/label';
 import { Switch } from '../components/ui/switch';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '../components/ui/alert-dialog';
-import { toast } from '../components/ui/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
+import {toast} from "sonner";
 
 export default function Users() {
   const navigate = useNavigate();
@@ -47,9 +47,9 @@ export default function Users() {
     const result = await deleteUser(selectedUser._id);
     setIsConfirmDeleteDialogOpen(false);
     if (!result) {
-      toast({ title: 'Er is een fout opgetreden', description: 'De gebruiker kon niet worden verwijderd.', variant: 'destructive' });
+      toast.error('Er is een fout opgetreden', { description: 'De gebruiker kon niet worden verwijderd.' });
     } else {
-      toast({ title: 'Gebruiker verwijderd', description: 'De gebruiker is succesvol verwijderd.' });
+      toast.success('Gebruiker verwijderd', { description: 'De gebruiker is succesvol verwijderd.' });
     }
   }
 
@@ -73,9 +73,9 @@ export default function Users() {
     }
     setIsDialogOpen(false);
     if (!result) {
-      toast({ title: 'Er is een fout opgetreden', description: 'De gebruiker kon niet worden opgeslagen.', variant: 'destructive' });
+      toast.error('Er is een fout opgetreden', { description: 'De gebruiker kon niet worden opgeslagen.' });
     } else {
-      toast({ title: 'Gebruiker opgeslagen', description: 'De gebruiker is succesvol opgeslagen.' });
+      toast.success('Gebruiker opgeslagen', { description: 'De gebruiker is succesvol opgeslagen.' });
     }
   }
 

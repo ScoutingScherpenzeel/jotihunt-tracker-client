@@ -47,7 +47,7 @@ import {
     AlertDialogTitle
 } from "@/components/ui/alert-dialog.tsx";
 import {useTeams} from "@/hooks/teams.hook.ts";
-import {useToast} from "@/components/ui/use-toast.ts";
+import {toast} from "sonner";
 
 export default function Settings({ mobile }: InferProps<typeof Settings.propTypes>) {
   const navigate = useNavigate();
@@ -72,7 +72,6 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
   } = useLayersStore();
   const { mapStyle, setMapStyle, darkMode, setDarkMode } = useSettingsStore();
   const { reloadTeams } = useTeams();
-  const { toast } = useToast();
 
   // Authentication stuff
   const auth = useAuthUser<User>();
@@ -96,15 +95,12 @@ export default function Settings({ mobile }: InferProps<typeof Settings.propType
   async function handleReloadTeams() {
       const result = await reloadTeams();
         if (result) {
-            toast({
-                title: 'Teams herladen',
+            toast.success('Teams herladen', {
                 description: 'Alle teams zijn succesvol herladen vanuit de Jotihunt API.',
             });
             setIsConfirmReloadDialogOpen(false);
         } else {
-            toast({
-                variant: 'destructive',
-                title: 'Fout bij herladen teams',
+            toast.error('Fout bij herladen teams', {
                 description: 'Er is iets misgegaan bij het herladen van de teams. Probeer het later opnieuw.',
             });
         }

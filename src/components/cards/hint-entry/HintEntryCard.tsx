@@ -9,7 +9,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from '../../ui/input-otp.tsx';
 import { REGEXP_ONLY_DIGITS } from 'input-otp';
 import { Pin, TrashIcon } from 'lucide-react';
 import { useMarkers } from '@/hooks/markers.hook.ts';
-import { toast } from '../../ui/use-toast.ts';
+import { toast } from 'sonner';
 import PropTypes, { InferProps } from 'prop-types';
 import { MapRef } from '@/components/Map.tsx';
 import proj4 from 'proj4';
@@ -82,11 +82,7 @@ export default function HintEntryCard({ mapRef }: InferProps<typeof HintEntryCar
     if (converted[0] === undefined || converted[1] === undefined || x < 0 || x > 290000 || y < 290000 || y > 630000) {
       form.setError('x', { message: 'Ongeldige coördinaten' });
       form.setError('y', { message: 'Ongeldige coördinaten' });
-      toast({
-        variant: 'destructive',
-        title: 'Ongeldige coördinaten',
-        description: 'Deze coördinaten zijn ongeldig. Controleer of de ingevoerde waarden correct zijn.',
-      });
+      toast.error('Ongeldige coördinaten', {description: "Deze coördinaten zijn ongeldig. Controleer of de ingevoerde waarden correct zijn."});
       return;
     }
 
@@ -103,9 +99,8 @@ export default function HintEntryCard({ mapRef }: InferProps<typeof HintEntryCar
     const result = await createMarker(marker);
     if (result) {
       form.reset();
-      toast({
-        title: 'Hint geregistreerd!',
-        description: 'De hint is succesvol geregistreerd.',
+      toast.success('Hint geregistreerd!', {
+        description: 'De hint is succesvol geregistreerd.'
       });
       mapRef.current?.flyTo({
         center: [converted[0]!, converted[1]!],
@@ -113,10 +108,8 @@ export default function HintEntryCard({ mapRef }: InferProps<typeof HintEntryCar
         zoom: 12,
       });
     } else {
-      toast({
-        variant: 'destructive',
-        title: 'Fout bij registreren hint.',
-        description: 'Er is een fout opgetreden bij het registreren van de hint.',
+      toast.error('Fout bij registreren hint.', {
+        description: 'Er is een fout opgetreden bij het registreren van de hint.'
       });
     }
   }

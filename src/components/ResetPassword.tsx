@@ -9,7 +9,7 @@ import { Button } from './ui/button';
 import { useAuth } from '@/hooks/auth.hook';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { User } from '@/types/User';
-import { useToast } from './ui/use-toast';
+import {toast} from "sonner";
 
 const resetPasswordSchema = z
   .object({
@@ -25,7 +25,6 @@ const resetPasswordSchema = z
 export default function ResetPassword({ open, setIsOpen, allowClose = true }: InferProps<typeof ResetPassword.propTypes>) {
   const auth = useAuth();
   const authUser = useAuthUser<User>();
-  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof resetPasswordSchema>>({
     resolver: zodResolver(resetPasswordSchema),
@@ -51,10 +50,8 @@ export default function ResetPassword({ open, setIsOpen, allowClose = true }: In
 
     const newUserState = { ...authUser, requiresPasswordChange: false };
     auth.updateUserState(newUserState);
-    toast({
-      variant: 'default',
-      title: 'Wachtwoord bijgewerkt!',
-      description: 'Je wachtwoord is succesvol aangepast.',
+    toast.success('Wachtwoord bijgewerkt!', {
+      description: 'Je wachtwoord is succesvol aangepast.'
     });
   }
 
