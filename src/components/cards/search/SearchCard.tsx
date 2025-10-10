@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ChevronsUpDownIcon } from "lucide-react"
+import {ChevronsUpDownIcon, NavigationIcon} from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -18,7 +18,6 @@ import {
 import PropTypes, {InferProps} from "prop-types";
 import {MapRef} from "@/components/Map.tsx";
 import {useTeams} from "@/hooks/teams.hook.ts";
-import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {Team} from "@/types/Team.ts";
 
 export default function SearchCard({ mapRef }: InferProps<typeof SearchCard.propTypes>) {
@@ -44,7 +43,7 @@ export default function SearchCard({ mapRef }: InferProps<typeof SearchCard.prop
                     aria-expanded={open}
                     className="justify-between"
                 >
-                  Snel navigeren naar groep...
+                  <NavigationIcon/> Snel navigeren naar groep...
                     <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
@@ -53,9 +52,8 @@ export default function SearchCard({ mapRef }: InferProps<typeof SearchCard.prop
                     <CommandInput placeholder="Zoeken..." />
                     <CommandList>
 
-                        <CommandEmpty>No framework found.</CommandEmpty>
+                        <CommandEmpty>Geen groepen gevonden.</CommandEmpty>
                         <CommandGroup>
-                            <ScrollArea className={"h-200px"}>
                             {teams?.map((team) => (
                                 <CommandItem
                                     key={team._id}
@@ -65,7 +63,6 @@ export default function SearchCard({ mapRef }: InferProps<typeof SearchCard.prop
                                     {team.name}
                                 </CommandItem>
                             ))}
-                            </ScrollArea>
                         </CommandGroup>
 
                     </CommandList>
