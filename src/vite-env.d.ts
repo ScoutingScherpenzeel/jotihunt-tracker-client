@@ -21,6 +21,7 @@ type ImportMetaEnv = {
   GROUP_CAR_ID: string
   GROUP_MOTORCYCLE_ID: string
   GROUP_BIKE_ID: string
+  DISCORD_URL: string
   TEAMS_AREA_EDITING: string
   // @user-defined-start
   /*

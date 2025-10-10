@@ -55,6 +55,7 @@
     "react-map-gl": "^8.1.0",
     "react-pwa-install-prompt": "^1.0.5",
     "react-router-dom": "^6.23.1",
+    "simple-icons": "^15.16.1",
     "sonner": "^2.0.7",
     "swr": "^2.2.5",
     "tailwind-merge": "^2.3.0",
