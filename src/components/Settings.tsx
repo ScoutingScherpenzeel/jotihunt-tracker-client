@@ -242,7 +242,7 @@ export default function Settings({mobile}: InferProps<typeof Settings.propTypes>
                     {DISCORD_URL && (
                         <DropdownMenuItem asChild>
                             <a href={DISCORD_URL} target="_blank" rel="noopener noreferrer">
-                            <span className={"fill-white"} dangerouslySetInnerHTML={{__html: siDiscord.svg}}></span>
+                            <span className={"fill-foreground"} dangerouslySetInnerHTML={{__html: siDiscord.svg}}></span>
                             Join de Discord
                             </a>
                         </DropdownMenuItem>
