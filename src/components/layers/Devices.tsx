@@ -98,7 +98,7 @@ export default function Devices() {
             style={{ cursor: 'pointer', zIndex: 10 }}
           >
             <div className={`h-10 hover:brightness-125 hover:scale-105 transition-all ease-in-out ${isMoreThanFiveMinutesAgo(position.fixTime) && 'grayscale'}`}>
-              {position.speed > 0 && (
+              {position.speed > 0 && !isMoreThanFiveMinutesAgo(position.fixTime) && (
                 <div className="absolute w-10 h-10 transform flex items-center justify-center" style={getCoursePositionStyle(position.course)}>
                   <img src={arrow} alt="arrow" className="w-7 h-7" />
                 </div>
