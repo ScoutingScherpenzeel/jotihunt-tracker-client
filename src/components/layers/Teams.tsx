@@ -24,6 +24,11 @@ export default function Teams() {
     const [tooltipOpenId, setTooltipOpenId] = useState<string | null>(null);
     const {areas} = useAreas();
 
+    /**
+     * Handle area change from the select.
+     * Disabled if TEAMS_AREA_EDITING is false.
+     * @param area The new area to set.
+     */
     function handleAreaChange(area: string) {
         if (!TEAMS_AREA_EDITING) return;
         if (!activeTeam) return;
@@ -31,8 +36,12 @@ export default function Teams() {
         setTeamArea(activeTeam._id, activeTeam.area);
     }
 
+    /**
+     * Handle the tooltip for a marker.
+     * @param open Whether the tooltip should be open or closed.
+     * @param teamId The ID of the device for which the tooltip is being handled.
+     */
     function handleMarkerTooltip(open: boolean, teamId: string) {
-        // Only allow tooltip if no popup is open
         if (activeTeam) {
             setTooltipOpenId(null);
             return;
@@ -131,7 +140,6 @@ export default function Teams() {
                             </p>
                         </div>
                         {/* Select with areas */}
-
                         <div className="flex flex-col gap-2">
                             {TEAMS_AREA_EDITING && (
                                 <Select onValueChange={handleAreaChange} value={activeTeam.area ?? 'onbekend'}>
