@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import usePWA from 'react-pwa-install-prompt';
 import { isMobile } from 'react-device-detect';
+import {useTheme} from "@/hooks/theme.hook.ts";
 
 const FormSchema = z.object({
   email: z.string().email({ message: 'Vul een geldig e-mailadres in.' }),
@@ -21,6 +22,8 @@ export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const { isStandalone, isInstallPromptSupported, promptInstall } = usePWA();
+
+  useTheme();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
