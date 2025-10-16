@@ -4,7 +4,7 @@ import MapMarker from '../map/MapMarker';
 import {useMemo, useState} from 'react';
 import {Team} from '@/types/Team';
 import MapPopup from '../map/MapPopup';
-import {createCircle, getColorFromArea} from '@/lib/utils';
+import {cn, createCircle, getColorFromArea} from '@/lib/utils';
 import {useAreas} from '@/hooks/areas.hook';
 import GoogleMapsButton from '../map/GoogleMapsButton';
 import {Badge} from '../ui/badge';
@@ -46,6 +46,7 @@ export default function Teams() {
             setTooltipOpenId(null);
             return;
         }
+
         setTooltipOpenId(open ? teamId : null);
     }
 
@@ -53,9 +54,9 @@ export default function Teams() {
         return teams
             ?.filter((team) => isVisible(team.area || ''))
             .map((team) => (
-                <>
+                <div key={team._id}>
                     <Marker
-                        key={team._id}
+
                         longitude={team.location.coordinates[0]}
                         latitude={team.location.coordinates[1]}
                         anchor="bottom"
@@ -68,6 +69,7 @@ export default function Teams() {
                             }
                         }}
                         style={{cursor: 'pointer'}}
+                        className={cn(tooltipOpenId === team._id && 'z-20')}
                     >
                         <Tooltip
                             delayDuration={0}
@@ -107,7 +109,7 @@ export default function Teams() {
                             />
                         </Source>
                     )}
-                </>
+                </div>
             ));
     }, [teams, isVisible, activeTeam, tooltipOpenId]);
 

@@ -8,7 +8,7 @@ import walkingIcon from '@/assets/images/walking.svg';
 import motorbikeIcon from '@/assets/images/motorbike.svg';
 import phoneIcon from '@/assets/images/phone.svg';
 import arrow from '@/assets/images/arrow.svg';
-import {createCircle, knotsToKmh} from '@/lib/utils';
+import {cn, createCircle, knotsToKmh} from '@/lib/utils';
 import {formatDistanceToNow, isBefore, parseISO, subMinutes} from 'date-fns';
 import {nl} from 'date-fns/locale';
 import {Position} from '@/types/Position';
@@ -112,7 +112,8 @@ export default function Devices() {
                             e.originalEvent.stopPropagation();
                             setActiveDeviceId(position.deviceId);
                         }}
-                        style={{cursor: 'pointer', zIndex: 10}}
+                        style={{cursor: 'pointer'}}
+                        className={cn(tooltipOpenId == position.deviceId ? 'z-20' : 'z-10' )}
                     >
                         <Tooltip
                             delayDuration={0}
