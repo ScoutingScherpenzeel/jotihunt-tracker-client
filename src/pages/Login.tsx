@@ -67,7 +67,7 @@ export default function Login() {
                                 <form className="p-6 md:p-8" onSubmit={form.handleSubmit(handleLogin)}>
                                     <FieldGroup>
                                         <div className="flex flex-col items-center gap-2 text-center">
-                                            <h1 className="text-2xl font-bold">Jotihunt Tracker</h1>
+                                            <h1 className="text-2xl font-bold">🦊 Jotihunt Tracker</h1>
                                             <p className="text-muted-foreground text-balance">
                                                 Inloggen op je Jotihunt Tracker account
                                             </p>
