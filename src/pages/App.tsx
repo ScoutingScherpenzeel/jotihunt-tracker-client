@@ -11,6 +11,7 @@ import useMenuStore from '../stores/menu.store';
 import {useOutlet} from '@/Layout';
 import {ScrollArea} from '@/components/ui/scroll-area';
 import SearchCard from "@/components/cards/search/SearchCard.tsx";
+import CoordinatesCard from "@/components/cards/coordinates/CoordinatesCard.tsx";
 
 function App() {
     const {menuOpen, toggleMenu} = useMenuStore();
@@ -44,9 +45,15 @@ function App() {
                                 </div>
                             </CardContent>
                         </Card>
-                        <div className={"md:fixed md:top-2 md:right-12 md:z-20"}>
-                            <SearchCard mapRef={mapRef}/>
+                        <div className={"md:fixed md:top-2 md:right-12 md:z-20 flex gap-2"}>
+                            <div className={"hidden md:block"}>
+                                <CoordinatesCard mapRef={mapRef}/>
+                            </div>
+                            <div className={"w-full md:w-auto"}>
+                                <SearchCard mapRef={mapRef}/>
+                            </div>
                         </div>
+
                         <div
                             className={`flex-col gap-2 animate-in md:animate-none slide-in-from-top-4 fade-in z-30 ${menuOpen ? 'flex' : 'hidden md:flex'}`}>
                             {/* Mobile position for settings menu */}

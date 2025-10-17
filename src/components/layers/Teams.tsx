@@ -56,7 +56,6 @@ export default function Teams() {
             .map((team) => (
                 <div key={team._id}>
                     <Marker
-
                         longitude={team.location.coordinates[0]}
                         latitude={team.location.coordinates[1]}
                         anchor="bottom"

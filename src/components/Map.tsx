@@ -17,6 +17,7 @@ type FlyToOpts = NonNullable<Parameters<mapboxgl.Map["flyTo"]>[0]>;
 
 export interface MapRef {
   flyTo(options: FlyToOpts): void;
+  markPoint(lngLat: mapboxgl.LngLat): void;
 }
 
 // Mapbox settings
@@ -40,6 +41,11 @@ const Map = forwardRef<MapRef>((_, ref) => {
         mapRef.current.flyTo(options);
       }
     },
+      markPoint: (lngLat: mapboxgl.LngLat) => {
+        if (mapRef.current) {
+            setPopupPosition(lngLat);
+        }
+      }
   }));
 
   // Store for all layers
