@@ -43,11 +43,11 @@ export default function SearchCard({ mapRef }: InferProps<typeof SearchCard.prop
                     aria-expanded={open}
                     className="justify-between"
                 >
-                  <NavigationIcon/> Snel navigeren naar groep...
+                    <span className={"flex gap-2 items-center"}><NavigationIcon/> Snel navigeren naar groep...</span>
                     <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="p-0">
+            <PopoverContent className="p-0 w-full md:w-64">
                 <Command>
                     <CommandInput placeholder="Zoeken..." />
                     <CommandList>

@@ -21,7 +21,7 @@
 }
 
 .mapboxgl-ctrl-top-right {
-  @apply !top-[91px] md:!top-0;
+  @apply !top-[137px] md:!top-0;
 }
 
 .card {
