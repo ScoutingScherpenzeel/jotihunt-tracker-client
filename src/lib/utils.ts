@@ -44,8 +44,10 @@ export function getColorFromArea(area: string) {
             return '#fa9b60';
         case 'hotel':
             return '#6d45fd';
+        case 'oscar':
+            return '#9ca3af'
         default:
-            return '#9ca3af';
+            return '#ffffff';
     }
 }
 
@@ -108,5 +110,6 @@ export const areaOptions = [
     {value: 'echo', label: 'Echo'},
     {value: 'foxtrot', label: 'Foxtrot'},
     {value: 'golf', label: 'Golf'},
-    {value: 'hotel', label: 'Hotel'}
+    {value: 'hotel', label: 'Hotel'},
+    {value: 'oscar', label: 'Oscar'},
 ];
