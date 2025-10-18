@@ -58,15 +58,8 @@ export default function PickedLocationPopup({lat, lng, onClose}: { lat: number; 
                                     <p>Breedtegraad: {lat.toFixed(7)}</p>
                                     <p>Lengtegraad: {lng.toFixed(7)}</p>
                                 </div>
-                                <Tooltip>
-                                    <TooltipTrigger>
-                                        <Button variant={"outline"} size={"icon"}
-                                                onClick={copyLatLngCoordinates}><CopyIcon/></Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        Kopieer coördinaten naar klembord.
-                                    </TooltipContent>
-                                </Tooltip>
+                                <Button variant={"outline"} size={"icon"}
+                                        onClick={copyLatLngCoordinates}><CopyIcon/></Button>
                             </div>
                             <hr/>
                             <div className={"flex gap-3 justify-between"}>
@@ -84,15 +77,8 @@ export default function PickedLocationPopup({lat, lng, onClose}: { lat: number; 
                                             Plaats coördinaten in hint registratie.
                                         </TooltipContent>
                                     </Tooltip>
-                                    <Tooltip>
-                                        <TooltipTrigger>
-                                            <Button variant={"outline"} size={"icon"}
-                                                    onClick={copyRDCoordinates}><CopyIcon/></Button>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            Kopieer coördinaten naar klembord.
-                                        </TooltipContent>
-                                    </Tooltip>
+                                    <Button variant={"outline"} size={"icon"}
+                                            onClick={copyRDCoordinates}><CopyIcon/></Button>
                                 </div>
                             </div>
                             <hr/>
