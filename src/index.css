@@ -43,13 +43,9 @@
   }
 }
 
-.mapboxgl-ctrl-group button:only-child {
-    @apply text-foreground;
-}
-
 body.dark {
   .mapboxgl-ctrl-group > button > span,
-  .mapboxgl-ctrl-attrib-button {
+  .mapboxgl-ctrl-attrib-button, .mapbox-ctrl-ruler svg {
     filter: invert(1);
   }
   .mapboxgl-popup-tip {
