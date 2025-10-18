@@ -200,7 +200,7 @@ export default function Markers({part1 = true, part2 = true}: InferProps<typeof 
                 >
                     <TooltipTrigger asChild>
                         <div className="hover:brightness-125 hover:scale-105 transition-all ease-in-out">
-                            <img alt={"marker"} src={getIconForType(marker.type)} className="h-10"/>
+                            <img alt={"marker"} src={getIconForType(marker.type)} className="h-7"/>
                         </div>
                     </TooltipTrigger>
                     <TooltipContent className={"flex gap-2 items-center"}>
