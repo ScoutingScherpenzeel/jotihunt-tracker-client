@@ -44,6 +44,9 @@ const maxBounds = [
 ] as LngLatBoundsLike;
 
 const Map = forwardRef<MapRef>((_, ref) => {
+
+    const GROUP_NAME: string = import.meta.env.GROUP_NAME;
+
     // Make map fly available to other components
     const mapRef = useRef<MapboxRef>(null);
     useImperativeHandle(ref, () => ({
@@ -102,7 +105,7 @@ const Map = forwardRef<MapRef>((_, ref) => {
                 }} position={"top-right"} onActivate={() => setRulerActive(true)}
                        onDeactivate={() => setRulerActive(false)}/>
                 <div className="bg-background">
-                    <AttributionControl position={"bottom-left"} customAttribution={'Jotihunt Tracker | Scouting Scherpenzeel'} compact={true}/>
+                    <AttributionControl position={"bottom-left"} customAttribution={'Jotihunt Tracker | ' + GROUP_NAME} compact={true}/>
                 </div>
                 {popupPosition && <PickedLocationPopup lng={popupPosition.lng} lat={popupPosition.lat}
                                                        onClose={() => setPopupPosition(undefined)}/>}

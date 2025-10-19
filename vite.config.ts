@@ -13,7 +13,7 @@ const pwaManifest: Partial<VitePWAOptions> = {
   manifest: {
     name: 'Jotihunt Tracker',
     short_name: 'Jotihunt Tracker',
-    description: 'Jotihunt Tracker voor Scouting Scherpenzeel e.o.',
+    description: 'Volg de Jotihunt in real-time met de Jotihunt Tracker!',
     icons: [
       {
         src: 'pwa-64x64.png',

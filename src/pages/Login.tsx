@@ -80,7 +80,7 @@ export default function Login() {
                                                     <FormLabel>E-mailadres</FormLabel>
                                                     <FormControl>
                                                         <Input {...field} type="email" required
-                                                               placeholder="jouwnaam@scoutingscherpenzeel.nl"/>
+                                                               placeholder="jouwnaam@emailadres.nl"/>
                                                     </FormControl>
                                                     <FormMessage/>
                                                 </FormItem>
@@ -102,7 +102,7 @@ export default function Login() {
                                         <Field>
                                             <Button type="submit">Login</Button>
                                         </Field>
-                                        <FieldDescription className="text-center">
+                                        <FieldDescription className="text-center text-balance">
                                             Geen account? Vraag de organisatie er een te maken!
                                         </FieldDescription>
                                     </FieldGroup>
@@ -117,6 +117,8 @@ export default function Login() {
                             </div>
                         </CardContent>
                     </Card>
+                    {/* Haal onderstaande alsjeblieft niet weg! Zo help je andere ook een beetje :)
+                     Een groepsnaam kun je instellen via GROUP_NAME. */}
                     <FieldDescription className="px-6 text-center">
                         Ontwikkeling door Scouting Scherpenzeel e.o.<br/>
                         <a href={"https://scoutingscherpenzeel.nl"} target={"_blank"} rel={"noreferrer"}

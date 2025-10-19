@@ -1,5 +1,4 @@
 import {MenuIcon} from 'lucide-react';
-import logo from '@/assets/images/logo.png';
 import {Button} from '../components/ui/button';
 import {Card, CardContent} from '../components/ui/card';
 import FoxStatusCard from '../components/cards/fox-status/FoxStatusCard.tsx';
@@ -15,6 +14,10 @@ import CoordinatesCard from "@/components/cards/coordinates/CoordinatesCard.tsx"
 import ActiveDevices from "@/components/map/ActiveDevices.tsx";
 
 function App() {
+
+    const LOGO_URL: string = import.meta.env.LOGO_URL || "/pwa-512x512.png";
+    const GROUP_NAME: string = import.meta.env.GROUP_NAME;
+
     const {menuOpen, toggleMenu} = useMenuStore();
     const {mapRef} = useOutlet();
 
@@ -28,10 +31,10 @@ function App() {
                             <CardContent>
                                 <div className="flex gap-2 items-center justify-between">
                                     <div className="flex items-center gap-3">
-                                        <img src={logo} alt="Jotihunt Tracker" className="w-12 h-12"/>
+                                        <img src={LOGO_URL} alt="Jotihunt Tracker" className="w-12 h-12 rounded-md"/>
                                         <div>
                                             <h1 className="text-xl font-bold">Jotihunt Tracker</h1>
-                                            <h2 className="truncate">Scouting Scherpenzeel e.o.</h2>
+                                            <h2 className="truncate">{GROUP_NAME}</h2>
                                         </div>
                                     </div>
 
