@@ -102,7 +102,7 @@ const Map = forwardRef<MapRef>((_, ref) => {
                 }} position={"top-right"} onActivate={() => setRulerActive(true)}
                        onDeactivate={() => setRulerActive(false)}/>
                 <div className="bg-background">
-                    <AttributionControl customAttribution={'Jotihunt Tracker | Scouting Scherpenzeel'} compact={true}/>
+                    <AttributionControl position={"bottom-left"} customAttribution={'Jotihunt Tracker | Scouting Scherpenzeel'} compact={true}/>
                 </div>
                 {popupPosition && <PickedLocationPopup lng={popupPosition.lng} lat={popupPosition.lat}
                                                        onClose={() => setPopupPosition(undefined)}/>}

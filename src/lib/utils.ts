@@ -1,6 +1,7 @@
 import {type ClassValue, clsx} from 'clsx';
 import {twMerge} from 'tailwind-merge';
 import * as turf from '@turf/turf';
+import {isBefore, parseISO, subMinutes} from "date-fns";
 
 /**
  * ClassName helper function
@@ -113,3 +114,14 @@ export const areaOptions = [
     {value: 'hotel', label: 'Hotel'},
     {value: 'oscar', label: 'Oscar'},
 ];
+
+/**
+ * Check if a timestamp is more than 5 minutes ago
+ * @param fixTime The timestamp to check
+ * @return True if the timestamp is more than 5 minutes ago, false otherwise
+ */
+export function isMoreThanFiveMinutesAgo(fixTime: string) {
+    const date = parseISO(fixTime);
+    const minutesAgo = subMinutes(new Date(), 5);
+    return isBefore(date, minutesAgo);
+}

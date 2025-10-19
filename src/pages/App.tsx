@@ -12,6 +12,7 @@ import {useOutlet} from '@/Layout';
 import {ScrollArea} from '@/components/ui/scroll-area';
 import SearchCard from "@/components/cards/search/SearchCard.tsx";
 import CoordinatesCard from "@/components/cards/coordinates/CoordinatesCard.tsx";
+import ActiveDevices from "@/components/map/ActiveDevices.tsx";
 
 function App() {
     const {menuOpen, toggleMenu} = useMenuStore();
@@ -65,6 +66,9 @@ function App() {
                         </div>
                     </div>
                 </ScrollArea>
+            </div>
+            <div className={"absolute bottom-2.5 right-2 z-50 hidden md:block"}>
+                <ActiveDevices mapRef={mapRef}/>
             </div>
         </>
     );

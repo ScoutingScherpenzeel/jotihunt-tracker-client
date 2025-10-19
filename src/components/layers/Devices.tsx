@@ -8,8 +8,8 @@ import walkingIcon from '@/assets/images/walking.svg';
 import motorbikeIcon from '@/assets/images/motorbike.svg';
 import phoneIcon from '@/assets/images/phone.svg';
 import arrow from '@/assets/images/arrow.svg';
-import {cn, createCircle, knotsToKmh} from '@/lib/utils';
-import {formatDistanceToNow, isBefore, parseISO, subMinutes} from 'date-fns';
+import {cn, createCircle, isMoreThanFiveMinutesAgo, knotsToKmh} from '@/lib/utils';
+import {formatDistanceToNow} from 'date-fns';
 import {nl} from 'date-fns/locale';
 import {Position} from '@/types/Position';
 import MarkerRegistration from '../map/MarkerRegistration';
@@ -28,17 +28,6 @@ export default function Devices() {
     const activeDevice = positions?.find((device) => device.deviceId === activeDeviceId);
 
     const [tooltipOpenId, setTooltipOpenId] = useState<number | null>(null);
-
-    /**
-     * Check if a timestamp is more than 5 minutes ago
-     * @param fixTime The timestamp to check
-     * @return True if the timestamp is more than 5 minutes ago, false otherwise
-     */
-    function isMoreThanFiveMinutesAgo(fixTime: string) {
-        const date = parseISO(fixTime);
-        const minutesAgo = subMinutes(new Date(), 5);
-        return isBefore(date, minutesAgo);
-    }
 
     /**
      * Get the icon for a device
