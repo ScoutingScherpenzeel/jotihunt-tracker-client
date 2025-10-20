@@ -1,3 +1,9 @@
+![GitHub License](https://img.shields.io/github/license/ScoutingScherpenzeel/ScoutingTC4-WordpressImprovements) 
+![GitHub branch status](https://img.shields.io/github/checks-status/ScoutingScherpenzeel/ScoutingTC4-WordpressImprovements/master)
+![GitHub Release](https://img.shields.io/github/v/release/ScoutingScherpenzeel/ScoutingTC4-WordpressImprovements)
+
+---
+
 <img width="978" height="618" alt="Jotihunt Tracker (1)" src="https://github.com/user-attachments/assets/bea945e9-306e-4c62-a486-073289eec721" />
 
 # 🦊 Jotihunt Tracker - Client
