@@ -10,6 +10,9 @@
 Volg met gemak de locaties van vossenteams, hunts, hints en hunters tijdens de Jotihunt!
 Met deze client-app heb je een overzichtelijke en gebruiksvriendelijke interface om de voortgang live te volgen en direct op de hoogte te blijven van alle ontwikkelingen.
 
+> [!NOTE]
+> Werkt het beste in combinatie met de [Jotihunt Tracker Server](https://github.com/ScoutingScherpenzeel/jotihunt-tracker-server).
+
 ## Features:
 - Real-time locaties van hunters.
 - Deelnemende groepen zichtbaar op kaart incl. deelgebieden.
@@ -31,6 +34,9 @@ Met deze client-app heb je een overzichtelijke en gebruiksvriendelijke interface
 ## 🚀 Gebruik
 Je bent volledig vrij om deze tracker te gebruiken (het is ten slotte open-source). We zouden het echter enorm waarderen als je ons als bron vermeldt wanneer je dat doet. 
 Laat het ons vooral weten als je de tracker inzet tijdens jullie Jotihunt, we vinden het superleuk om te horen hoe hij in het veld wordt gebruikt! 😄
+
+> [!TIP]
+> Bekijk ook de [Jotihunt Discord Notifier](https://github.com/ScoutingScherpenzeel/jotihunt-discord-notifier) en [Jotihunt Telegram Forwarder](https://github.com/ScoutingScherpenzeel/jotihunt-telegram-forwarder) voor het automatisch ophalen en sturen van hints en opdrachten én het doorsturen van berichten uit Telegram in een Discord-server.
 
 ## 🛠️ Installatie
 Deze webapp werkt het beste in combinatie met de [Jotihunt Tracker Server](https://github.com/ScoutingScherpenzeel/jotihunt-tracker-server). De server niet gebruiken kan, maar wordt niet aanbevolen en is geen rekening mee gehouden in de code.
