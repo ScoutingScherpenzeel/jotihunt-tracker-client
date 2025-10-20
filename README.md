@@ -1,6 +1,6 @@
-![GitHub License](https://img.shields.io/github/license/ScoutingScherpenzeel/ScoutingTC4-WordpressImprovements) 
-![GitHub branch status](https://img.shields.io/github/checks-status/ScoutingScherpenzeel/ScoutingTC4-WordpressImprovements/master)
-![GitHub Release](https://img.shields.io/github/v/release/ScoutingScherpenzeel/ScoutingTC4-WordpressImprovements)
+![GitHub License](https://img.shields.io/github/license/ScoutingScherpenzeel/jotihunt-tracker-client) 
+![GitHub branch status](https://img.shields.io/github/checks-status/ScoutingScherpenzeel/jotihunt-tracker-client/main)
+![GitHub Release](https://img.shields.io/github/v/release/ScoutingScherpenzeel/jotihunt-tracker-client)
 
 ---
 
