@@ -28,15 +28,23 @@ export default function ActiveDevices({mapRef}: InferProps<typeof ActiveDevices.
         }
     }
 
-    return <div className={"flex gap-2 items-center"}>
-        <p className={"text-sm font-semibold text-foreground"}>Actieve hunters:</p>
+    return (
+      <div className={'flex gap-2 items-center'}>
+        <p className={'text-sm font-semibold text-foreground'}>Actieve hunters:</p>
+        {(!activeDevices || activeDevices?.length <= 0) && (
+          <Badge variant={'destructive'}>
+          Niemand
+          </Badge>
+        )}
         {activeDevices?.map((device) => (
-            <div key={device.id} onClick={() => flyToDevice(device)}>
-                <Badge className={"hover:bg-background cursor-pointer flex gap-1"} variant={"secondary"}><MapPinIcon
-                    className={"w-4 h-4"}/> {device.name}</Badge>
-            </div>
+          <div key={device.id} onClick={() => flyToDevice(device)}>
+            <Badge className={'hover:bg-background cursor-pointer flex gap-1'} variant={'secondary'}>
+              <MapPinIcon className={'w-4 h-4'} /> {device.name}
+            </Badge>
+          </div>
         ))}
-    </div>;
+      </div>
+    );
 }
 
 ActiveDevices.propTypes = {
