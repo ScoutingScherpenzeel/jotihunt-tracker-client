@@ -22,6 +22,7 @@ import PickedLocationPopup from './map/PickedLocationPopup';
 import {FullscreenControl} from "react-map-gl/mapbox";
 import '@mapbox-controls/ruler/src/index.css';
 import Ruler from "@/components/map/RulerControl.tsx";
+import ImageControl from "@/components/map/ImageControl.tsx";
 
 type FlyToOpts = NonNullable<Parameters<mapboxgl.Map["flyTo"]>[0]>;
 
@@ -42,6 +43,8 @@ const maxBounds = [
     [3.314971144228537, 50.80372101501058],
     [7.092053256784122, 53.51040334737814],
 ] as LngLatBoundsLike;
+
+const IMAGE_CONTROL_LAYER_PREFIXES = ['$fill:', '$contour:', '$knobs:'];
 
 const Map = forwardRef<MapRef>((_, ref) => {
 
@@ -80,6 +83,16 @@ const Map = forwardRef<MapRef>((_, ref) => {
      */
     function openPopup(e: mapboxgl.MapMouseEvent) {
         if (popupPosition || rulerActive) return;
+
+        const isCtrlPressed = e.originalEvent.ctrlKey;
+        const clickedFeatures = mapRef.current?.queryRenderedFeatures(e.point) ?? [];
+        const isImageControlClick = clickedFeatures.some((feature) => {
+            const layerId = feature.layer?.id ?? '';
+            return IMAGE_CONTROL_LAYER_PREFIXES.some((prefix) => layerId.startsWith(prefix));
+        });
+
+        if (!isCtrlPressed && isImageControlClick) return;
+
         setPopupPosition(e.lngLat);
     }
 
@@ -100,6 +113,7 @@ const Map = forwardRef<MapRef>((_, ref) => {
                 <ScaleControl/>
                 <GeolocateControl/>
                 <FullscreenControl/>
+                <ImageControl/>
                 <Ruler linePaint={{
                     'line-color': '#1473e8',
                 }} position={"top-right"} onActivate={() => setRulerActive(true)}
