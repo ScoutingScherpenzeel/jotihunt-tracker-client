@@ -46,9 +46,9 @@ export function getColorFromArea(area: string) {
         case 'hotel':
             return '#6d45fd';
         case 'oscar':
-            return '#9ca3af'
+            return '#173afc'
         default:
-            return '#ffffff';
+            return '#9ca3af';
     }
 }
 
