@@ -9,7 +9,7 @@ import {Device} from "@/types/Device.ts";
 export default function ActiveDevices({mapRef}: InferProps<typeof ActiveDevices.propTypes>) {
 
     const {devices, positions} = useDevices();
-    const activeDevices = devices?.filter((device) => !isMoreThanFiveMinutesAgo(device.lastUpdate.toString()));
+    const activeDevices = devices?.filter((device) => device.lastUpdate && !isMoreThanFiveMinutesAgo(device.lastUpdate.toString()));
 
     /**
      * Fly to the device on the map.

@@ -9,7 +9,7 @@ export interface Device {
   name: string;
   uniqueId: string;
   status: string;
-  lastUpdate: Date;
+  lastUpdate?: Date;
   positionId: number;
   phone?: string;
   model?: string;
