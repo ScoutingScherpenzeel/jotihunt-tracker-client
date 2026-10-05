@@ -9,6 +9,7 @@ const pwaManifest: Partial<VitePWAOptions> = {
   workbox: {
     globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
     maximumFileSizeToCacheInBytes: 1024 * 1024 * 10,
+    cleanupOutdatedCaches: true,
   },
   manifest: {
     name: 'Jotihunt Tracker',
@@ -92,7 +93,9 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
+        entryFileNames: '[name].[hash].js',
         chunkFileNames: '[name].[hash].js',
+        assetFileNames: '[name].[hash][extname]',
       },
     },
   },
