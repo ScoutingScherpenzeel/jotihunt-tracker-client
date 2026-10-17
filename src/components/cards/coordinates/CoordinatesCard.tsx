@@ -112,6 +112,37 @@ export default function CoordinatesCard({ mapRef }: InferProps<typeof Coordinate
     }
 
     /**
+     * Expand shortened RD grid coordinates like:
+     * - "1634 5447" -> "163400 544700"
+     * - "11110 44440" -> "111100 444400"
+     * Only accepts two integer values in plausible shortened RD ranges to avoid
+     * collisions with regular lat/lng input.
+     */
+    function expandShortRDPair(x: number, y: number): [number, number] | null {
+        if (!Number.isInteger(x) || !Number.isInteger(y)) return null;
+        if (looksLikeRD(x, y)) return null;
+
+        const short4Digit = x >= 0 && x <= 4000 && y >= 2500 && y <= 7000;
+        const short5Digit = x >= 0 && x <= 40000 && y >= 25000 && y <= 70000;
+
+        if (short4Digit) {
+            const expandedX = x * 100;
+            const expandedY = y * 100;
+
+            return looksLikeRD(expandedX, expandedY) ? [expandedX, expandedY] : null;
+        }
+
+        if (short5Digit) {
+            const expandedX = x * 10;
+            const expandedY = y * 10;
+
+            return looksLikeRD(expandedX, expandedY) ? [expandedX, expandedY] : null;
+        }
+
+        return null;
+    }
+
+    /**
      * Normalize a free-text coordinate string into two tokens that we can parse.
      * - Handles decimal commas
      * - Accepts separators: space, comma, semicolon, slash, pipe
@@ -156,6 +187,7 @@ export default function CoordinatesCard({ mapRef }: InferProps<typeof Coordinate
      * - WGS84 decimal: "52.123 4.321", "52,123; 4,321", "N52.1 E4.3", "4.3, 52.1" (auto order)
      * - WGS84 DMS: "52°22'30\"N 4°53'0\"E", "52 22 30 N, 4 53 0 E"
      * - RD: "155000 463000", "155000,463000", etc.
+     * - Short RD grid: "1634 5447", "11110 44440", "1634,5447", etc.
      */
     function parseToWGS84(input: string): { lng: number; lat: number } | null {
         if (!input || !input.trim()) return null;
@@ -178,6 +210,14 @@ export default function CoordinatesCard({ mapRef }: InferProps<typeof Coordinate
 
         const a = nums[0];
         const b = nums[1];
+
+        const shortRD = expandShortRDPair(a, b);
+        if (shortRD) {
+            try {
+                const [lng, lat] = proj4("RD", "WGS84", shortRD);
+                return { lng: clamp(lng, -180, 180), lat: clamp(lat, -90, 90) };
+            } catch { /* ignore */ }
+        }
 
         const isLatLonAB = Math.abs(a) <= 90 && Math.abs(b) <= 180;
         const isLonLatAB = Math.abs(a) <= 180 && Math.abs(b) <= 90;
