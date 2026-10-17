@@ -16,6 +16,7 @@ import MarkerRegistration from '../map/MarkerRegistration';
 import GoogleMapsButton from '../map/GoogleMapsButton';
 import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip.tsx";
 import {Badge} from "@/components/ui/badge.tsx";
+import useDeviceSelectionStore from '@/stores/device-selection.store';
 
 export default function Devices() {
     const GROUP_WALKING_ID: number = +import.meta.env.GROUP_WALKING_ID;
@@ -25,7 +26,7 @@ export default function Devices() {
 
     const {positions, devices} = useDevices();
     const {current: map} = useMap();
-    const [activeDeviceId, setActiveDeviceId] = useState<number>();
+    const {selectedDeviceId: activeDeviceId, setSelectedDeviceId, clearSelectedDeviceId} = useDeviceSelectionStore();
     const activeDevice = positions?.find((device) => device.deviceId === activeDeviceId);
     const lastFollowedPosition = useRef<{deviceId: number; latitude: number; longitude: number} | null>(null);
 
@@ -130,7 +131,12 @@ export default function Devices() {
                         anchor="center"
                         onClick={(e) => {
                             e.originalEvent.stopPropagation();
-                            setActiveDeviceId(position.deviceId);
+                            if (activeDeviceId === position.deviceId) {
+                                clearSelectedDeviceId();
+                                return;
+                            }
+
+                            setSelectedDeviceId(position.deviceId);
                         }}
                         style={{cursor: 'pointer'}}
                         className={cn(tooltipOpenId == position.deviceId ? 'z-20' : 'z-10' )}
@@ -178,7 +184,7 @@ export default function Devices() {
             ))}
             {activeDevice && (
                 <MapPopup longitude={activeDevice.longitude} latitude={activeDevice.latitude}
-                          onClose={() => setActiveDeviceId(undefined)} offset={{bottom: [0, -20]}}>
+                          onClose={clearSelectedDeviceId} offset={{bottom: [0, -20]}}>
                     <div className="mr-6 flex flex-col gap-2 w-full">
                         <div>
                             <h2 className="font-semibold">{activeDevice.deviceName}</h2>

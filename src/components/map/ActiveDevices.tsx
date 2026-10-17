@@ -5,10 +5,14 @@ import {MapPinIcon} from "lucide-react";
 import PropTypes, {InferProps} from "prop-types";
 import {MapRef} from "@/components/Map.tsx";
 import {Device} from "@/types/Device.ts";
+import useDeviceSelectionStore from '@/stores/device-selection.store';
+import useLayersStore from '@/stores/layers.store';
 
 export default function ActiveDevices({mapRef}: InferProps<typeof ActiveDevices.propTypes>) {
 
     const {devices, positions} = useDevices();
+    const {setSelectedDeviceId} = useDeviceSelectionStore();
+    const {showDevices, toggleDevices} = useLayersStore();
     const activeDevices = devices?.filter((device) => device.lastUpdate && !isMoreThanFiveMinutesAgo(device.lastUpdate.toString()));
 
     /**
@@ -16,6 +20,12 @@ export default function ActiveDevices({mapRef}: InferProps<typeof ActiveDevices.
      * @param device The device to fly to.
      */
     function flyToDevice(device: Device) {
+        if (!showDevices) {
+            toggleDevices();
+        }
+
+        setSelectedDeviceId(device.id);
+
         if (mapRef.current) {
             const position = positions?.find((pos) => pos.deviceId === device.id);
             if (position) {
