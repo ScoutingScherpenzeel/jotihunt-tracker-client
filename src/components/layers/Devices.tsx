@@ -1,5 +1,5 @@
-import {Layer, Marker, Source} from 'react-map-gl/mapbox';
-import {useState} from 'react';
+import {Layer, Marker, Source, useMap} from 'react-map-gl/mapbox';
+import {useEffect, useRef, useState} from 'react';
 import MapPopup from '../map/MapPopup';
 import {useDevices} from '@/hooks/devices.hook';
 import carIcon from '@/assets/images/car.svg';
@@ -24,10 +24,41 @@ export default function Devices() {
     const GROUP_BIKE_ID: number = +import.meta.env.GROUP_BIKE_ID;
 
     const {positions, devices} = useDevices();
+    const {current: map} = useMap();
     const [activeDeviceId, setActiveDeviceId] = useState<number>();
     const activeDevice = positions?.find((device) => device.deviceId === activeDeviceId);
+    const lastFollowedPosition = useRef<{deviceId: number; latitude: number; longitude: number} | null>(null);
 
     const [tooltipOpenId, setTooltipOpenId] = useState<number | null>(null);
+
+    useEffect(() => {
+        if (!activeDevice) {
+            lastFollowedPosition.current = null;
+            return;
+        }
+
+        const previousPosition = lastFollowedPosition.current;
+        const selectionChanged = previousPosition?.deviceId !== activeDevice.deviceId;
+        const positionChanged =
+            previousPosition?.latitude !== activeDevice.latitude ||
+            previousPosition?.longitude !== activeDevice.longitude;
+
+        if (!selectionChanged && !positionChanged) {
+            return;
+        }
+
+        map?.easeTo({
+            center: [activeDevice.longitude, activeDevice.latitude],
+            duration: selectionChanged ? 800 : 500,
+            essential: true,
+        });
+
+        lastFollowedPosition.current = {
+            deviceId: activeDevice.deviceId,
+            latitude: activeDevice.latitude,
+            longitude: activeDevice.longitude,
+        };
+    }, [activeDevice?.deviceId, activeDevice?.latitude, activeDevice?.longitude, map]);
 
     /**
      * Get the icon for a device
