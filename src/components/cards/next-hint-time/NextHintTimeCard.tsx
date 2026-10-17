@@ -1,6 +1,6 @@
 import { useArticles } from '@/hooks/articles.hook.ts';
 import Ripple from '../../magicui/Ripple.tsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import hintAlert from '@/assets/audio/hint-alert.mp3';
 import useInterval from '@/hooks/utils/interval.hook.ts';
 import useSound from 'use-sound';
@@ -14,6 +14,39 @@ export default function NextHintTime() {
   const [lastHintTime, setLastHintTime] = useState<Date>();
   const [hasLoaded, setHasLoaded] = useState(false);
   const [newHint, setNewHint] = useState(false);
+  const isPageActiveRef = useRef(true);
+  const suppressNextSoundRef = useRef(false);
+
+  // Monitor page visibility to prevent late hint sounds
+  useEffect(() => {
+    const updatePageState = () => {
+      const isVisible = document.visibilityState === 'visible';
+      const hasFocus = typeof document.hasFocus === 'function' ? document.hasFocus() : true;
+      const isActive = isVisible && hasFocus;
+
+      if (!isActive) {
+        suppressNextSoundRef.current = true;
+      }
+
+      isPageActiveRef.current = isActive;
+    };
+
+    updatePageState();
+
+    document.addEventListener('visibilitychange', updatePageState);
+    window.addEventListener('focus', updatePageState);
+    window.addEventListener('blur', updatePageState);
+    window.addEventListener('pageshow', updatePageState);
+    window.addEventListener('pagehide', updatePageState);
+
+    return () => {
+      document.removeEventListener('visibilitychange', updatePageState);
+      window.removeEventListener('focus', updatePageState);
+      window.removeEventListener('blur', updatePageState);
+      window.removeEventListener('pageshow', updatePageState);
+      window.removeEventListener('pagehide', updatePageState);
+    };
+  }, []);
 
   /**
    * This effect runs every second to update the current time and check for new hints.
@@ -63,8 +96,15 @@ export default function NextHintTime() {
       setTimeout(() => {
         setNewHint(false);
       }, 60000);
-      playSound();
+
+      const shouldPlaySound = isPageActiveRef.current && !suppressNextSoundRef.current;
+
+      if (shouldPlaySound) {
+        playSound();
+      }
+
       setLastPlayedHint(hintTime);
+      suppressNextSoundRef.current = false;
     }
   }
 
