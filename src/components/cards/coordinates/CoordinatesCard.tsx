@@ -7,13 +7,15 @@ import {useState} from "react";
 import {toast} from "sonner";
 import {LngLat} from "mapbox-gl";
 import {cn} from "@/lib/utils.ts";
+import useDeviceSelectionStore from "@/stores/device-selection.store.ts";
 
 type Parsed = { lng: number; lat: number };
 
-export default function CoordinatesCard({ mapRef }: InferProps<typeof CoordinatesCard.propTypes>) {
+export default function CoordinatesCard({mapRef}: InferProps<typeof CoordinatesCard.propTypes>) {
 
     const [inputValue, setInputValue] = useState("");
     const [hasError, setHasError] = useState(false);
+    const {clearSelectedDeviceId} = useDeviceSelectionStore();
 
     const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
 
@@ -79,14 +81,14 @@ export default function CoordinatesCard({ mapRef }: InferProps<typeof Coordinate
         if (hasHemiA || hasHemiB) {
             const aLat = /[NS]/i.test(a);
             const bLat = /[NS]/i.test(b);
-            if (aLat && candAasLat != null && candBasLng != null) return { lat: candAasLat, lng: candBasLng };
-            if (bLat && candBasLat != null && candAasLng != null) return { lat: candBasLat, lng: candAasLng };
+            if (aLat && candAasLat != null && candBasLng != null) return {lat: candAasLat, lng: candBasLng};
+            if (bLat && candBasLat != null && candAasLng != null) return {lat: candBasLat, lng: candAasLng};
         }
 
         // Fallback: assume a=lat, b=lng
-        if (candAasLat != null && candBasLng != null) return { lat: candAasLat, lng: candBasLng };
+        if (candAasLat != null && candBasLng != null) return {lat: candAasLat, lng: candBasLng};
         // Or a=lng, b=lat
-        if (candAasLng != null && candBasLat != null) return { lat: candBasLat, lng: candAasLng };
+        if (candAasLng != null && candBasLat != null) return {lat: candBasLat, lng: candAasLng};
 
         return null;
     }
@@ -197,7 +199,7 @@ export default function CoordinatesCard({ mapRef }: InferProps<typeof Coordinate
         // 1) DMS attempt
         if (tokens.length >= 2 && /[°'″"NSEW]/i.test(input)) {
             const dms = tryParseDMSPair(tokens[0], tokens[1]);
-            if (dms) return { lng: dms.lng, lat: dms.lat };
+            if (dms) return {lng: dms.lng, lat: dms.lat};
         }
 
         // 2) Decimal / RD attempt
@@ -215,44 +217,47 @@ export default function CoordinatesCard({ mapRef }: InferProps<typeof Coordinate
         if (shortRD) {
             try {
                 const [lng, lat] = proj4("RD", "WGS84", shortRD);
-                return { lng: clamp(lng, -180, 180), lat: clamp(lat, -90, 90) };
-            } catch { /* ignore */ }
+                return {lng: clamp(lng, -180, 180), lat: clamp(lat, -90, 90)};
+            } catch { /* ignore */
+            }
         }
 
         const isLatLonAB = Math.abs(a) <= 90 && Math.abs(b) <= 180;
         const isLonLatAB = Math.abs(a) <= 180 && Math.abs(b) <= 90;
 
         // --- Prefer typical user order: lat lon ---
-        if (isLatLonAB && !isLonLatAB) return { lng: b, lat: a };
-        if (!isLatLonAB && isLonLatAB) return { lng: a, lat: b };
+        if (isLatLonAB && !isLonLatAB) return {lng: b, lat: a};
+        if (!isLatLonAB && isLonLatAB) return {lng: a, lat: b};
 
         if (isLatLonAB && isLonLatAB) {
             // NL-friendly hint: if a looks like NL latitude (~50..54) and b like NL longitude (~3..7)
             const looksNL = a >= 48 && a <= 55 && b >= -8 && b <= 15;
-            if (looksNL) return { lng: b, lat: a }; // lat lon
+            if (looksNL) return {lng: b, lat: a}; // lat lon
 
             // Generic default when both could be true: assume lat lon
-            return { lng: b, lat: a };
+            return {lng: b, lat: a};
         }
 
         // RD detection: [x, y] in meters
         if (looksLikeRD(a, b)) {
             try {
                 const [lng, lat] = proj4("RD", "WGS84", [a, b]);
-                return { lng: clamp(lng, -180, 180), lat: clamp(lat, -90, 90) };
-            } catch { /* ignore */ }
+                return {lng: clamp(lng, -180, 180), lat: clamp(lat, -90, 90)};
+            } catch { /* ignore */
+            }
         }
 
         if ((Number.isFinite(a) && Number.isFinite(b)) && (Math.abs(a) > 10000 && Math.abs(b) > 10000)) {
             try {
                 const [lng, lat] = proj4("RD", "WGS84", [a, b]);
-                return { lng: clamp(lng, -180, 180), lat: clamp(lat, -90, 90) };
-            } catch { /* ignore */ }
+                return {lng: clamp(lng, -180, 180), lat: clamp(lat, -90, 90)};
+            } catch { /* ignore */
+            }
         }
 
         // Last-chance sanity
-        if (Math.abs(a) <= 90 && Math.abs(b) <= 180) return { lng: b, lat: a }; // lat lon
-        if (Math.abs(a) <= 180 && Math.abs(b) <= 90) return { lng: a, lat: b }; // lon lat
+        if (Math.abs(a) <= 90 && Math.abs(b) <= 180) return {lng: b, lat: a}; // lat lon
+        if (Math.abs(a) <= 180 && Math.abs(b) <= 90) return {lng: a, lat: b}; // lon lat
 
         return null;
     }
@@ -265,8 +270,8 @@ export default function CoordinatesCard({ mapRef }: InferProps<typeof Coordinate
         return lat >= 50.6 && lat <= 53.7 && lng >= 3.2 && lng <= 7.3;
     }
 
-    function goToInput( raw: string) {
-        if(raw == "") return;
+    function goToInput(raw: string) {
+        if (raw == "") return;
 
         const result = parseToWGS84(raw);
         if (!result) {
@@ -275,12 +280,14 @@ export default function CoordinatesCard({ mapRef }: InferProps<typeof Coordinate
             return;
         }
 
-        const { lng, lat } = result;
-        if (!isInNetherlands(lat, lng))  {
+        const {lng, lat} = result;
+        if (!isInNetherlands(lat, lng)) {
             toast.error("De opgegeven coördinaat ligt buiten Nederland.");
             setHasError(true);
             return;
         }
+
+        clearSelectedDeviceId()
 
         mapRef.current?.flyTo({
             center: [lng, lat],
@@ -288,22 +295,23 @@ export default function CoordinatesCard({ mapRef }: InferProps<typeof Coordinate
             essential: true,
         });
 
-        mapRef.current?.markPoint({ lng, lat } as LngLat);
+        mapRef.current?.markPoint({lng, lat} as LngLat);
         setHasError(false);
     }
 
     function onInput(event: React.FormEvent<HTMLInputElement>) {
         const value = event.currentTarget.value;
-        if(value == "") setHasError(false);
+        if (value == "") setHasError(false);
         setInputValue(value);
     }
 
     return (<>
         <div className={"bg-background rounded-lg"}>
             <InputGroup className={cn("h-10", hasError && "border-red-500")}>
-                <InputGroupInput placeholder="Zoek op coördinaat..."  onInput={onInput} value={inputValue} />
+                <InputGroupInput placeholder="Zoek op coördinaat..." onInput={onInput} value={inputValue}/>
                 <InputGroupAddon align="inline-end">
-                    <InputGroupButton variant="secondary" onClick={() => goToInput(inputValue)}>Bekijk</InputGroupButton>
+                    <InputGroupButton variant="secondary"
+                                      onClick={() => goToInput(inputValue)}>Bekijk</InputGroupButton>
                 </InputGroupAddon>
             </InputGroup>
         </div>
